@@ -15,7 +15,7 @@
             --dark: #2C3E50;
             --danger: #C0392B;
             --info: #3498DB;
-            --platform: #8E44AD;
+            --plattform: #8E44AD;
         }
         
         * {
@@ -414,38 +414,304 @@
             color: var(--danger);
             border: 1px solid var(--danger);
         }
+        
+        .results-tabs {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
+        }
+        
+        .tab-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: #BDC3C7;
+            cursor: pointer;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active {
+            color: white;
+            border-bottom-color: var(--accent);
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .material-category {
+            background: rgba(52, 73, 94, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--info);
+        }
+        
+        .material-category.platform {
+            border-left-color: var(--plattform);
+        }
+        
+        .material-category.safety {
+            border-left-color: var(--safe);
+        }
+        
+        .material-category.accessories {
+            border-left-color: var(--warning);
+        }
+        
+        .category-title {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .material-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 13px;
+        }
+        
+        .material-item:last-child {
+            border-bottom: none;
+        }
+        
+        .material-name {
+            color: #BDC3C7;
+        }
+        
+        .material-qty {
+            font-weight: 600;
+            color: white;
+        }
+        
+        .material-unit {
+            color: #7F8C8D;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+        
+        .summary-section {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+        
+        .summary-label {
+            color: #BDC3C7;
+            font-size: 13px;
+        }
+        
+        .summary-value {
+            font-weight: 700;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .safety-messages {
+            background: rgba(192, 57, 43, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        
+        .safety-title {
+            color: var(--danger);
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .safety-list {
+            list-style: none;
+            font-size: 13px;
+            color: #BDC3C7;
+        }
+        
+        .safety-list li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .safety-list li:before {
+            content: '⚠️';
+            position: absolute;
+            left: 0;
+        }
+        
+        .dimension-display {
+            background: rgba(44, 62, 80, 0.9);
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            border-left: 5px solid var(--accent);
+        }
+        
+        .dimension-info {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .dimension-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dimension-value {
+            font-weight: 700;
+            color: white;
+        }
+        
+        .dimension-label {
+            color: #BDC3C7;
+            font-size: 13px;
+        }
+        
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip-icon {
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            color: #BDC3C7;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            cursor: help;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background: var(--dark);
+            color: white;
+            text-align: left;
+            padding: 12px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: normal;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
+        }
     </style>
+    <!-- Three.js from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
 </head>
 <body>
     <div class="app-container">
         <header class="header">
             <h1>🏗️ OIL & GAS SCAFFOLDING CALCULATOR</h1>
-            <p class="subtitle">3D Engineering Visualization | Modular System</p>
+            <p class="subtitle">HSE-Compliant Scaffold Design & 3D Planning Tool | Refinery • Offshore • Plant Maintenance</p>
         </header>
         
         <div class="compliance-banner">
             <span>⚡</span>
-            <span>Modular Grid System: Bay = 2m, Lift = 2m | All Components Engineered Position</span>
+            <span>STRICT SAFETY COMPLIANCE: All designs follow OSHA/EN 12811 standards. Unsafe configurations are automatically rejected.</span>
+        </div>
+        
+        <div class="dimension-display">
+            <div class="dimension-info">
+                <div class="dimension-item">
+                    <span class="dimension-label">Length:</span>
+                    <span class="dimension-value" id="disp-length">10 m</span>
+                </div>
+                <div class="dimension-item">
+                    <span class="dimension-label">Width:</span>
+                    <span class="dimension-value" id="disp-width">6 m</span>
+                </div>
+                <div class="dimension-item">
+                    <span class="dimension-label">Height:</span>
+                    <span class="dimension-value" id="disp-height">5 m</span>
+                </div>
+                <div class="dimension-item">
+                    <span class="dimension-label">Load Class:</span>
+                    <span class="dimension-value" id="disp-load">Medium</span>
+                </div>
+            </div>
+            <div id="compliance-status" class="compliance-status status-warning">
+                ⚠️ VALIDATING...
+            </div>
         </div>
         
         <div class="main-content">
             <div class="control-panel">
                 <div class="section">
-                    <div class="section-title">📐 SCAFFOLD DIMENSIONS</div>
+                    <div class="section-title">📐 GEOMETRY & STRUCTURE</div>
                     <div class="input-row">
                         <div class="input-group">
                             <label>Length (m)</label>
-                            <input type="number" id="length" value="8" min="2" max="50" step="2">
+                            <input type="number" id="length" value="10" min="2" max="100" step="0.5">
                         </div>
                         <div class="input-group">
                             <label>Width (m)</label>
-                            <input type="number" id="width" value="4" min="2" max="50" step="2">
+                            <input type="number" id="width" value="6" min="2" max="100" step="0.5">
                         </div>
                     </div>
                     <div class="input-row">
                         <div class="input-group">
                             <label>Height (m)</label>
-                            <input type="number" id="height" value="6" min="2" max="30" step="2">
+                            <input type="number" id="height" value="5" min="1" max="50" step="0.5">
                         </div>
                         <div class="input-group">
                             <label>Working Levels</label>
@@ -453,72 +719,112 @@
                                 <option value="1">Single Level</option>
                                 <option value="2">Two Levels</option>
                                 <option value="3" selected>Three Levels</option>
+                                <option value="4">Four Levels</option>
+                                <option value="5">Five Levels</option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="uneven-ground">
+                            <label for="uneven-ground">Uneven Ground</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="adjacent-structure">
+                            <label for="adjacent-structure">Adjacent to Structure</label>
                         </div>
                     </div>
                 </div>
                 
                 <div class="section">
-                    <div class="section-title">🔧 COMPONENTS</div>
+                    <div class="section-title">🔧 SYSTEM CONFIGURATION</div>
+                    <div class="input-group">
+                        <label>Scaffolding System</label>
+                        <select id="system-type">
+                            <option value="cup_lock">Cup Lock System</option>
+                            <option value="ring_lock" selected>Ring Lock System</option>
+                            <option value="tube_coupler">Tube & Coupler</option>
+                            <option value="hanging">Hanging Scaffold</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Load Classification</label>
+                            <select id="load-class">
+                            <option value="light">Light Duty (125 kg/m²)</option>
+                            <option value="medium" selected>Medium Duty (250 kg/m²)</option>
+                            <option value="heavy">Heavy Duty (500 kg/m²)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Safety Standard</label>
+                        <select id="safety-standard">
+                            <option value="osha">OSHA 1926.451</option>
+                            <option value="en12811" selected>EN 12811</option>
+                            <option value="bs5973">BS 5973</option>
+                            <option value="site">Site Specific Rules</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🛡️ SAFETY FEATURES</div>
                     <div class="checkbox-grid">
                         <div class="checkbox-item">
                             <input type="checkbox" id="guardrail" checked>
-                            <label for="guardrail">Guardrail System</label>
+                            <label for="guardrail">Guardrail (Top/Mid)</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="platform" checked>
-                            <label for="platform">Working Platform</label>
+                            <input type="checkbox" id="toe-boards" checked>
+                            <label for="toe-boards">Toe Boards</label>
                         </div>
                         <div class="checkbox-item">
-                            <input type="checkbox" id="bracing" checked>
-                            <label for="bracing">Diagonal Bracing</label>
+                            <input type="checkbox" id="safety-net">
+                            <label for="safety-net">Safety Net</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="debris-net">
+                            <label for="debris-net">Debris Net</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" id="ladder" checked>
                             <label for="ladder">Access Ladder</label>
                         </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="platform-boards" checked>
+                            <label for="platform-boards">Platform Boards</label>
+                        </div>
                     </div>
                 </div>
                 
-                <button class="btn-primary" id="calculate-btn" onclick="generateScaffold()">
-                    <span>🚀 GENERATE 3D SCAFFOLD</span>
+                <div class="section danger-zone">
+                    <div class="section-title">⚠️ CRITICAL SAFETY CHECKS</div>
+                    <div style="font-size: 12px; color: #BDC3C7; line-height: 1.5;">
+                        <p>System automatically enforces:</p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li>Height-to-base ratio ≤ 4:1</li>
+                            <li>Guardrail required above 2.0m</li>
+                            <li>Double ledger for Heavy Duty</li>
+                            <li>Tie requirements based on height</li>
+                        </ul>
+                        <p style="color: var(--danger); font-weight: 600;">
+                            ❌ Unsafe designs will be rejected
+                        </p>
+                    </div>
+                </div>
+                
+                <button class="btn-primary" id="calculate-btn" onclick="calculateScaffolding()">
+                    <span>🚀 CALCULATE & VALIDATE SCAFFOLD</span>
                 </button>
-                
-                <div class="section">
-                    <div class="section-title">🔄 VIEW CONTROLS</div>
-                    <div class="checkbox-grid">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="show-standards" checked>
-                            <label for="show-standards">Standards</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="show-ledgers" checked>
-                            <label for="show-ledgers">Ledgers</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="show-braces" checked>
-                            <label for="show-braces">Braces</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="show-platform" checked>
-                            <label for="show-platform">Platform</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="show-safety" checked>
-                            <label for="show-safety">Safety</label>
-                        </div>
-                    </div>
-                </div>
             </div>
             
             <div class="visualization-panel">
                 <div class="visualization-header">
                     <h2>🎨 3D ENGINEERING VIEW</h2>
                     <div class="view-controls">
-                        <button class="view-btn active" onclick="setView('top')">Top</button>
-                        <button class="view-btn" onclick="setView('front')">Front</button>
-                        <button class="view-btn" onclick="setView('side')">Side</button>
-                        <button class="view-btn" onclick="setView('iso')">Isometric</button>
+                        <button class="view-btn active" onclick="toggleView('all')">All</button>
+                        <button class="view-btn" onclick="toggleView('structure')">Structure</button>
+                        <button class="view-btn" onclick="toggleView('platform')">Platform</button>
+                        <button class="view-btn" onclick="toggleView('safety')">Safety</button>
                     </div>
                 </div>
                 <div id="canvas-container">
@@ -529,15 +835,15 @@
                     <div class="legend">
                         <div class="legend-item">
                             <div class="legend-color" style="background: #27AE60;"></div>
-                            <span>Standards (Vertical)</span>
+                            <span>Standards</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color" style="background: #3498DB;"></div>
-                            <span>Ledgers (Horizontal)</span>
+                            <span>Ledgers</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color" style="background: #E74C3C;"></div>
-                            <span>Diagonal Braces</span>
+                            <span>Bracing</span>
                         </div>
                         <div class="legend-item">
                             <div class="legend-color" style="background: #8E44AD;"></div>
@@ -545,8 +851,13 @@
                         </div>
                         <div class="legend-item">
                             <div class="legend-color" style="background: #F39C12;"></div>
-                            <span>Safety Systems</span>
+                            <span>Safety</span>
                         </div>
+                    </div>
+                    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+                        <div class="loading-spinner"></div>
+                        <p>Running Safety Checks...</p>
+                        <p style="font-size: 12px; color: #BDC3C7; margin-top: 10px;">Validating HSE Compliance</p>
                     </div>
                 </div>
             </div>
@@ -554,470 +865,1065 @@
         
         <div class="results-panel">
             <div class="results-header">
-                <h2>📊 ENGINEERING SUMMARY</h2>
-                <div id="compliance-status" class="compliance-status status-compliant">
-                    ✅ READY
+                <h2>📊 ENGINEERING OUTPUT</h2>
+                <button class="btn-primary" onclick="exportReport()" style="width: auto; padding: 10px 20px;">
+                    📥 EXPORT BOQ & REPORT
+                </button>
+            </div>
+            
+            <div class="results-tabs">
+                <button class="tab-btn active" onclick="switchTab('materials')">Materials BOQ</button>
+                <button class="tab-btn" onclick="switchTab('engineering')">Engineering Summary</button>
+                <button class="tab-btn" onclick="switchTab('construction')">Construction Data</button>
+                <button class="tab-btn" onclick="switchTab('safety')">Safety Notes</button>
+            </div>
+            
+            <div id="materials-tab" class="tab-content active">
+                <div class="materials-grid">
+                    <div class="material-category">
+                        <div class="category-title">📏 MAIN STRUCTURE</div>
+                        <div class="material-item">
+                            <span class="material-name">Vertical Standards (3m)</span>
+                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Horizontal Ledgers (3m)</span>
+                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Diagonal Braces (3m)</span>
+                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Transoms (2m)</span>
+                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="material-category platform">
+                        <div class="category-title">🏗️ PLATFORM & ACCESS</div>
+                        <div class="material-item">
+                            <span class="material-name">Steel Planks (3m)</span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Aluminum Deck</span>
+                            <span class="material-qty">-- <span class="material-unit">m²</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Access Ladder</span>
+                            <span class="material-qty">-- <span class="material-unit">set</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Trapdoor Platform</span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="material-category safety">
+                        <div class="category-title">🛡️ SAFETY EQUIPMENT</div>
+                        <div class="material-item">
+                            <span class="material-name">Guardrail System</span>
+                            <span class="material-qty">-- <span class="material-unit">m</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Toe Boards</span>
+                            <span class="material-qty">-- <span class="material-unit">m</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Safety Net</span>
+                            <span class="material-qty">-- <span class="material-unit">m²</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Debris Net</span>
+                            <span class="material-qty">-- <span class="material-unit">m²</span></span>
+                        </div>
+                    </div>
+                    
+                    <div class="material-category accessories">
+                        <div class="category-title">🔗 CONNECTORS & ACCESSORIES</div>
+                        <div class="material-item">
+                            <span class="material-name">Base Plates</span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Adjustable Jacks</span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Wall Ties</span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Anchor Bolts</span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="summary-section">
+                    <div class="summary-item">
+                        <span class="summary-label">Total Tube Required (3m)</span>
+                        <span class="summary-value">-- batang</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Total Estimated Weight</span>
+                        <span class="summary-value">-- kg</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Projected Area</span>
+                        <span class="summary-value">-- m²</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Material Wastage (5%)</span>
+                        <span class="summary-value">-- batang</span>
+                    </div>
                 </div>
             </div>
-            <div style="padding: 20px; background: rgba(52, 73, 94, 0.7); border-radius: 8px;">
-                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                    <div>
-                        <h3 style="color: #27AE60; margin-bottom: 10px;">🏗️ STRUCTURE</h3>
-                        <p style="font-size: 13px;">Standards: <span id="std-count">0</span> pcs</p>
-                        <p style="font-size: 13px;">Ledgers: <span id="ledger-count">0</span> pcs</p>
-                        <p style="font-size: 13px;">Braces: <span id="brace-count">0</span> pcs</p>
+            
+            <div id="engineering-tab" class="tab-content">
+                <div class="materials-grid">
+                    <div class="material-category">
+                        <div class="category-title">📐 STRUCTURAL DATA</div>
+                        <div class="material-item">
+                            <span class="material-name">Standard Spacing</span>
+                            <span class="material-qty">-- m</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Ledger Spacing</span>
+                            <span class="material-qty">-- m</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Lift Height</span>
+                            <span class="material-qty">-- m</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Number of Lifts</span>
+                            <span class="material-qty">--</span>
+                        </div>
                     </div>
-                    <div>
-                        <h3 style="color: #3498DB; margin-bottom: 10px;">📐 DIMENSIONS</h3>
-                        <p style="font-size: 13px;">Length: <span id="dim-length">8</span> m</p>
-                        <p style="font-size: 13px;">Width: <span id="dim-width">4</span> m</p>
-                        <p style="font-size: 13px;">Height: <span id="dim-height">6</span> m</p>
+                    
+                    <div class="material-category">
+                        <div class="category-title">⚓ TIE & ANCHOR SYSTEM</div>
+                        <div class="material-item">
+                            <span class="material-name">Horizontal Tie Spacing</span>
+                            <span class="material-qty">-- m</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Vertical Tie Spacing</span>
+                            <span class="material-qty">-- m</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Total Wall Ties</span>
+                            <span class="material-qty">-- pcs</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Anchor Bolt Type</span>
+                            <span class="material-qty">--</span>
+                        </div>
                     </div>
-                    <div>
-                        <h3 style="color: #F39C12; margin-bottom: 10px;">⚙️ CONFIGURATION</h3>
-                        <p style="font-size: 13px;">Bays: <span id="bay-count">0</span></p>
-                        <p style="font-size: 13px;">Lifts: <span id="lift-count">0</span></p>
-                        <p style="font-size: 13px;">Working Levels: <span id="level-count">3</span></p>
+                    
+                    <div class="material-category danger-zone">
+                        <div class="category-title">⚠️ SAFETY CHECKS</div>
+                        <div class="material-item">
+                            <span class="material-name">Height-to-Base Ratio</span>
+                            <span class="material-qty" id="ratio-check">--</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Guardrail Compliance</span>
+                            <span class="material-qty" id="guardrail-check">--</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Double Ledger Check</span>
+                            <span class="material-qty" id="ledger-check">--</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Tie Requirement</span>
+                            <span class="material-qty" id="tie-check">--</span>
+                        </div>
                     </div>
+                </div>
+                
+                <div class="safety-messages">
+                    <div class="safety-title">🔴 CRITICAL SAFETY NOTES</div>
+                    <ul class="safety-list" id="safety-notes">
+                        <li>Anchor capacity must be verified against concrete strength</li>
+                        <li>All connections must be torqued to specification</li>
+                        <li>Daily inspection required before use</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div id="construction-tab" class="tab-content">
+                <div class="materials-grid">
+                    <div class="material-category">
+                        <div class="category-title">👷 ERECTION DATA</div>
+                        <div class="material-item">
+                            <span class="material-name">Erection Man-Hours</span>
+                            <span class="material-qty">-- hours</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Crew Size Required</span>
+                            <span class="material-qty">-- persons</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Erection Duration</span>
+                            <span class="material-qty">-- days</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Scaffolder Level</span>
+                            <span class="material-qty">Advanced</span>
+                        </div>
+                    </div>
+                    
+                    <div class="material-category">
+                        <div class="category-title">📦 LOGISTICS</div>
+                        <div class="material-item">
+                            <span class="material-name">Total Weight</span>
+                            <span class="material-qty">-- kg</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Volume Required</span>
+                            <span class="material-qty">-- m³</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Truck Loads</span>
+                            <span class="material-qty">-- loads</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Crane Required</span>
+                            <span class="material-qty">Yes/No</span>
+                        </div>
+                    </div>
+                    
+                    <div class="material-category">
+                        <div class="category-title">🔧 DISMANTLING</div>
+                        <div class="material-item">
+                            <span class="material-name">Dismantling Man-Hours</span>
+                            <span class="material-qty">-- hours</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Waste Disposal</span>
+                            <span class="material-qty">-- m³</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Cleaning Required</span>
+                            <span class="material-qty">-- hours</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Inspection Post-Dismantle</span>
+                            <span class="material-qty">Required</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="safety-tab" class="tab-content">
+                <div class="safety-messages">
+                    <div class="safety-title">🛑 HSE COMPLIANCE REQUIREMENTS</div>
+                    <ul class="safety-list">
+                        <li>Scaffold Tag System must be implemented (Green/Yellow/Red)</li>
+                        <li>Daily inspection by competent person before each shift</li>
+                        <li>Maximum permissible load must not be exceeded</li>
+                        <li>All personnel must complete scaffold safety training</li>
+                        <li>Weather conditions must be monitored (wind > 50 km/h requires shutdown)</li>
+                        <li>Fall protection required for erection/dismantling above 2m</li>
+                        <li>Tools and materials must be secured to prevent falling objects</li>
+                        <li>Emergency rescue plan must be established and communicated</li>
+                    </ul>
+                </div>
+                
+                <div class="safety-messages" style="margin-top: 20px; background: rgba(243, 156, 18, 0.1); border-left-color: var(--warning);">
+                    <div class="safety-title">📝 DOCUMENTATION REQUIREMENTS</div>
+                    <ul class="safety-list">
+                        <li>Scaffold Design Certificate (Engineer stamped)</li>
+                        <li>Material Inspection Reports</li>
+                        <li>Erection Competency Certificates</li>
+                        <li>Daily Inspection Checklists</li>
+                        <li>Load Test Certificate (if required)</li>
+                        <li>Handover Certificate to user department</li>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Three.js variables
+        // Global Three.js variables
         let scene, camera, renderer, controls;
-        let scaffoldGroup;
-        let currentView = 'iso';
-        
-        // Engineering constants
-        const BAY_SIZE = 2.0;      // Standard bay width (meters)
-        const LIFT_HEIGHT = 2.0;   // Standard lift height (meters)
-        const TUBE_DIAMETER = 0.048; // Standard tube diameter
-        
-        // Initialize Three.js
-        function initThreeJS() {
-            const canvas = document.getElementById('canvas-3d');
-            const container = document.getElementById('canvas-container');
-            
-            // Scene
-            scene = new THREE.Scene();
-            scene.background = new THREE.Color(0x1A252F);
-            
-            // Camera
-            camera = new THREE.PerspectiveCamera(
-                45,
-                container.clientWidth / container.clientHeight,
-                0.1,
-                1000
-            );
-            setView('iso'); // Set initial view
-            
-            // Renderer
-            renderer = new THREE.WebGLRenderer({ 
-                canvas: canvas,
-                antialias: true 
-            });
-            renderer.setSize(container.clientWidth, container.clientHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
-            renderer.shadowMap.enabled = true;
-            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-            
-            // Controls
-            controls = new THREE.OrbitControls(camera, renderer.domElement);
-            controls.enableDamping = true;
-            controls.dampingFactor = 0.05;
-            controls.minDistance = 5;
-            controls.maxDistance = 100;
-            
-            // Lighting
-            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
-            scene.add(ambientLight);
-            
-            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-            directionalLight.position.set(50, 100, 50);
-            directionalLight.castShadow = true;
-            scene.add(directionalLight);
-            
-            // Ground grid
-            const gridHelper = new THREE.GridHelper(100, 50, 0x34495E, 0x2C3E50);
-            gridHelper.position.y = 0;
-            scene.add(gridHelper);
-            
-            // Ground plane
-            const groundGeometry = new THREE.PlaneGeometry(200, 200);
-            const groundMaterial = new THREE.MeshLambertMaterial({ 
-                color: 0x2C3E50,
-                side: THREE.DoubleSide
-            });
-            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
-            ground.rotation.x = -Math.PI / 2;
-            ground.receiveShadow = true;
-            scene.add(ground);
-            
-            // Create scaffold group
-            scaffoldGroup = new THREE.Group();
-            scene.add(scaffoldGroup);
-            
-            // Initial render
-            animate();
-            
-            // Handle resize
-            window.addEventListener('resize', onWindowResize);
-            
-            console.log('Three.js initialized');
+        let scaffoldingGroup;
+        let is3DInitialized = false;
+        let currentView = 'all';
+
+        // Initialize 3D Scene
+        function init3D() {
+            try {
+                const canvas = document.getElementById('canvas-3d');
+                const container = document.getElementById('canvas-container');
+                
+                // Create scene
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0x1A252F);
+                scene.fog = new THREE.Fog(0x1A252F, 10, 100);
+                
+                // Create camera
+                camera = new THREE.PerspectiveCamera(
+                    60,
+                    container.clientWidth / container.clientHeight,
+                    0.1,
+                    1000
+                );
+                camera.position.set(25, 20, 25);
+                
+                // Create renderer
+                renderer = new THREE.WebGLRenderer({
+                    canvas: canvas,
+                    antialias: true,
+                    alpha: true
+                });
+                renderer.setSize(container.clientWidth, container.clientHeight);
+                renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+                
+                // Add OrbitControls
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.minDistance = 5;
+                controls.maxDistance = 150;
+                controls.maxPolarAngle = Math.PI * 0.8;
+                
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+                scene.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(50, 100, 50);
+                directionalLight.castShadow = true;
+                directionalLight.shadow.mapSize.width = 2048;
+                directionalLight.shadow.mapSize.height = 2048;
+                scene.add(directionalLight);
+                
+                // Ground plane
+                const groundGeometry = new THREE.PlaneGeometry(200, 200);
+                const groundMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0x2C3E50,
+                    roughness: 0.9
+                });
+                const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+                ground.rotation.x = -Math.PI / 2;
+                ground.receiveShadow = true;
+                scene.add(ground);
+                
+                // Grid helper
+                const gridHelper = new THREE.GridHelper(200, 50, 0x34495E, 0x2C3E50);
+                gridHelper.position.y = 0.01;
+                scene.add(gridHelper);
+                
+                // Scaffolding group
+                scaffoldingGroup = new THREE.Group();
+                scene.add(scaffoldingGroup);
+                
+                // Resize handler
+                window.addEventListener('resize', onWindowResize);
+                
+                // Animation loop
+                animate();
+                
+                is3DInitialized = true;
+                updateComplianceStatus('3D Engine Ready', 'warning');
+                
+            } catch (error) {
+                console.error('3D Initialization failed:', error);
+                updateComplianceStatus('3D Engine Failed', 'danger');
+                alert('3D graphics initialization failed. Please refresh the page.');
+            }
         }
-        
-        // Set camera view
-        function setView(view) {
-            currentView = view;
+
+        // Safety validation function
+        function validateSafety(length, width, height, loadClass, features) {
+            const violations = [];
+            const warnings = [];
             
-            // Update button states
-            document.querySelectorAll('.view-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
-            
-            const length = parseFloat(document.getElementById('length').value);
-            const width = parseFloat(document.getElementById('width').value);
-            const height = parseFloat(document.getElementById('height').value);
-            
-            const maxDim = Math.max(length, width, height);
-            const distance = maxDim * 2;
-            
-            switch(view) {
-                case 'top':
-                    camera.position.set(0, distance, 0);
-                    camera.lookAt(0, 0, 0);
-                    break;
-                case 'front':
-                    camera.position.set(0, height/2, distance);
-                    camera.lookAt(0, height/2, 0);
-                    break;
-                case 'side':
-                    camera.position.set(distance, height/2, 0);
-                    camera.lookAt(0, height/2, 0);
-                    break;
-                case 'iso':
-                    camera.position.set(distance, distance, distance);
-                    camera.lookAt(0, height/2, 0);
-                    break;
+            // Height-to-base ratio check
+            const baseMin = Math.min(length, width);
+            const heightRatio = height / baseMin;
+            if (heightRatio > 4) {
+                violations.push(`Height-to-base ratio ${heightRatio.toFixed(1)}:1 exceeds 4:1 limit. Ties to structure required.`);
+            } else if (heightRatio > 3) {
+                warnings.push(`Height-to-base ratio ${heightRatio.toFixed(1)}:1. Additional bracing recommended.`);
             }
             
-            controls.target.set(0, height/2, 0);
-            controls.update();
-        }
-        
-        // Generate scaffold
-        function generateScaffold() {
-            // Clear previous scaffold
-            while(scaffoldGroup.children.length > 0) {
-                scaffoldGroup.remove(scaffoldGroup.children[0]);
+            // Guardrail requirement
+            if (height > 2.0 && !features.guardrail) {
+                violations.push('Guardrail system required for heights above 2.0m');
             }
             
-            // Get dimensions
-            const length = parseFloat(document.getElementById('length').value);
-            const width = parseFloat(document.getElementById('width').value);
-            const height = parseFloat(document.getElementById('height').value);
+            // Toe board requirement
+            if (height > 1.2 && !features.toeBoards) {
+                violations.push('Toe boards required for platform heights above 1.2m');
+            }
+            
+            // Double ledger for heavy duty
+            if (loadClass === 'heavy' && !features.doubleLedger) {
+                violations.push('Double ledger system required for Heavy Duty classification');
+            }
+            
+            // Hanging scaffold safety
+            const systemType = document.getElementById('system-type').value;
+            if (systemType === 'hanging' && !features.secondarySupport) {
+                violations.push('Secondary support system required for hanging scaffolds');
+            }
+            
+            // Working level safety
             const workingLevels = parseInt(document.getElementById('working-levels').value);
+            if (workingLevels > 3 && !features.extraBracing) {
+                warnings.push('Extra diagonal bracing recommended for scaffolds with more than 3 working levels');
+            }
             
-            // Calculate bays and lifts
-            const baysX = Math.max(1, Math.floor(length / BAY_SIZE));
-            const baysZ = Math.max(1, Math.floor(width / BAY_SIZE));
-            const lifts = Math.max(1, Math.floor(height / LIFT_HEIGHT));
+            return { violations, warnings, heightRatio, isCompliant: violations.length === 0 };
+        }
+
+        // Calculate materials with engineering logic
+        function calculateMaterials(length, width, height, systemType, loadClass, features, workingLevels) {
+            // Engineering parameters based on load class
+            const params = {
+                light: { 
+                    standardSpacing: 2.4, 
+                    ledgerSpacing: 2.0,
+                    transomSpacing: 1.2,
+                    bracingInterval: 3,
+                    doubleLedger: false
+                },
+                medium: { 
+                    standardSpacing: 2.0, 
+                    ledgerSpacing: 1.8,
+                    transomSpacing: 1.0,
+                    bracingInterval: 2,
+                    doubleLedger: false
+                },
+                heavy: { 
+                    standardSpacing: 1.5, 
+                    ledgerSpacing: 1.5,
+                    transomSpacing: 0.75,
+                    bracingInterval: 1,
+                    doubleLedger: true
+                }
+            };
             
-            // Actual dimensions (grid-aligned)
-            const actualLength = baysX * BAY_SIZE;
-            const actualWidth = baysZ * BAY_SIZE;
-            const actualHeight = lifts * LIFT_HEIGHT;
+            const p = params[loadClass];
             
-            console.log(`Creating scaffold: ${baysX}x${baysZ} bays, ${lifts} lifts`);
+            // Calculate grid
+            const barsX = Math.max(2, Math.ceil(length / p.standardSpacing) + 1);
+            const barsZ = Math.max(2, Math.ceil(width / p.standardSpacing) + 1);
+            const lifts = Math.ceil(height / p.ledgerSpacing);
             
-            // Center offset
-            const offsetX = -actualLength / 2;
-            const offsetZ = -actualWidth / 2;
+            // Calculate structural tubes (in meters)
+            let verticalTube = barsX * barsZ * height * 1.05; // 5% wastage
             
-            // Materials
+            // Horizontal ledgers
+            let horizontalTube = (barsZ * length * lifts) + (barsX * width * lifts);
+            if (p.doubleLedger) horizontalTube *= 2;
+            
+            // Transoms
+            const transomsPerLevel = Math.ceil(length / p.transomSpacing) * barsZ;
+            let transomTube = transomsPerLevel * lifts * 2.0; // 2m transoms
+            
+            // Diagonal bracing
+            const bracingSets = Math.max(1, Math.ceil(length / p.bracingInterval) * Math.ceil(width / p.bracingInterval));
+            let diagonalTube = bracingSets * lifts * Math.sqrt(length*length + width*width) * 0.5;
+            
+            // Tie system calculation
+            const tieHorizontalSpacing = Math.min(6.0, length / 2);
+            const tieVerticalSpacing = Math.min(4.0, height / 3);
+            const wallTies = Math.max(2, Math.ceil(length / tieHorizontalSpacing) * Math.ceil(height / tieVerticalSpacing));
+            
+            // Safety equipment
+            const guardrailLength = features.guardrail ? (length + width) * 2 * lifts * 2 : 0; // Top + mid rail
+            const toeBoardLength = features.toeBoards ? (length + width) * 2 * lifts : 0;
+            const safetyNetArea = features.safetyNet ? length * width * 1.1 : 0; // 10% overhang
+            const debrisNetArea = features.debrisNet ? (length + height * 2) * (width + height * 2) : 0;
+            
+            // Platform materials
+            const platformArea = length * width * workingLevels;
+            const steelPlanks = Math.ceil(platformArea / (0.3 * 3)); // 300mm wide, 3m long
+            const aluminumDeck = features.platformBoards ? platformArea : 0;
+            
+            // Access ladder
+            const ladderSets = features.ladder ? Math.ceil(length / 10) : 0; // One per 10m length
+            
+            // Base plates and jacks
+            const basePlates = barsX * barsZ;
+            const adjustableJacks = document.getElementById('uneven-ground').checked ? basePlates : Math.ceil(basePlates * 0.3);
+            
+            // Anchor bolts
+            const anchorBolts = wallTies * 2; // Two bolts per tie
+            
+            // Calculate totals
+            const totalTubeMeters = verticalTube + horizontalTube + transomTube + diagonalTube;
+            const totalTubePieces = Math.ceil(totalTubeMeters / 3);
+            const estimatedWeight = Math.round(totalTubeMeters * 4.0); // ~4kg per meter
+            
+            // Erection data
+            const erectionHours = Math.round(totalTubePieces * 0.25 + platformArea * 0.1 + wallTies * 0.5);
+            const dismantlingHours = Math.round(erectionHours * 0.7);
+            
+            return {
+                barsX, barsZ, lifts,
+                verticalTube: Math.ceil(verticalTube / 3),
+                horizontalTube: Math.ceil(horizontalTube / 3),
+                transomTube: Math.ceil(transomTube / 2), // 2m pieces
+                diagonalTube: Math.ceil(diagonalTube / 3),
+                totalTube: totalTubePieces,
+                totalTubeMeters,
+                guardrailLength: Math.ceil(guardrailLength),
+                toeBoardLength: Math.ceil(toeBoardLength),
+                safetyNetArea: Math.ceil(safetyNetArea),
+                debrisNetArea: Math.ceil(debrisNetArea),
+                steelPlanks,
+                aluminumDeck: Math.ceil(aluminumDeck),
+                ladderSets,
+                basePlates,
+                adjustableJacks,
+                wallTies,
+                anchorBolts,
+                tieHorizontalSpacing,
+                tieVerticalSpacing,
+                estimatedWeight,
+                platformArea: Math.round(platformArea),
+                erectionHours,
+                dismantlingHours,
+                standardSpacing: p.standardSpacing,
+                ledgerSpacing: p.ledgerSpacing,
+                transomSpacing: p.transomSpacing,
+                bracingInterval: p.bracingInterval,
+                doubleLedger: p.doubleLedger
+            };
+        }
+
+        // Draw 3D scaffolding with engineering accuracy - FIXED VERSION
+        function drawScaffolding3D(length, width, height, systemType, loadClass, features, results) {
+            if (!is3DInitialized) return;
+            
+            // Clear previous scaffolding
+            while(scaffoldingGroup.children.length > 0) {
+                scaffoldingGroup.remove(scaffoldingGroup.children[0]);
+            }
+            
+            const params = {
+                light: { standardSpacing: 2.4, ledgerSpacing: 2.0 },
+                medium: { standardSpacing: 2.0, ledgerSpacing: 1.8 },
+                heavy: { standardSpacing: 1.5, ledgerSpacing: 1.5 }
+            };
+            
+            const p = params[loadClass];
+            const barsX = results.barsX;
+            const barsZ = results.barsZ;
+            const lifts = results.lifts;
+            
+            // Calculate actual dimensions based on spacing
+            const actualLength = (barsX - 1) * p.standardSpacing;
+            const actualWidth = (barsZ - 1) * p.standardSpacing;
+            
+            // Materials with color coding
             const materials = {
-                standard: new THREE.MeshPhongMaterial({ color: 0x27AE60 }),
-                ledger: new THREE.MeshPhongMaterial({ color: 0x3498DB }),
-                brace: new THREE.MeshPhongMaterial({ color: 0xE74C3C }),
+                standard: new THREE.MeshPhongMaterial({ 
+                    color: 0x27AE60,
+                    shininess: 20,
+                    specular: 0x111111
+                }),
+                ledger: new THREE.MeshPhongMaterial({ 
+                    color: 0x3498DB,
+                    shininess: 20,
+                    specular: 0x111111
+                }),
+                bracing: new THREE.MeshPhongMaterial({ 
+                    color: 0xE74C3C,
+                    shininess: 20,
+                    specular: 0x111111
+                }),
                 platform: new THREE.MeshPhongMaterial({ 
                     color: 0x8E44AD,
                     transparent: true,
                     opacity: 0.7,
                     side: THREE.DoubleSide
                 }),
-                safety: new THREE.MeshPhongMaterial({ color: 0xF39C12 }),
-                base: new THREE.MeshPhongMaterial({ color: 0x7D6608 })
+                safety: new THREE.MeshPhongMaterial({ 
+                    color: 0xF39C12,
+                    shininess: 40,
+                    specular: 0x333333
+                }),
+                base: new THREE.MeshPhongMaterial({ 
+                    color: 0x7D6608,
+                    roughness: 0.9,
+                    metalness: 0.3
+                })
             };
             
-            // Counters for summary
-            let standardsCount = 0;
-            let ledgersCount = 0;
-            let bracesCount = 0;
+            // Tube geometry - FIXED: use proper cylinder with height 1
+            const tubeRadius = 0.06;
+            const tubeGeometry = new THREE.CylinderGeometry(tubeRadius, tubeRadius, 1, 8);
             
-            // 1. VERTICAL STANDARDS
-            const standardGeo = new THREE.CylinderGeometry(
-                TUBE_DIAMETER/2, TUBE_DIAMETER/2, actualHeight, 8
-            );
-            
-            for (let x = 0; x <= baysX; x++) {
-                for (let z = 0; z <= baysZ; z++) {
-                    if (document.getElementById('show-standards').checked) {
-                        const standard = new THREE.Mesh(standardGeo, materials.standard);
-                        standard.position.set(
-                            offsetX + (x * BAY_SIZE),
-                            actualHeight / 2,
-                            offsetZ + (z * BAY_SIZE)
-                        );
-                        standard.castShadow = true;
-                        standard.receiveShadow = true;
-                        scaffoldGroup.add(standard);
-                        standardsCount++;
-                    }
+            // Draw vertical standards - FIXED: correct positioning and scaling
+            for (let x = 0; x < barsX; x++) {
+                for (let z = 0; z < barsZ; z++) {
+                    const posX = (x * p.standardSpacing) - (actualLength / 2);
+                    const posZ = (z * p.standardSpacing) - (actualWidth / 2);
                     
-                    // Base plates
-                    const baseGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.03, 6);
-                    const base = new THREE.Mesh(baseGeo, materials.base);
-                    base.position.set(
-                        offsetX + (x * BAY_SIZE),
-                        0.015,
-                        offsetZ + (z * BAY_SIZE)
-                    );
-                    scaffoldGroup.add(base);
+                    // Main vertical tube
+                    const tube = new THREE.Mesh(tubeGeometry, materials.standard);
+                    tube.scale.set(1, height, 1); // Scale height in Y direction
+                    tube.position.set(posX, height / 2, posZ);
+                    tube.castShadow = true;
+                    tube.receiveShadow = true;
+                    tube.userData = { type: 'standard', visible: true };
+                    scaffoldingGroup.add(tube);
+                    
+                    // Base plate
+                    const baseGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.05, 6);
+                    const basePlate = new THREE.Mesh(baseGeometry, materials.base);
+                    basePlate.position.set(posX, 0.025, posZ);
+                    basePlate.castShadow = true;
+                    basePlate.userData = { type: 'base', visible: true };
+                    scaffoldingGroup.add(basePlate);
                 }
             }
             
-            // 2. HORIZONTAL LEDGERS
-            const ledgerGeo = new THREE.CylinderGeometry(
-                TUBE_DIAMETER/2 * 0.9, TUBE_DIAMETER/2 * 0.9, BAY_SIZE, 8
-            );
-            
-            if (document.getElementById('show-ledgers').checked) {
-                // Ledgers along X direction
-                for (let lift = 1; lift <= lifts; lift++) {
-                    const yPos = lift * LIFT_HEIGHT;
-                    
-                    for (let z = 0; z <= baysZ; z++) {
-                        for (let x = 0; x < baysX; x++) {
-                            const ledger = new THREE.Mesh(ledgerGeo, materials.ledger);
-                            ledger.rotation.z = Math.PI / 2;
-                            ledger.position.set(
-                                offsetX + (x * BAY_SIZE) + BAY_SIZE/2,
-                                yPos,
-                                offsetZ + (z * BAY_SIZE)
-                            );
-                            ledger.castShadow = true;
-                            scaffoldGroup.add(ledger);
-                            ledgersCount++;
-                        }
-                    }
-                    
-                    // Ledgers along Z direction
-                    for (let x = 0; x <= baysX; x++) {
-                        for (let z = 0; z < baysZ; z++) {
-                            const ledger = new THREE.Mesh(ledgerGeo, materials.ledger);
-                            ledger.rotation.x = Math.PI / 2;
-                            ledger.position.set(
-                                offsetX + (x * BAY_SIZE),
-                                yPos,
-                                offsetZ + (z * BAY_SIZE) + BAY_SIZE/2
-                            );
-                            ledger.castShadow = true;
-                            scaffoldGroup.add(ledger);
-                            ledgersCount++;
-                        }
-                    }
-                }
-            }
-            
-            // 3. DIAGONAL BRACING
-            if (document.getElementById('show-braces').checked && document.getElementById('bracing').checked) {
-                const braceGeo = new THREE.CylinderGeometry(
-                    TUBE_DIAMETER/2 * 0.8, TUBE_DIAMETER/2 * 0.8, 1, 8
-                );
+            // Draw horizontal ledgers - FIXED: correct orientation and scaling
+            for (let y = 1; y <= lifts; y++) {
+                const posY = y * p.ledgerSpacing;
                 
-                // Diagonal braces on sides
-                for (let lift = 1; lift <= lifts; lift += 2) {
-                    const yPos = lift * LIFT_HEIGHT - LIFT_HEIGHT/2;
+                // Ledgers along X-axis (front to back)
+                for (let z = 0; z < barsZ; z++) {
+                    const posZ = (z * p.standardSpacing) - (actualWidth / 2);
                     
-                    // Front face (negative Z)
-                    for (let x = 0; x < baysX; x++) {
-                        const braceLength = Math.sqrt(BAY_SIZE*BAY_SIZE + LIFT_HEIGHT*LIFT_HEIGHT);
-                        const brace = new THREE.Mesh(braceGeo, materials.brace);
-                        brace.scale.x = braceLength;
-                        brace.rotation.z = -Math.atan2(LIFT_HEIGHT, BAY_SIZE);
-                        brace.position.set(
-                            offsetX + (x * BAY_SIZE) + BAY_SIZE/2,
-                            yPos,
-                            offsetZ
-                        );
-                        brace.castShadow = true;
-                        scaffoldGroup.add(brace);
-                        bracesCount++;
-                    }
-                    
-                    // Back face (positive Z)
-                    for (let x = 0; x < baysX; x++) {
-                        const braceLength = Math.sqrt(BAY_SIZE*BAY_SIZE + LIFT_HEIGHT*LIFT_HEIGHT);
-                        const brace = new THREE.Mesh(braceGeo, materials.brace);
-                        brace.scale.x = braceLength;
-                        brace.rotation.z = Math.atan2(LIFT_HEIGHT, BAY_SIZE);
-                        brace.position.set(
-                            offsetX + (x * BAY_SIZE) + BAY_SIZE/2,
-                            yPos,
-                            offsetZ + actualWidth
-                        );
-                        brace.castShadow = true;
-                        scaffoldGroup.add(brace);
-                        bracesCount++;
-                    }
+                    const ledger = new THREE.Mesh(tubeGeometry, materials.ledger);
+                    ledger.scale.set(actualLength, 1, 1); // Scale length in X direction
+                    ledger.rotation.z = Math.PI / 2; // Rotate to horizontal
+                    ledger.position.set(0, posY, posZ);
+                    ledger.castShadow = true;
+                    ledger.receiveShadow = true;
+                    ledger.userData = { type: 'ledger', visible: true };
+                    scaffoldingGroup.add(ledger);
                 }
-            }
-            
-            // 4. WORKING PLATFORMS
-            if (document.getElementById('show-platform').checked && document.getElementById('platform').checked) {
-                for (let level = 1; level <= Math.min(workingLevels, lifts); level++) {
-                    const yPos = level * LIFT_HEIGHT + 0.02;
+                
+                // Ledgers along Z-axis (left to right)
+                for (let x = 0; x < barsX; x++) {
+                    const posX = (x * p.standardSpacing) - (actualLength / 2);
                     
-                    const platformGeo = new THREE.PlaneGeometry(
-                        actualLength - 0.5,
-                        actualWidth - 0.5
-                    );
-                    const platform = new THREE.Mesh(platformGeo, materials.platform);
+                    const ledger = new THREE.Mesh(tubeGeometry, materials.ledger);
+                    ledger.scale.set(actualWidth, 1, 1); // Scale width in X direction
+                    ledger.rotation.z = Math.PI / 2; // Rotate to horizontal
+                    ledger.rotation.y = Math.PI / 2; // Rotate 90° for Z-direction
+                    ledger.position.set(posX, posY, 0);
+                    ledger.castShadow = true;
+                    ledger.receiveShadow = true;
+                    ledger.userData = { type: 'ledger', visible: true };
+                    scaffoldingGroup.add(ledger);
+                }
+                
+                // Draw platform at working levels
+                const workingLevels = parseInt(document.getElementById('working-levels').value);
+                const isWorkingLevel = y <= workingLevels;
+                
+                if (isWorkingLevel && features.platformBoards) {
+                    const platformGeometry = new THREE.PlaneGeometry(actualLength - 0.3, actualWidth - 0.3);
+                    const platform = new THREE.Mesh(platformGeometry, materials.platform);
                     platform.rotation.x = -Math.PI / 2;
-                    platform.position.set(0, yPos, 0);
+                    platform.position.set(0, posY + 0.05, 0);
                     platform.receiveShadow = true;
-                    scaffoldGroup.add(platform);
+                    platform.userData = { type: 'platform', visible: true };
+                    scaffoldingGroup.add(platform);
+                }
+                
+                // Draw safety features at top level
+                if (features.guardrail && y === lifts) {
+                    const railingHeight = posY + 1.0;
+                    
+                    // Top rail - all four sides
+                    const topRailFront = new THREE.Mesh(tubeGeometry, materials.safety);
+                    topRailFront.scale.set(actualLength, 1, 1);
+                    topRailFront.rotation.z = Math.PI / 2;
+                    topRailFront.position.set(0, railingHeight, -actualWidth/2);
+                    topRailFront.castShadow = true;
+                    topRailFront.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(topRailFront);
+                    
+                    const topRailBack = new THREE.Mesh(tubeGeometry, materials.safety);
+                    topRailBack.scale.set(actualLength, 1, 1);
+                    topRailBack.rotation.z = Math.PI / 2;
+                    topRailBack.position.set(0, railingHeight, actualWidth/2);
+                    topRailBack.castShadow = true;
+                    topRailBack.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(topRailBack);
+                    
+                    const topRailLeft = new THREE.Mesh(tubeGeometry, materials.safety);
+                    topRailLeft.scale.set(actualWidth, 1, 1);
+                    topRailLeft.rotation.z = Math.PI / 2;
+                    topRailLeft.rotation.y = Math.PI / 2;
+                    topRailLeft.position.set(-actualLength/2, railingHeight, 0);
+                    topRailLeft.castShadow = true;
+                    topRailLeft.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(topRailLeft);
+                    
+                    const topRailRight = new THREE.Mesh(tubeGeometry, materials.safety);
+                    topRailRight.scale.set(actualWidth, 1, 1);
+                    topRailRight.rotation.z = Math.PI / 2;
+                    topRailRight.rotation.y = Math.PI / 2;
+                    topRailRight.position.set(actualLength/2, railingHeight, 0);
+                    topRailRight.castShadow = true;
+                    topRailRight.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(topRailRight);
+                    
+                    // Mid rail at 0.5m below top rail
+                    const midRailHeight = posY + 0.5;
+                    
+                    const midRailFront = new THREE.Mesh(tubeGeometry, materials.safety);
+                    midRailFront.scale.set(actualLength, 1, 1);
+                    midRailFront.rotation.z = Math.PI / 2;
+                    midRailFront.position.set(0, midRailHeight, -actualWidth/2);
+                    midRailFront.castShadow = true;
+                    midRailFront.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(midRailFront);
+                    
+                    const midRailBack = new THREE.Mesh(tubeGeometry, materials.safety);
+                    midRailBack.scale.set(actualLength, 1, 1);
+                    midRailBack.rotation.z = Math.PI / 2;
+                    midRailBack.position.set(0, midRailHeight, actualWidth/2);
+                    midRailBack.castShadow = true;
+                    midRailBack.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(midRailBack);
                 }
             }
             
-            // 5. SAFETY SYSTEMS
-            if (document.getElementById('show-safety').checked) {
-                const railGeo = new THREE.CylinderGeometry(
-                    TUBE_DIAMETER/2 * 0.8, TUBE_DIAMETER/2 * 0.8, 1, 6
-                );
+            // Draw diagonal bracing - simplified but visible
+            if (barsX > 1 && barsZ > 1 && lifts > 0) {
+                // Add diagonal braces on two opposite faces
+                const braceHeight = p.ledgerSpacing;
                 
-                // Guardrails
-                if (document.getElementById('guardrail').checked) {
-                    for (let level = 1; level <= Math.min(workingLevels, lifts); level++) {
-                        const yPos = level * LIFT_HEIGHT;
-                        const railHeight = 1.1; // Standard guardrail height
-                        
-                        // Top rail
-                        const topRailY = yPos + railHeight;
-                        
-                        // Front rail
-                        const frontRail = new THREE.Mesh(railGeo, materials.safety);
-                        frontRail.scale.x = actualLength;
-                        frontRail.rotation.z = Math.PI / 2;
-                        frontRail.position.set(0, topRailY, offsetZ);
-                        frontRail.castShadow = true;
-                        scaffoldGroup.add(frontRail);
-                        
-                        // Back rail
-                        const backRail = new THREE.Mesh(railGeo, materials.safety);
-                        backRail.scale.x = actualLength;
-                        backRail.rotation.z = Math.PI / 2;
-                        backRail.position.set(0, topRailY, offsetZ + actualWidth);
-                        backRail.castShadow = true;
-                        scaffoldGroup.add(backRail);
-                        
-                        // Side rails
-                        const sideRailLength = actualWidth;
-                        
-                        const leftRail = new THREE.Mesh(railGeo, materials.safety);
-                        leftRail.scale.x = sideRailLength;
-                        leftRail.rotation.z = Math.PI / 2;
-                        leftRail.rotation.y = Math.PI / 2;
-                        leftRail.position.set(offsetX, topRailY, 0);
-                        leftRail.castShadow = true;
-                        scaffoldGroup.add(leftRail);
-                        
-                        const rightRail = new THREE.Mesh(railGeo, materials.safety);
-                        rightRail.scale.x = sideRailLength;
-                        rightRail.rotation.z = Math.PI / 2;
-                        rightRail.rotation.y = Math.PI / 2;
-                        rightRail.position.set(offsetX + actualLength, topRailY, 0);
-                        rightRail.castShadow = true;
-                        scaffoldGroup.add(rightRail);
+                // Front face diagonal
+                const frontBraceLength = Math.sqrt(actualLength * actualLength + braceHeight * braceHeight);
+                const frontBraceAngle = Math.atan2(braceHeight, actualLength);
+                
+                const frontBrace = new THREE.Mesh(tubeGeometry, materials.bracing);
+                frontBrace.scale.set(frontBraceLength, 1, 1);
+                frontBrace.rotation.z = Math.PI / 2;
+                frontBrace.rotation.y = -frontBraceAngle;
+                frontBrace.position.set(0, braceHeight/2, -actualWidth/2);
+                frontBrace.castShadow = true;
+                frontBrace.userData = { type: 'bracing', visible: true };
+                scaffoldingGroup.add(frontBrace);
+                
+                // Back face diagonal (opposite direction)
+                const backBrace = new THREE.Mesh(tubeGeometry, materials.bracing);
+                backBrace.scale.set(frontBraceLength, 1, 1);
+                backBrace.rotation.z = Math.PI / 2;
+                backBrace.rotation.y = frontBraceAngle;
+                backBrace.position.set(0, braceHeight/2, actualWidth/2);
+                backBrace.castShadow = true;
+                backBrace.userData = { type: 'bracing', visible: true };
+                scaffoldingGroup.add(backBrace);
+            }
+            
+            // Update camera position to frame the structure properly
+            const centerY = height / 2;
+            const maxDimension = Math.max(actualLength, actualWidth, height);
+            const distance = maxDimension * 1.5;
+            
+            camera.position.set(distance, distance * 0.7, distance);
+            controls.target.set(0, centerY, 0);
+            controls.update();
+            
+            // Update visibility based on current view
+            updateViewVisibility();
+            
+            updateComplianceStatus('3D Model Generated', 'warning');
+        }
+
+        // Update view visibility
+        function updateViewVisibility() {
+            scaffoldingGroup.children.forEach(child => {
+                if (child.userData && child.userData.type) {
+                    let visible = false;
+                    switch(currentView) {
+                        case 'all':
+                            visible = true;
+                            break;
+                        case 'structure':
+                            visible = ['standard', 'ledger', 'bracing', 'base'].includes(child.userData.type);
+                            break;
+                        case 'platform':
+                            visible = ['platform', 'standard'].includes(child.userData.type);
+                            break;
+                        case 'safety':
+                            visible = ['safety', 'standard'].includes(child.userData.type);
+                            break;
                     }
+                    child.visible = visible;
+                }
+            });
+        }
+
+        // Toggle view
+        function toggleView(view) {
+            currentView = view;
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(view)) {
+                    btn.classList.add('active');
+                }
+            });
+            updateViewVisibility();
+        }
+
+        // Switch tabs
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            
+            event.target.classList.add('active');
+            document.getElementById(`${tabName}-tab`).classList.add('active');
+        }
+
+        // Update compliance status
+        function updateComplianceStatus(message, status) {
+            const element = document.getElementById('compliance-status');
+            element.textContent = message;
+            element.className = `compliance-status status-${status}`;
+        }
+
+        // Display results
+        function displayResults(results, safetyCheck) {
+            // Materials BOQ
+            const materialQtys = document.querySelectorAll('.material-qty');
+            if (materialQtys.length >= 15) {
+                materialQtys[0].textContent = results.verticalTube + ' ';
+                materialQtys[1].textContent = results.horizontalTube + ' ';
+                materialQtys[2].textContent = results.diagonalTube + ' ';
+                materialQtys[3].textContent = results.transomTube + ' ';
+                materialQtys[4].textContent = results.steelPlanks + ' ';
+                materialQtys[5].textContent = results.aluminumDeck + ' ';
+                materialQtys[6].textContent = results.ladderSets + ' ';
+                materialQtys[7].textContent = results.guardrailLength + ' ';
+                materialQtys[8].textContent = results.toeBoardLength + ' ';
+                materialQtys[9].textContent = results.safetyNetArea + ' ';
+                materialQtys[10].textContent = results.debrisNetArea + ' ';
+                materialQtys[11].textContent = results.basePlates + ' ';
+                materialQtys[12].textContent = results.adjustableJacks + ' ';
+                materialQtys[13].textContent = results.wallTies + ' ';
+                materialQtys[14].textContent = results.anchorBolts + ' ';
+            }
+            
+            // Summary section
+            const summaryValues = document.querySelectorAll('.summary-value');
+            if (summaryValues.length >= 4) {
+                summaryValues[0].textContent = results.totalTube + ' batang';
+                summaryValues[1].textContent = results.estimatedWeight.toLocaleString() + ' kg';
+                summaryValues[2].textContent = results.platformArea + ' m²';
+                summaryValues[3].textContent = Math.ceil(results.totalTube * 0.05) + ' batang';
+            }
+            
+            // Engineering data
+            const engineeringQtys = document.querySelectorAll('#engineering-tab .material-qty');
+            if (engineeringQtys.length >= 8) {
+                engineeringQtys[0].textContent = results.standardSpacing + ' m';
+                engineeringQtys[1].textContent = results.ledgerSpacing + ' m';
+                engineeringQtys[2].textContent = results.ledgerSpacing + ' m';
+                engineeringQtys[3].textContent = results.lifts;
+                engineeringQtys[4].textContent = results.tieHorizontalSpacing + ' m';
+                engineeringQtys[5].textContent = results.tieVerticalSpacing + ' m';
+                engineeringQtys[6].textContent = results.wallTies + ' pcs';
+                engineeringQtys[7].textContent = 'Chemical Anchor';
+            }
+            
+            // Safety checks
+            document.getElementById('ratio-check').textContent = safetyCheck.heightRatio.toFixed(1) + ':1';
+            document.getElementById('ratio-check').style.color = safetyCheck.heightRatio > 4 ? '#E74C3C' : 
+                                                                safetyCheck.heightRatio > 3 ? '#F39C12' : '#27AE60';
+            
+            const guardrailCheck = document.getElementById('guardrail-check');
+            guardrailCheck.textContent = document.getElementById('guardrail').checked ? '✅ Compliant' : '❌ Required';
+            guardrailCheck.style.color = document.getElementById('guardrail').checked ? '#27AE60' : '#E74C3C';
+            
+            const ledgerCheck = document.getElementById('ledger-check');
+            const loadClass = document.getElementById('load-class').value;
+            ledgerCheck.textContent = loadClass === 'heavy' && results.doubleLedger ? '✅ Double Ledger' : 
+                                     loadClass === 'heavy' ? '❌ Required' : '✅ Single OK';
+            ledgerCheck.style.color = (loadClass === 'heavy' && results.doubleLedger) ? '#27AE60' : 
+                                     (loadClass === 'heavy' ? '#E74C3C' : '#27AE60');
+            
+            const tieCheck = document.getElementById('tie-check');
+            tieCheck.textContent = safetyCheck.heightRatio > 4 ? '⚡ Immediate Required' : 
+                                 safetyCheck.heightRatio > 3 ? '⚠️ Recommended' : '✅ Not Required';
+            tieCheck.style.color = safetyCheck.heightRatio > 4 ? '#E74C3C' : 
+                                  safetyCheck.heightRatio > 3 ? '#F39C12' : '#27AE60';
+            
+            // Construction data
+            const constructionQtys = document.querySelectorAll('#construction-tab .material-qty');
+            if (constructionQtys.length >= 10) {
+                constructionQtys[0].textContent = results.erectionHours + ' hours';
+                constructionQtys[1].textContent = Math.ceil(results.erectionHours / 8) + ' persons';
+                constructionQtys[2].textContent = Math.ceil(results.erectionHours / 8) + ' days';
+                constructionQtys[4].textContent = results.estimatedWeight.toLocaleString() + ' kg';
+                constructionQtys[5].textContent = Math.ceil(results.totalTubeMeters * 0.001) + ' m³';
+                constructionQtys[6].textContent = Math.ceil(results.estimatedWeight / 20000) + ' loads';
+                constructionQtys[7].textContent = results.estimatedWeight > 5000 ? 'Yes (10T)' : 'No';
+                constructionQtys[8].textContent = results.dismantlingHours + ' hours';
+                constructionQtys[9].textContent = Math.ceil(results.totalTubeMeters * 0.0001) + ' m³';
+            }
+            
+            // Safety notes
+            const safetyNotes = document.getElementById('safety-notes');
+            safetyNotes.innerHTML = '';
+            
+            if (safetyCheck.violations.length > 0) {
+                safetyCheck.violations.forEach(violation => {
+                    const li = document.createElement('li');
+                    li.textContent = `❌ ${violation}`;
+                    safetyNotes.appendChild(li);
+                });
+            }
+            
+            if (safetyCheck.warnings.length > 0) {
+                safetyCheck.warnings.forEach(warning => {
+                    const li = document.createElement('li');
+                    li.textContent = `⚠️ ${warning}`;
+                    safetyNotes.appendChild(li);
+                });
+            }
+            
+            // Add standard safety notes
+            const standardNotes = [
+                'Anchor capacity must be verified against concrete strength (minimum 25MPa)',
+                'All connections must be torqued to manufacturer specification',
+                'Daily inspection by competent person required before each shift',
+                'Maximum wind speed: 50 km/h (scaffold must be evacuated above this limit)',
+                'Load testing required if design load exceeds 75% of rated capacity'
+            ];
+            
+            standardNotes.forEach(note => {
+                const li = document.createElement('li');
+                li.textContent = `📝 ${note}`;
+                safetyNotes.appendChild(li);
+            });
+        }
+
+        // Main calculation function
+        function calculateScaffolding() {
+            try {
+                document.getElementById('loading-overlay').style.display = 'flex';
+                updateComplianceStatus('Running Safety Checks...', 'warning');
+                
+                // Get inputs
+                const length = parseFloat(document.getElementById('length').value);
+                const width = parseFloat(document.getElementById('width').value);
+                const height = parseFloat(document.getElementById('height').value);
+                const systemType = document.getElementById('system-type').value;
+                const loadClass = document.getElementById('load-class').value;
+                const workingLevels = parseInt(document.getElementById('working-levels').value);
+                
+                // Get features
+                const features = {
+                    guardrail: document.getElementById('guardrail').checked,
+                    toeBoards: document.getElementById('toe-boards').checked,
+                    safetyNet: document.getElementById('safety-net').checked,
+                    debrisNet: document.getElementById('debris-net').checked,
+                    ladder: document.getElementById('ladder').checked,
+                    platformBoards: document.getElementById('platform-boards').checked,
+                    doubleLedger: loadClass === 'heavy', // Auto-enforce for heavy duty
+                    secondarySupport: systemType === 'hanging',
+                    extraBracing: workingLevels > 3
+                };
+                
+                // Validate inputs
+                if (length < 2 || width < 2 || height < 1) {
+                    showError('Invalid dimensions. Minimum: 2m × 2m × 1m');
+                    return;
                 }
                 
-                // Access ladder
-                if (document.getElementById('ladder').checked) {
-                    const ladderGeo = new THREE.BoxGeometry(0.6, actualHeight, 0.05);
-                    const ladder = new THREE.Mesh(ladderGeo, materials.safety);
-                    ladder.position.set(
-                        offsetX + actualLength - 0.3,
-                        actualHeight / 2,
-                        offsetZ + 0.5
-                    );
-                    ladder.castShadow = true;
-                    scaffoldGroup.add(ladder);
+                // Update display
+                document.getElementById('disp-length').textContent = length + ' m';
+                document.getElementById('disp-width').textContent = width + ' m';
+                document.getElementById('disp-height').textContent = height + ' m';
+                document.getElementById('disp-load').textContent = 
+                    document.getElementById('load-class').options[document.getElementById('load-class').selectedIndex].text.split(' ')[0];
+                
+                // Run safety validation
+                const safetyCheck = validateSafety(length, width, height, loadClass, features);
+                
+                // Update compliance status
+                if (!safetyCheck.isCompliant) {
+                    updateComplianceStatus('❌ NON-COMPLIANT - Fix Required', 'danger');
+                    document.getElementById('calculate-btn').disabled = true;
+                    setTimeout(() => {
+                        document.getElementById('loading-overlay').style.display = 'none';
+                        alert('SAFETY VIOLATION:\n\n' + safetyCheck.violations.join('\n') + 
+                              '\n\nScaffold design cannot be generated until violations are resolved.');
+                    }, 1000);
+                    return;
+                } else if (safetyCheck.warnings.length > 0) {
+                    updateComplianceStatus('⚠️ COMPLIANT with Recommendations', 'warning');
+                    document.getElementById('calculate-btn').disabled = false;
+                } else {
+                    updateComplianceStatus('✅ FULLY COMPLIANT', 'compliant');
+                    document.getElementById('calculate-btn').disabled = false;
                 }
-            }
-            
-            // Update summary display
-            updateSummary({
-                standards: standardsCount,
-                ledgers: ledgersCount,
-                braces: bracesCount,
-                length: actualLength,
-                width: actualWidth,
-                height: actualHeight,
-                baysX: baysX,
-                baysZ: baysZ,
-                lifts: lifts,
-                workingLevels: workingLevels
-            });
-            
-            // Update compliance status
-            const ratio = actualHeight / Math.min(actualLength, actualWidth);
-            const statusEl = document.getElementById('compliance-status');
-            if (ratio > 4) {
-                statusEl.textContent = '⚠️ TIES REQUIRED';
-                statusEl.className = 'compliance-status status-warning';
-            } else if (ratio > 3.5) {
-                statusEl.textContent = '⚠️ MONITOR CLOSELY';
-                statusEl.className = 'compliance-status status-warning';
-            } else {
-                statusEl.textContent = '✅ STRUCTURALLY SOUND';
-                statusEl.className = 'compliance-status status-compliant';
-            }
-            
-            // Update camera for new scaffold
-            setView(currentView);
-            
-            console.log('Scaffold generated successfully');
-        }
-        
-        // Update summary display
-        function updateSummary(data) {
-            document.getElementById('std-count').textContent = data.standards;
-            document.getElementById('ledger-count').textContent = data.ledgers;
-            document.getElementById('brace-count').textContent = data.braces;
-            document.getElementById('dim-length').textContent = data.length.toFixed(1);
-            document.getElementById('dim-width').textContent = data.width.toFixed(1);
-            document.getElementById('dim-height').textContent = data.height.toFixed(1);
-            document.getElementById('bay-count').textContent = `${data.baysX} × ${data.baysZ}`;
-            document.getElementById('lift-count').textContent = data.lifts;
-            document.getElementById('level-count').textContent = data.workingLevels;
-        }
-        
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            if (controls) {
-                controls.update();
-            }
-            if (renderer && scene && camera) {
-                renderer.render(scene, camera);
+                
+                // Calculate materials
+                const results = calculateMaterials(length, width, height, systemType, loadClass, features, workingLevels);
+                
+                // Display results
+                displayResults(results, safetyCheck);
+                
+                // Generate 3D model
+                setTimeout(() => {
+                    drawScaffolding3D(length, width, height, systemType, loadClass, features, results);
+                    document.getElementById('loading-overlay').style.display = 'none';
+                }, 800);
+                
+            } catch (error) {
+                console.error('Calculation error:', error);
+                showError('System error occurred. Please check inputs and try again.');
+                document.getElementById('loading-overlay').style.display = 'none';
             }
         }
-        
-        // Handle window resize
+
+        // Export report
+        function exportReport() {
+            const report = {
+                project: 'Scaffolding Design Report - Oil & Gas',
+                timestamp: new Date().toISOString(),
+                compliance: document.getElementById('compliance-status').textContent,
+                dimensions: {
+                    length: document.getElementById('length').value,
+                    width: document.getElementById('width').value,
+                    height: document.getElementById('height').value
+                },
+                system: document.getElementById('system-type').options[document.getElementById('system-type').selectedIndex].text,
+                loadClass: document.getElementById('load-class').options[document.getElementById('load-class').selectedIndex].text,
+                safetyStandard: document.getElementById('safety-standard').options[document.getElementById('safety-standard').selectedIndex].text
+            };
+            
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `scaffold-report-${new Date().getTime()}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            updateComplianceStatus('Report Exported', 'warning');
+        }
+
+        // Utility functions
+        function showError(message) {
+            alert(`HSE ALERT: ${message}`);
+            updateComplianceStatus('Input Error', 'danger');
+        }
+
         function onWindowResize() {
             const container = document.getElementById('canvas-container');
             if (camera && renderer) {
@@ -1026,42 +1932,39 @@
                 renderer.setSize(container.clientWidth, container.clientHeight);
             }
         }
-        
-        // Initialize when page loads
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (controls) controls.update();
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+
+        // Initialize on load
         window.addEventListener('load', () => {
-            // Load Three.js from CDN
-            const script = document.createElement('script');
-            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
-            script.onload = () => {
-                // Load OrbitControls
-                const controlsScript = document.createElement('script');
-                controlsScript.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js';
-                controlsScript.onload = () => {
-                    initThreeJS();
-                    generateScaffold(); // Generate initial scaffold
-                    
-                    // Add event listeners for checkboxes
-                    const checkboxes = ['show-standards', 'show-ledgers', 'show-braces', 'show-platform', 'show-safety'];
-                    checkboxes.forEach(id => {
-                        document.getElementById(id).addEventListener('change', generateScaffold);
-                    });
-                    
-                    // Add event listeners for component toggles
-                    const componentCheckboxes = ['guardrail', 'platform', 'bracing', 'ladder'];
-                    componentCheckboxes.forEach(id => {
-                        document.getElementById(id).addEventListener('change', generateScaffold);
-                    });
-                    
-                    // Add event listeners for dimension inputs
-                    const dimensionInputs = ['length', 'width', 'height', 'working-levels'];
-                    dimensionInputs.forEach(id => {
-                        document.getElementById(id).addEventListener('change', generateScaffold);
-                    });
-                };
-                document.head.appendChild(controlsScript);
-            };
-            document.head.appendChild(script);
+            init3D();
+            
+            // Auto-update on input changes
+            const inputs = ['length', 'width', 'height', 'system-type', 'load-class', 'safety-standard', 'working-levels'];
+            inputs.forEach(id => {
+                document.getElementById(id).addEventListener('change', () => {
+                    document.getElementById('calculate-btn').disabled = false;
+                });
+            });
+            
+            const checkboxes = ['guardrail', 'toe-boards', 'safety-net', 'debris-net', 'ladder', 'platform-boards', 'uneven-ground', 'adjacent-structure'];
+            checkboxes.forEach(id => {
+                document.getElementById(id).addEventListener('change', () => {
+                    document.getElementById('calculate-btn').disabled = false;
+                });
+            });
+            
+            // Initial calculation
+            setTimeout(calculateScaffolding, 1500);
         });
+
+        window.addEventListener('resize', onWindowResize);
     </script>
 </body>
 </html>
