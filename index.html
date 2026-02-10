@@ -3,32 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scaffolding Calculator - Oil & Gas Professional</title>
+    <title>Scaffolding Calculator & 3D Planner - Oil & Gas Edition</title>
     <style>
         :root {
-            --primary: #1A3A5F;
-            --secondary: #2D5A8A;
-            --accent: #FF6B35;
-            --warning: #FFA726;
-            --safe: #4CAF50;
-            --light: #F5F7FA;
-            --dark: #1E293B;
-            --danger: #D32F2F;
-            --info: #2196F3;
-            --plattform: #7B1FA2;
-            --gray-100: #F8FAFC;
-            --gray-200: #E2E8F0;
-            --gray-300: #CBD5E1;
-            --gray-600: #475569;
-            --gray-700: #334155;
-            --gray-800: #1E293B;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
-            --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
-            --radius-sm: 6px;
-            --radius-md: 10px;
-            --radius-lg: 14px;
+            --primary: #2C3E50;
+            --secondary: #34495E;
+            --accent: #E74C3C;
+            --warning: #F39C12;
+            --safe: #27AE60;
+            --light: #ECF0F1;
+            --dark: #2C3E50;
+            --danger: #C0392B;
+            --info: #3498DB;
+            --plattform: #8E44AD;
         }
         
         * {
@@ -39,9 +26,9 @@
         
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #1A3A5F 0%, #2D5A8A 100%);
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
             min-height: 100vh;
-            color: var(--gray-800);
+            color: var(--light);
             line-height: 1.6;
             font-size: 14px;
         }
@@ -52,221 +39,104 @@
             padding: 20px;
         }
         
-        /* HEADER */
-        .professional-header {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 25px 30px;
-            margin-bottom: 20px;
-            box-shadow: var(--shadow-xl);
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 25px;
+            background: rgba(44, 62, 80, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             border-left: 5px solid var(--accent);
+            position: relative;
+            overflow: hidden;
         }
         
-        .header-titles h1 {
-            color: var(--gray-800);
+        .header::before {
+            content: '⚡ OIL & GAS EDITION ⚡';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .header h1 {
+            color: white;
             font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .header-subtitle {
-            color: var(--gray-600);
-            font-size: 14px;
-        }
-        
-        .header-badge {
-            background: linear-gradient(135deg, var(--accent), #FF5722);
-            color: white;
-            padding: 10px 20px;
-            border-radius: 50px;
-            font-size: 13px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 10px;
-        }
-        
-        /* COMPLIANCE BANNER */
-        .compliance-banner {
-            background: linear-gradient(135deg, #FFA726, #FB8C00);
-            color: white;
-            padding: 15px 20px;
-            border-radius: var(--radius-md);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-weight: 600;
-            box-shadow: var(--shadow-md);
-        }
-        
-        /* STATS PANEL */
-        .stats-panel {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 18px;
-            border-radius: var(--radius-md);
-            box-shadow: var(--shadow-md);
-        }
-        
-        .stat-label {
-            font-size: 11px;
-            color: var(--gray-600);
-            font-weight: 500;
             margin-bottom: 8px;
-            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
         }
         
-        .stat-value {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--gray-800);
-            margin-bottom: 4px;
+        .header .subtitle {
+            color: #BDC3C7;
+            font-size: 15px;
+            font-weight: 300;
         }
         
-        .stat-unit {
-            font-size: 11px;
-            color: var(--gray-500);
-        }
-        
-        /* DIMENSION DISPLAY */
-        .dimension-display {
-            background: white;
-            padding: 18px 25px;
-            border-radius: var(--radius-md);
+        .compliance-banner {
+            background: linear-gradient(135deg, var(--warning), #E67E22);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
             margin-bottom: 20px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            box-shadow: var(--shadow-md);
-            border-left: 4px solid var(--accent);
-        }
-        
-        .dimension-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-        }
-        
-        .dimension-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .dimension-value {
-            font-weight: 700;
-            color: var(--gray-800);
-            font-size: 18px;
-            margin-bottom: 4px;
-        }
-        
-        .dimension-label {
-            color: var(--gray-600);
-            font-size: 12px;
-        }
-        
-        .status-indicator {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-        
-        .status-dot.safe { background: var(--safe); }
-        .status-dot.warning { background: var(--warning); }
-        .status-dot.danger { background: var(--danger); }
-        
-        .compliance-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            border-radius: 50px;
+            gap: 15px;
             font-weight: 600;
-            font-size: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
         
-        .compliance-badge.compliant {
-            background: rgba(76, 175, 80, 0.1);
-            color: var(--safe);
-            border: 1px solid var(--safe);
-        }
-        
-        .compliance-badge.warning {
-            background: rgba(255, 167, 38, 0.1);
-            color: var(--warning);
-            border: 1px solid var(--warning);
-        }
-        
-        .compliance-badge.danger {
-            background: rgba(211, 47, 47, 0.1);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-        
-        /* MAIN GRID */
-        .main-grid {
+        .main-content {
             display: grid;
             grid-template-columns: 1.2fr 2fr;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 25px;
+            margin-bottom: 25px;
         }
         
         @media (max-width: 1200px) {
-            .main-grid {
+            .main-content {
                 grid-template-columns: 1fr;
             }
         }
         
-        /* CONTROL PANEL */
         .control-panel {
-            background: white;
-            border-radius: var(--radius-lg);
+            background: rgba(44, 62, 80, 0.9);
             padding: 25px;
-            box-shadow: var(--shadow-lg);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
         
         .section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid var(--gray-200);
+            background: rgba(52, 73, 94, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--info);
         }
         
-        .section:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
+        .section.danger-zone {
+            border-left-color: var(--danger);
+            background: rgba(192, 57, 43, 0.1);
         }
         
         .section-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--gray-800);
+            color: white;
             margin-bottom: 15px;
+            font-size: 16px;
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-        
-        .input-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
         .input-group {
@@ -277,19 +147,36 @@
             display: block;
             margin-bottom: 6px;
             font-weight: 500;
-            color: var(--gray-700);
+            color: #BDC3C7;
             font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .input-group input,
         .input-group select {
             width: 100%;
-            padding: 11px 15px;
-            background: var(--gray-100);
-            border: 1px solid var(--gray-300);
-            border-radius: var(--radius-sm);
-            color: var(--gray-800);
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: white;
             font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--info);
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
         }
         
         .checkbox-grid {
@@ -303,15 +190,17 @@
             align-items: center;
             gap: 8px;
             padding: 8px;
-            background: var(--gray-100);
+            background: rgba(255,255,255,0.05);
             border-radius: 4px;
-            border: 1px solid var(--gray-300);
+            border: 1px solid rgba(255,255,255,0.1);
             cursor: pointer;
+            transition: all 0.3s ease;
             font-size: 13px;
         }
         
         .checkbox-item:hover {
-            background: var(--gray-200);
+            background: rgba(255,255,255,0.1);
+            border-color: var(--info);
         }
         
         .checkbox-item input {
@@ -320,30 +209,12 @@
             cursor: pointer;
         }
         
-        .safety-alert {
-            background: #FFF3E0;
-            border-left: 4px solid var(--warning);
-            padding: 15px;
-            border-radius: var(--radius-sm);
-            margin-top: 20px;
-        }
-        
-        .alert-title {
-            color: var(--warning);
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-        }
-        
         .btn-primary {
             padding: 14px;
-            background: linear-gradient(135deg, var(--accent), #FF5722);
+            background: linear-gradient(135deg, var(--accent), #C0392B);
             color: white;
             border: none;
-            border-radius: var(--radius-sm);
+            border-radius: 6px;
             font-size: 15px;
             font-weight: 600;
             cursor: pointer;
@@ -353,62 +224,70 @@
             justify-content: center;
             gap: 10px;
             width: 100%;
-            margin-top: 10px;
+            letter-spacing: 0.5px;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(255, 107, 53, 0.3);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
         }
         
-        /* 3D VISUALIZATION */
+        .btn-primary:disabled {
+            background: #7F8C8D;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
         .visualization-panel {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
+            background: rgba(44, 62, 80, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            height: 600px;
+            min-height: 600px;
         }
         
         .visualization-header {
-            padding: 18px 20px;
-            background: var(--gray-100);
-            border-bottom: 1px solid var(--gray-200);
+            padding: 20px;
+            background: rgba(52, 73, 94, 0.9);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .visualization-header h2 {
-            color: var(--gray-800);
+            color: white;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-size: 16px;
         }
         
         .view-controls {
             display: flex;
-            gap: 8px;
+            gap: 10px;
         }
         
         .view-btn {
-            padding: 6px 12px;
-            background: var(--gray-100);
-            border: 1px solid var(--gray-300);
-            border-radius: 6px;
-            color: var(--gray-600);
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            color: white;
             cursor: pointer;
             font-size: 12px;
-            font-weight: 500;
+            transition: all 0.3s ease;
         }
         
         .view-btn.active {
             background: var(--info);
-            color: white;
             border-color: var(--info);
+        }
+        
+        .view-btn:hover {
+            background: rgba(255,255,255,0.2);
         }
         
         #canvas-container {
@@ -425,32 +304,27 @@
         
         .canvas-info {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            background: rgba(0,0,0,0.85);
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.8);
             color: white;
-            padding: 10px 14px;
-            border-radius: var(--radius-sm);
+            padding: 10px 15px;
+            border-radius: 6px;
             font-size: 12px;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
-        .legend-panel {
+        .legend {
             position: absolute;
-            bottom: 12px;
-            right: 12px;
-            background: rgba(0,0,0,0.85);
-            padding: 14px;
-            border-radius: var(--radius-sm);
-            backdrop-filter: blur(10px);
-        }
-        
-        .legend-title {
-            color: white;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            padding: 12px;
+            border-radius: 6px;
             font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-            margin-bottom: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
         
         .legend-item {
@@ -458,8 +332,6 @@
             align-items: center;
             gap: 8px;
             margin-bottom: 6px;
-            font-size: 12px;
-            color: white;
         }
         
         .legend-color {
@@ -474,7 +346,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.95);
+            background: rgba(0,0,0,0.9);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -498,73 +370,74 @@
             to { transform: rotate(360deg); }
         }
         
-        /* RESULTS PANEL */
         .results-panel {
-            background: white;
-            border-radius: var(--radius-lg);
-            box-shadow: var(--shadow-lg);
+            background: rgba(44, 62, 80, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             padding: 25px;
-            margin-top: 20px;
+            margin-top: 25px;
         }
         
         .results-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding-bottom: 18px;
-            border-bottom: 2px solid var(--gray-200);
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .export-buttons {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn-export {
-            padding: 9px 18px;
-            background: var(--gray-100);
-            border: 1px solid var(--gray-300);
-            border-radius: var(--radius-sm);
-            color: var(--gray-700);
-            cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
+        .compliance-status {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 10px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
         }
         
-        .btn-export.primary {
-            background: linear-gradient(135deg, var(--info), #1976D2);
-            color: white;
-            border: none;
+        .status-compliant {
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--safe);
+            border: 1px solid var(--safe);
+        }
+        
+        .status-warning {
+            background: rgba(243, 156, 18, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .status-danger {
+            background: rgba(192, 57, 43, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
         }
         
         .results-tabs {
             display: flex;
-            gap: 2px;
-            margin-bottom: 25px;
-            background: var(--gray-100);
-            padding: 4px;
-            border-radius: var(--radius-sm);
+            gap: 5px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 5px;
         }
         
         .tab-btn {
             padding: 10px 20px;
             background: transparent;
             border: none;
-            color: var(--gray-600);
+            color: #BDC3C7;
             cursor: pointer;
-            font-size: 13px;
-            font-weight: 500;
-            border-radius: 6px;
+            font-size: 14px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
         }
         
         .tab-btn.active {
-            background: white;
-            color: var(--info);
-            box-shadow: var(--shadow-sm);
+            color: white;
+            border-bottom-color: var(--accent);
+            background: rgba(255,255,255,0.05);
         }
         
         .tab-content {
@@ -582,9 +455,9 @@
         }
         
         .material-category {
-            background: var(--gray-100);
+            background: rgba(52, 73, 94, 0.7);
             padding: 20px;
-            border-radius: var(--radius-md);
+            border-radius: 8px;
             border-left: 4px solid var(--info);
         }
         
@@ -601,13 +474,12 @@
         }
         
         .category-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--gray-800);
-            margin-bottom: 18px;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 15px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         
         .material-item {
@@ -615,7 +487,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 10px 0;
-            border-bottom: 1px solid var(--gray-200);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             font-size: 13px;
         }
         
@@ -624,283 +496,208 @@
         }
         
         .material-name {
-            color: var(--gray-700);
+            color: #BDC3C7;
         }
         
         .material-qty {
             font-weight: 600;
-            color: var(--gray-800);
+            color: white;
         }
         
         .material-unit {
-            color: var(--gray-500);
+            color: #7F8C8D;
             font-size: 12px;
             margin-left: 4px;
         }
         
         .summary-section {
-            background: linear-gradient(135deg, var(--gray-100), #E3F2FD);
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
             padding: 20px;
-            border-radius: var(--radius-md);
-            margin-top: 25px;
-        }
-        
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
+            border-radius: 8px;
+            margin-top: 20px;
         }
         
         .summary-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .summary-item:last-child {
+            border-bottom: none;
         }
         
         .summary-label {
-            color: var(--gray-600);
+            color: #BDC3C7;
             font-size: 13px;
         }
         
         .summary-value {
             font-weight: 700;
-            color: var(--gray-800);
+            color: white;
             font-size: 14px;
         }
         
-        .notes-section {
-            margin-top: 25px;
-            padding: 20px;
-            background: var(--gray-100);
-            border-radius: var(--radius-md);
-            border-left: 4px solid var(--info);
+        .safety-messages {
+            background: rgba(192, 57, 43, 0.1);
+            border-left: 4px solid var(--danger);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
         }
         
-        .notes-title {
-            font-size: 14px;
+        .safety-title {
+            color: var(--danger);
             font-weight: 600;
-            color: var(--gray-800);
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
         
-        .notes-list {
+        .safety-list {
             list-style: none;
             font-size: 13px;
-            color: var(--gray-700);
-            line-height: 1.5;
+            color: #BDC3C7;
         }
         
-        .notes-list li {
-            margin-bottom: 10px;
+        .safety-list li {
+            margin-bottom: 8px;
             padding-left: 20px;
             position: relative;
         }
         
-        .notes-list li:before {
-            content: '•';
-            color: var(--info);
+        .safety-list li:before {
+            content: '⚠️';
             position: absolute;
-            left: 8px;
-            font-weight: bold;
-        }
-        
-        .critical-notes {
-            background: #FFEBEE;
-            border-left: 4px solid var(--danger);
-            padding: 18px;
-            border-radius: var(--radius-md);
-            margin-top: 20px;
-        }
-        
-        .critical-title {
-            color: var(--danger);
-            font-weight: 600;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-        }
-        
-        /* MODAL */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
             left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            align-items: center;
-            justify-content: center;
         }
         
-        .modal {
-            background: white;
-            border-radius: var(--radius-lg);
-            padding: 25px;
-            max-width: 500px;
-            width: 90%;
-            box-shadow: var(--shadow-xl);
-        }
-        
-        .modal-header {
+        .dimension-display {
+            background: rgba(44, 62, 80, 0.9);
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid var(--gray-200);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            border-left: 5px solid var(--accent);
         }
         
-        .modal-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--gray-800);
+        .dimension-info {
+            display: flex;
+            gap: 20px;
         }
         
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: var(--gray-500);
-            cursor: pointer;
+        .dimension-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
         
-        .export-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+        .dimension-value {
+            font-weight: 700;
+            color: white;
         }
         
-        .export-option {
-            padding: 18px;
-            background: var(--gray-100);
-            border: 2px solid var(--gray-300);
-            border-radius: var(--radius-md);
-            cursor: pointer;
-            text-align: center;
-        }
-        
-        .export-option.selected {
-            background: white;
-            border-color: var(--info);
-            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.1);
-        }
-        
-        .export-icon {
-            font-size: 28px;
-            margin-bottom: 10px;
-        }
-        
-        .export-option-title {
-            font-weight: 600;
-            margin-bottom: 8px;
-            color: var(--gray-800);
+        .dimension-label {
+            color: #BDC3C7;
             font-size: 13px;
         }
         
-        .export-option-desc {
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .tooltip-icon {
+            width: 16px;
+            height: 16px;
+            background: rgba(255,255,255,0.1);
+            color: #BDC3C7;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             font-size: 11px;
-            color: var(--gray-600);
-            line-height: 1.4;
+            cursor: help;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .tooltip-text {
+            visibility: hidden;
+            width: 250px;
+            background: var(--dark);
+            color: white;
+            text-align: left;
+            padding: 12px;
+            border-radius: 6px;
+            position: absolute;
+            z-index: 1000;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+            font-weight: normal;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+        }
+        
+        .tooltip:hover .tooltip-text {
+            visibility: visible;
+            opacity: 1;
         }
     </style>
-    <!-- Three.js -->
+    <!-- Three.js from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <!-- OrbitControls -->
-    <script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
-    <!-- SheetJS -->
-    <script src="https://cdn.sheetjs.com/xlsx-0.19.3/package/dist/xlsx.full.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
 </head>
 <body>
     <div class="app-container">
-        <!-- HEADER -->
-        <header class="professional-header">
-            <div class="header-titles">
-                <h1>
-                    <span>🏗️</span>
-                    Oil & Gas Scaffolding Calculator
-                </h1>
-                <p class="header-subtitle">Professional 3D Design & BOQ Calculation with HSE Compliance</p>
-                <div class="header-badge">
-                    <span>⚡</span>
-                    <span>HSE COMPLIANT DESIGN</span>
-                </div>
-            </div>
+        <header class="header">
+            <h1>🏗️ OIL & GAS SCAFFOLDING CALCULATOR</h1>
+            <p class="subtitle">HSE-Compliant Scaffold Design & 3D Planning Tool | Refinery • Offshore • Plant Maintenance</p>
         </header>
         
-        <!-- COMPLIANCE BANNER -->
         <div class="compliance-banner">
-            <span>🛡️</span>
-            <span>STRICT SAFETY COMPLIANCE: All designs follow OSHA 1926.451 & EN 12811 standards.</span>
+            <span>⚡</span>
+            <span>STRICT SAFETY COMPLIANCE: All designs follow OSHA/EN 12811 standards. Unsafe configurations are automatically rejected.</span>
         </div>
         
-        <!-- STATS -->
-        <div class="stats-panel">
-            <div class="stat-card">
-                <div class="stat-label">Scaffold Volume</div>
-                <div class="stat-value" id="total-size">0 m³</div>
-                <div class="stat-unit">Total Volume</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Material Required</div>
-                <div class="stat-value" id="total-tubes">0</div>
-                <div class="stat-unit">Tubes (3m)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Estimated Weight</div>
-                <div class="stat-value" id="total-weight">0 kg</div>
-                <div class="stat-unit">Total Weight</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Safety Status</div>
-                <div class="stat-value" id="safety-score">--</div>
-                <div class="stat-unit">Compliance Score</div>
-            </div>
-        </div>
-        
-        <!-- DIMENSIONS -->
         <div class="dimension-display">
-            <div class="dimension-grid">
+            <div class="dimension-info">
                 <div class="dimension-item">
-                    <div class="dimension-value" id="disp-length">10.0 m</div>
-                    <div class="dimension-label">Length</div>
+                    <span class="dimension-label">Length:</span>
+                    <span class="dimension-value" id="disp-length">10 m</span>
                 </div>
                 <div class="dimension-item">
-                    <div class="dimension-value" id="disp-width">6.0 m</div>
-                    <div class="dimension-label">Width</div>
+                    <span class="dimension-label">Width:</span>
+                    <span class="dimension-value" id="disp-width">6 m</span>
                 </div>
                 <div class="dimension-item">
-                    <div class="dimension-value" id="disp-height">5.0 m</div>
-                    <div class="dimension-label">Height</div>
+                    <span class="dimension-label">Height:</span>
+                    <span class="dimension-value" id="disp-height">5 m</span>
                 </div>
                 <div class="dimension-item">
-                    <div class="dimension-value" id="disp-load">Medium</div>
-                    <div class="dimension-label">Load Class</div>
+                    <span class="dimension-label">Load Class:</span>
+                    <span class="dimension-value" id="disp-load">Medium</span>
                 </div>
             </div>
-            <div class="status-indicator">
-                <div class="status-dot warning" id="status-dot"></div>
-                <span class="compliance-badge warning" id="compliance-status">
-                    ⚡ READY TO CALCULATE
-                </span>
+            <div id="compliance-status" class="compliance-status status-warning">
+                ⚠️ VALIDATING...
             </div>
         </div>
         
-        <!-- MAIN CONTENT -->
-        <div class="main-grid">
-            <!-- LEFT PANEL - CONTROLS -->
+        <div class="main-content">
             <div class="control-panel">
-                <!-- Structure Geometry -->
                 <div class="section">
-                    <div class="section-title">📐 Structure Geometry</div>
+                    <div class="section-title">📐 GEOMETRY & STRUCTURE</div>
                     <div class="input-row">
                         <div class="input-group">
                             <label>Length (m)</label>
@@ -927,39 +724,54 @@
                             </select>
                         </div>
                     </div>
-                </div>
-                
-                <!-- System Configuration -->
-                <div class="section">
-                    <div class="section-title">🏗️ System Configuration</div>
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label>Scaffolding System</label>
-                            <select id="system-type">
-                                <option value="cup_lock">Cup Lock System</option>
-                                <option value="ring_lock" selected>Ring Lock System</option>
-                                <option value="tube_coupler">Tube & Coupler</option>
-                                <option value="hanging">Hanging Scaffold</option>
-                            </select>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="uneven-ground">
+                            <label for="uneven-ground">Uneven Ground</label>
                         </div>
-                        <div class="input-group">
-                            <label>Load Classification</label>
-                            <select id="load-class">
-                                <option value="light">Light Duty (125 kg/m²)</option>
-                                <option value="medium" selected>Medium Duty (250 kg/m²)</option>
-                                <option value="heavy">Heavy Duty (500 kg/m²)</option>
-                            </select>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="adjacent-structure">
+                            <label for="adjacent-structure">Adjacent to Structure</label>
                         </div>
                     </div>
                 </div>
                 
-                <!-- Safety Features -->
                 <div class="section">
-                    <div class="section-title">🛡️ Safety Features</div>
+                    <div class="section-title">🔧 SYSTEM CONFIGURATION</div>
+                    <div class="input-group">
+                        <label>Scaffolding System</label>
+                        <select id="system-type">
+                            <option value="cup_lock">Cup Lock System</option>
+                            <option value="ring_lock" selected>Ring Lock System</option>
+                            <option value="tube_coupler">Tube & Coupler</option>
+                            <option value="hanging">Hanging Scaffold</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Load Classification</label>
+                            <select id="load-class">
+                            <option value="light">Light Duty (125 kg/m²)</option>
+                            <option value="medium" selected>Medium Duty (250 kg/m²)</option>
+                            <option value="heavy">Heavy Duty (500 kg/m²)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Safety Standard</label>
+                        <select id="safety-standard">
+                            <option value="osha">OSHA 1926.451</option>
+                            <option value="en12811" selected>EN 12811</option>
+                            <option value="bs5973">BS 5973</option>
+                            <option value="site">Site Specific Rules</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🛡️ SAFETY FEATURES</div>
                     <div class="checkbox-grid">
                         <div class="checkbox-item">
                             <input type="checkbox" id="guardrail" checked>
-                            <label for="guardrail">Guardrail System</label>
+                            <label for="guardrail">Guardrail (Top/Mid)</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" id="toe-boards" checked>
@@ -984,45 +796,35 @@
                     </div>
                 </div>
                 
-                <!-- Site Conditions -->
-                <div class="section">
-                    <div class="section-title">🌍 Site Conditions</div>
-                    <div class="checkbox-grid">
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="uneven-ground">
-                            <label for="uneven-ground">Uneven Ground</label>
-                        </div>
-                        <div class="checkbox-item">
-                            <input type="checkbox" id="adjacent-structure">
-                            <label for="adjacent-structure">Adjacent Structure</label>
-                        </div>
+                <div class="section danger-zone">
+                    <div class="section-title">⚠️ CRITICAL SAFETY CHECKS</div>
+                    <div style="font-size: 12px; color: #BDC3C7; line-height: 1.5;">
+                        <p>System automatically enforces:</p>
+                        <ul style="margin: 10px 0 10px 20px;">
+                            <li>Height-to-base ratio ≤ 4:1</li>
+                            <li>Guardrail required above 2.0m</li>
+                            <li>Double ledger for Heavy Duty</li>
+                            <li>Tie requirements based on height</li>
+                        </ul>
+                        <p style="color: var(--danger); font-weight: 600;">
+                            ❌ Unsafe designs will be rejected
+                        </p>
                     </div>
                 </div>
                 
-                <!-- Safety Alert -->
-                <div class="safety-alert">
-                    <div class="alert-title">⚠️ Critical Safety Rules</div>
-                    <div style="font-size: 12px; color: #333; line-height: 1.4;">
-                        <p>• Height-to-base ratio must not exceed 4:1</p>
-                        <p>• Guardrail required for all platforms above 2.0m</p>
-                        <p>• Double ledger mandatory for Heavy Duty</p>
-                    </div>
-                </div>
-                
-                <!-- Calculate Button -->
                 <button class="btn-primary" id="calculate-btn" onclick="calculateScaffolding()">
-                    <span>🚀 CALCULATE & GENERATE 3D MODEL</span>
+                    <span>🚀 CALCULATE & VALIDATE SCAFFOLD</span>
                 </button>
             </div>
             
-            <!-- RIGHT PANEL - 3D VISUALIZATION -->
             <div class="visualization-panel">
                 <div class="visualization-header">
-                    <h2><span>🎨</span> 3D Engineering Visualization</h2>
+                    <h2>🎨 3D ENGINEERING VIEW</h2>
                     <div class="view-controls">
-                        <button class="view-btn active" onclick="toggleView('all')">Full View</button>
+                        <button class="view-btn active" onclick="toggleView('all')">All</button>
                         <button class="view-btn" onclick="toggleView('structure')">Structure</button>
                         <button class="view-btn" onclick="toggleView('platform')">Platform</button>
+                        <button class="view-btn" onclick="toggleView('safety')">Safety</button>
                     </div>
                 </div>
                 <div id="canvas-container">
@@ -1030,217 +832,221 @@
                     <div class="canvas-info">
                         🖱️ Drag: Rotate | 🔍 Scroll: Zoom | 📱 Right Drag: Pan
                     </div>
-                    <div class="legend-panel">
-                        <div class="legend-title">Material Legend</div>
+                    <div class="legend">
                         <div class="legend-item">
-                            <div class="legend-color" style="background: #4CAF50;"></div>
+                            <div class="legend-color" style="background: #27AE60;"></div>
                             <span>Standards</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color" style="background: #2196F3;"></div>
+                            <div class="legend-color" style="background: #3498DB;"></div>
                             <span>Ledgers</span>
                         </div>
                         <div class="legend-item">
-                            <div class="legend-color" style="background: #FF6B35;"></div>
+                            <div class="legend-color" style="background: #E74C3C;"></div>
                             <span>Bracing</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #8E44AD;"></div>
+                            <span>Platform</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #F39C12;"></div>
+                            <span>Safety</span>
                         </div>
                     </div>
                     <div class="loading-overlay" id="loading-overlay" style="display: none;">
                         <div class="loading-spinner"></div>
-                        <p>Generating 3D Model...</p>
+                        <p>Running Safety Checks...</p>
+                        <p style="font-size: 12px; color: #BDC3C7; margin-top: 10px;">Validating HSE Compliance</p>
                     </div>
                 </div>
             </div>
         </div>
         
-        <!-- RESULTS PANEL -->
         <div class="results-panel">
             <div class="results-header">
-                <h2 style="font-size: 20px; color: var(--gray-800);">
-                    <span>📊</span> Engineering Output & Reports
-                </h2>
-                <div class="export-buttons">
-                    <button class="btn-export" onclick="showExportModal()">
-                        <span>📥</span> Export Reports
-                    </button>
-                    <button class="btn-export primary" onclick="generateFullReport()">
-                        <span>📋</span> Generate Full BOQ
-                    </button>
-                </div>
+                <h2>📊 ENGINEERING OUTPUT</h2>
+                <button class="btn-primary" onclick="exportReport()" style="width: auto; padding: 10px 20px;">
+                    📥 EXPORT BOQ & REPORT
+                </button>
             </div>
             
-            <!-- TABS -->
             <div class="results-tabs">
                 <button class="tab-btn active" onclick="switchTab('materials')">Materials BOQ</button>
-                <button class="tab-btn" onclick="switchTab('engineering')">Engineering Data</button>
-                <button class="tab-btn" onclick="switchTab('safety')">Safety Compliance</button>
+                <button class="tab-btn" onclick="switchTab('engineering')">Engineering Summary</button>
+                <button class="tab-btn" onclick="switchTab('construction')">Construction Data</button>
+                <button class="tab-btn" onclick="switchTab('safety')">Safety Notes</button>
             </div>
             
-            <!-- MATERIALS TAB -->
             <div id="materials-tab" class="tab-content active">
                 <div class="materials-grid">
                     <div class="material-category">
-                        <div class="category-title">📏 Main Structure</div>
+                        <div class="category-title">📏 MAIN STRUCTURE</div>
                         <div class="material-item">
                             <span class="material-name">Vertical Standards (3m)</span>
-                            <span class="material-qty" id="vertical-tubes">0 <span class="material-unit">pcs</span></span>
+                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Horizontal Ledgers (3m)</span>
-                            <span class="material-qty" id="horizontal-tubes">0 <span class="material-unit">pcs</span></span>
+                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Diagonal Braces (3m)</span>
-                            <span class="material-qty" id="diagonal-tubes">0 <span class="material-unit">pcs</span></span>
+                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Transoms (2m)</span>
-                            <span class="material-qty" id="transom-tubes">0 <span class="material-unit">pcs</span></span>
+                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
                         </div>
                     </div>
                     
                     <div class="material-category platform">
-                        <div class="category-title">🏗️ Platform & Access</div>
+                        <div class="category-title">🏗️ PLATFORM & ACCESS</div>
                         <div class="material-item">
                             <span class="material-name">Steel Planks (3m)</span>
-                            <span class="material-qty" id="steel-planks">0 <span class="material-unit">pcs</span></span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Aluminum Deck</span>
-                            <span class="material-qty" id="aluminum-deck">0 <span class="material-unit">m²</span></span>
+                            <span class="material-qty">-- <span class="material-unit">m²</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Access Ladder</span>
-                            <span class="material-qty" id="ladder-sets">0 <span class="material-unit">set</span></span>
+                            <span class="material-qty">-- <span class="material-unit">set</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Trapdoor Platform</span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                     </div>
                     
                     <div class="material-category safety">
-                        <div class="category-title">🛡️ Safety Equipment</div>
+                        <div class="category-title">🛡️ SAFETY EQUIPMENT</div>
                         <div class="material-item">
                             <span class="material-name">Guardrail System</span>
-                            <span class="material-qty" id="guardrail-length">0 <span class="material-unit">m</span></span>
+                            <span class="material-qty">-- <span class="material-unit">m</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Toe Boards</span>
-                            <span class="material-qty" id="toeboard-length">0 <span class="material-unit">m</span></span>
+                            <span class="material-qty">-- <span class="material-unit">m</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Safety Net</span>
-                            <span class="material-qty" id="safety-net-area">0 <span class="material-unit">m²</span></span>
+                            <span class="material-qty">-- <span class="material-unit">m²</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Debris Net</span>
+                            <span class="material-qty">-- <span class="material-unit">m²</span></span>
                         </div>
                     </div>
                     
                     <div class="material-category accessories">
-                        <div class="category-title">🔗 Connectors & Accessories</div>
+                        <div class="category-title">🔗 CONNECTORS & ACCESSORIES</div>
                         <div class="material-item">
                             <span class="material-name">Base Plates</span>
-                            <span class="material-qty" id="base-plates">0 <span class="material-unit">pcs</span></span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Adjustable Jacks</span>
-                            <span class="material-qty" id="adjustable-jacks">0 <span class="material-unit">pcs</span></span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Wall Ties</span>
-                            <span class="material-qty" id="wall-ties">0 <span class="material-unit">pcs</span></span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Anchor Bolts</span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="summary-section">
-                    <div class="summary-grid">
-                        <div class="summary-item">
-                            <span class="summary-label">Total Tubes Required (3m)</span>
-                            <span class="summary-value" id="summary-total-tubes">0 pcs</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Total Estimated Weight</span>
-                            <span class="summary-value" id="summary-total-weight">0 kg</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Projected Area</span>
-                            <span class="summary-value" id="summary-platform-area">0 m²</span>
-                        </div>
-                        <div class="summary-item">
-                            <span class="summary-label">Material Wastage (5%)</span>
-                            <span class="summary-value" id="summary-wastage">0 pcs</span>
-                        </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Total Tube Required (3m)</span>
+                        <span class="summary-value">-- batang</span>
                     </div>
-                </div>
-                
-                <div class="notes-section">
-                    <div class="notes-title">
-                        <span>📝</span> Important Engineering Notes
+                    <div class="summary-item">
+                        <span class="summary-label">Total Estimated Weight</span>
+                        <span class="summary-value">-- kg</span>
                     </div>
-                    <ul class="notes-list">
-                        <li>All vertical standards must be plumb within 1:500 tolerance</li>
-                        <li>Base plates must rest on firm, level ground</li>
-                        <li>Diagonal bracing must be installed in continuous pattern</li>
-                        <li>Wall ties must be installed before scaffold exceeds 4x base dimension</li>
-                    </ul>
+                    <div class="summary-item">
+                        <span class="summary-label">Projected Area</span>
+                        <span class="summary-value">-- m²</span>
+                    </div>
+                    <div class="summary-item">
+                        <span class="summary-label">Material Wastage (5%)</span>
+                        <span class="summary-value">-- batang</span>
+                    </div>
                 </div>
             </div>
             
-            <!-- ENGINEERING TAB -->
             <div id="engineering-tab" class="tab-content">
                 <div class="materials-grid">
                     <div class="material-category">
-                        <div class="category-title">⚙️ Structural Parameters</div>
+                        <div class="category-title">📐 STRUCTURAL DATA</div>
                         <div class="material-item">
                             <span class="material-name">Standard Spacing</span>
-                            <span class="material-qty" id="eng-standard-spacing">0 m</span>
+                            <span class="material-qty">-- m</span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Ledger Spacing</span>
-                            <span class="material-qty" id="eng-ledger-spacing">0 m</span>
+                            <span class="material-qty">-- m</span>
                         </div>
                         <div class="material-item">
-                            <span class="material-name">Transom Spacing</span>
-                            <span class="material-qty" id="eng-transom-spacing">0 m</span>
+                            <span class="material-name">Lift Height</span>
+                            <span class="material-qty">-- m</span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Number of Lifts</span>
-                            <span class="material-qty" id="eng-lifts">0</span>
+                            <span class="material-qty">--</span>
                         </div>
                     </div>
                     
                     <div class="material-category">
-                        <div class="category-title">⚓ Anchor System</div>
+                        <div class="category-title">⚓ TIE & ANCHOR SYSTEM</div>
                         <div class="material-item">
                             <span class="material-name">Horizontal Tie Spacing</span>
-                            <span class="material-qty" id="eng-horizontal-tie">0 m</span>
+                            <span class="material-qty">-- m</span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Vertical Tie Spacing</span>
-                            <span class="material-qty" id="eng-vertical-tie">0 m</span>
+                            <span class="material-qty">-- m</span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Total Wall Ties</span>
-                            <span class="material-qty" id="eng-total-ties">0 pcs</span>
+                            <span class="material-qty">-- pcs</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Anchor Bolt Type</span>
+                            <span class="material-qty">--</span>
                         </div>
                     </div>
                     
-                    <div class="material-category accessories">
-                        <div class="category-title">⚠️ Safety Checks</div>
+                    <div class="material-category danger-zone">
+                        <div class="category-title">⚠️ SAFETY CHECKS</div>
                         <div class="material-item">
                             <span class="material-name">Height-to-Base Ratio</span>
-                            <span class="material-qty" id="eng-height-ratio">0:1</span>
+                            <span class="material-qty" id="ratio-check">--</span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Guardrail Compliance</span>
-                            <span class="material-qty" id="eng-guardrail-check">--</span>
+                            <span class="material-qty" id="guardrail-check">--</span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Double Ledger Check</span>
-                            <span class="material-qty" id="eng-double-ledger">--</span>
+                            <span class="material-qty" id="ledger-check">--</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Tie Requirement</span>
+                            <span class="material-qty" id="tie-check">--</span>
                         </div>
                     </div>
                 </div>
                 
-                <div class="critical-notes">
-                    <div class="critical-title">🔴 Critical Engineering Notes</div>
-                    <ul class="notes-list" id="critical-notes">
+                <div class="safety-messages">
+                    <div class="safety-title">🔴 CRITICAL SAFETY NOTES</div>
+                    <ul class="safety-list" id="safety-notes">
                         <li>Anchor capacity must be verified against concrete strength</li>
                         <li>All connections must be torqued to specification</li>
                         <li>Daily inspection required before use</li>
@@ -1248,562 +1054,630 @@
                 </div>
             </div>
             
-            <!-- SAFETY TAB -->
+            <div id="construction-tab" class="tab-content">
+                <div class="materials-grid">
+                    <div class="material-category">
+                        <div class="category-title">👷 ERECTION DATA</div>
+                        <div class="material-item">
+                            <span class="material-name">Erection Man-Hours</span>
+                            <span class="material-qty">-- hours</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Crew Size Required</span>
+                            <span class="material-qty">-- persons</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Erection Duration</span>
+                            <span class="material-qty">-- days</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Scaffolder Level</span>
+                            <span class="material-qty">Advanced</span>
+                        </div>
+                    </div>
+                    
+                    <div class="material-category">
+                        <div class="category-title">📦 LOGISTICS</div>
+                        <div class="material-item">
+                            <span class="material-name">Total Weight</span>
+                            <span class="material-qty">-- kg</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Volume Required</span>
+                            <span class="material-qty">-- m³</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Truck Loads</span>
+                            <span class="material-qty">-- loads</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Crane Required</span>
+                            <span class="material-qty">Yes/No</span>
+                        </div>
+                    </div>
+                    
+                    <div class="material-category">
+                        <div class="category-title">🔧 DISMANTLING</div>
+                        <div class="material-item">
+                            <span class="material-name">Dismantling Man-Hours</span>
+                            <span class="material-qty">-- hours</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Waste Disposal</span>
+                            <span class="material-qty">-- m³</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Cleaning Required</span>
+                            <span class="material-qty">-- hours</span>
+                        </div>
+                        <div class="material-item">
+                            <span class="material-name">Inspection Post-Dismantle</span>
+                            <span class="material-qty">Required</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div id="safety-tab" class="tab-content">
-                <div class="critical-notes">
-                    <div class="critical-title">🛑 HSE COMPLIANCE REQUIREMENTS</div>
-                    <ul class="notes-list">
+                <div class="safety-messages">
+                    <div class="safety-title">🛑 HSE COMPLIANCE REQUIREMENTS</div>
+                    <ul class="safety-list">
                         <li>Scaffold Tag System must be implemented (Green/Yellow/Red)</li>
                         <li>Daily inspection by competent person before each shift</li>
                         <li>Maximum permissible load must not be exceeded</li>
                         <li>All personnel must complete scaffold safety training</li>
-                        <li>Weather conditions must be monitored</li>
+                        <li>Weather conditions must be monitored (wind > 50 km/h requires shutdown)</li>
+                        <li>Fall protection required for erection/dismantling above 2m</li>
+                        <li>Tools and materials must be secured to prevent falling objects</li>
+                        <li>Emergency rescue plan must be established and communicated</li>
                     </ul>
                 </div>
                 
-                <div class="notes-section" style="margin-top: 20px;">
-                    <div class="notes-title">📝 DOCUMENTATION REQUIREMENTS</div>
-                    <ul class="notes-list">
+                <div class="safety-messages" style="margin-top: 20px; background: rgba(243, 156, 18, 0.1); border-left-color: var(--warning);">
+                    <div class="safety-title">📝 DOCUMENTATION REQUIREMENTS</div>
+                    <ul class="safety-list">
                         <li>Scaffold Design Certificate (Engineer stamped)</li>
                         <li>Material Inspection Reports</li>
                         <li>Erection Competency Certificates</li>
                         <li>Daily Inspection Checklists</li>
+                        <li>Load Test Certificate (if required)</li>
+                        <li>Handover Certificate to user department</li>
                     </ul>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- EXPORT MODAL -->
-    <div class="modal-overlay" id="export-modal">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span>📤</span> Export Engineering Reports
-                </div>
-                <button class="modal-close" onclick="closeExportModal()">&times;</button>
-            </div>
-            
-            <div style="margin-bottom: 20px;">
-                <p style="color: var(--gray-600); font-size: 13px;">
-                    Select export format for your scaffolding project report.
-                </p>
-            </div>
-            
-            <div class="export-options">
-                <div class="export-option" onclick="selectExportFormat('xlsx')" id="xlsx-option">
-                    <div class="export-icon">📊</div>
-                    <div class="export-option-title">Excel (XLSX)</div>
-                    <div class="export-option-desc">Professional spreadsheet</div>
-                </div>
-                
-                <div class="export-option" onclick="selectExportFormat('csv')" id="csv-option">
-                    <div class="export-icon">📝</div>
-                    <div class="export-option-title">CSV Data</div>
-                    <div class="export-option-desc">Simple CSV format</div>
-                </div>
-                
-                <div class="export-option" onclick="selectExportFormat('pdf')" id="pdf-option">
-                    <div class="export-icon">📄</div>
-                    <div class="export-option-title">PDF Report</div>
-                    <div class="export-option-desc">Printable report</div>
-                </div>
-            </div>
-            
-            <div style="margin-top: 25px; display: flex; justify-content: flex-end; gap: 10px;">
-                <button class="btn-export" onclick="closeExportModal()">Cancel</button>
-                <button class="btn-export primary" onclick="exportSelectedFormat()" id="export-confirm-btn">
-                    Export Excel (XLSX)
-                </button>
             </div>
         </div>
     </div>
 
     <script>
-        // ==============================================
-        // SIMPLIFIED VERSION - WORKING 100%
-        // ==============================================
-        
-        // Global variables
+        // Global Three.js variables
         let scene, camera, renderer, controls;
-        let scaffoldingGroup = null;
+        let scaffoldingGroup;
+        let is3DInitialized = false;
         let currentView = 'all';
-        let currentExportFormat = 'xlsx';
-        let currentResults = null;
-        
-        // Initialize 3D Scene - SIMPLIFIED VERSION
+
+        // Initialize 3D Scene
         function init3D() {
             try {
-                console.log('Initializing 3D scene...');
-                
                 const canvas = document.getElementById('canvas-3d');
                 const container = document.getElementById('canvas-container');
                 
                 // Create scene
                 scene = new THREE.Scene();
                 scene.background = new THREE.Color(0x1A252F);
+                scene.fog = new THREE.Fog(0x1A252F, 10, 100);
                 
                 // Create camera
-                camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
-                camera.position.set(15, 10, 15);
+                camera = new THREE.PerspectiveCamera(
+                    60,
+                    container.clientWidth / container.clientHeight,
+                    0.1,
+                    1000
+                );
+                camera.position.set(25, 20, 25);
                 
                 // Create renderer
-                renderer = new THREE.WebGLRenderer({ 
+                renderer = new THREE.WebGLRenderer({
                     canvas: canvas,
-                    antialias: true 
+                    antialias: true,
+                    alpha: true
                 });
                 renderer.setSize(container.clientWidth, container.clientHeight);
                 renderer.setPixelRatio(window.devicePixelRatio);
+                renderer.shadowMap.enabled = true;
+                renderer.shadowMap.type = THREE.PCFSoftShadowMap;
                 
-                // Add basic lighting
+                // Add OrbitControls
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                controls.minDistance = 5;
+                controls.maxDistance = 150;
+                controls.maxPolarAngle = Math.PI * 0.8;
+                
+                // Lighting
                 const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
                 scene.add(ambientLight);
                 
                 const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-                directionalLight.position.set(10, 20, 10);
+                directionalLight.position.set(50, 100, 50);
+                directionalLight.castShadow = true;
+                directionalLight.shadow.mapSize.width = 2048;
+                directionalLight.shadow.mapSize.height = 2048;
                 scene.add(directionalLight);
                 
-                // Add grid helper
-                const gridHelper = new THREE.GridHelper(50, 50);
+                // Ground plane
+                const groundGeometry = new THREE.PlaneGeometry(200, 200);
+                const groundMaterial = new THREE.MeshLambertMaterial({ 
+                    color: 0x2C3E50,
+                    roughness: 0.9
+                });
+                const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+                ground.rotation.x = -Math.PI / 2;
+                ground.receiveShadow = true;
+                scene.add(ground);
+                
+                // Grid helper
+                const gridHelper = new THREE.GridHelper(200, 50, 0x34495E, 0x2C3E50);
+                gridHelper.position.y = 0.01;
                 scene.add(gridHelper);
                 
-                // Create scaffolding group
+                // Scaffolding group
                 scaffoldingGroup = new THREE.Group();
                 scene.add(scaffoldingGroup);
                 
-                // Add OrbitControls if available
-                if (typeof THREE.OrbitControls !== 'undefined') {
-                    controls = new THREE.OrbitControls(camera, renderer.domElement);
-                    controls.enableDamping = true;
-                    controls.dampingFactor = 0.05;
-                }
+                // Resize handler
+                window.addEventListener('resize', onWindowResize);
                 
-                // Start animation
+                // Animation loop
                 animate();
                 
-                console.log('3D scene initialized successfully');
+                is3DInitialized = true;
                 updateComplianceStatus('3D Engine Ready', 'warning');
-                
-                // Draw initial scaffold
-                setTimeout(() => {
-                    calculateScaffolding();
-                }, 500);
                 
             } catch (error) {
                 console.error('3D Initialization failed:', error);
-                updateComplianceStatus('3D Engine Failed - Using Fallback', 'danger');
-                
-                // Fallback: Show message in canvas
-                const canvas = document.getElementById('canvas-3d');
-                const ctx = canvas.getContext('2d');
-                ctx.fillStyle = '#1A252F';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = 'white';
-                ctx.font = '16px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('3D Engine Initialized', canvas.width/2, canvas.height/2);
-                ctx.font = '12px Arial';
-                ctx.fillText('Click Calculate to generate 3D model', canvas.width/2, canvas.height/2 + 30);
+                updateComplianceStatus('3D Engine Failed', 'danger');
+                alert('3D graphics initialization failed. Please refresh the page.');
             }
         }
-        
-        // Animation loop
-        function animate() {
-            requestAnimationFrame(animate);
-            if (controls) {
-                controls.update();
-            }
-            if (renderer && scene && camera) {
-                renderer.render(scene, camera);
-            }
-        }
-        
-        // Draw simple 3D scaffolding - GUARANTEED TO WORK
-        function drawSimpleScaffolding(length, width, height) {
-            console.log('Drawing scaffold:', length, width, height);
-            
-            // Clear previous scaffolding
-            if (scaffoldingGroup) {
-                while(scaffoldingGroup.children.length > 0) {
-                    scaffoldingGroup.remove(scaffoldingGroup.children[0]);
-                }
-            } else {
-                scaffoldingGroup = new THREE.Group();
-                scene.add(scaffoldingGroup);
-            }
-            
-            // Simple colors
-            const colors = {
-                standard: 0x4CAF50,    // Green
-                ledger: 0x2196F3,      // Blue
-                bracing: 0xFF6B35,     // Orange
-                platform: 0x7B1FA2     // Purple
-            };
-            
-            // Create basic box scaffold
-            const boxGeometry = new THREE.BoxGeometry(length, height, width);
-            const edges = new THREE.EdgesGeometry(boxGeometry);
-            const lineMaterial = new THREE.LineBasicMaterial({ 
-                color: 0x4CAF50,
-                linewidth: 2
-            });
-            
-            const scaffoldFrame = new THREE.LineSegments(edges, lineMaterial);
-            scaffoldingGroup.add(scaffoldFrame);
-            
-            // Add vertical standards
-            const tubeRadius = 0.08;
-            const tubeGeometry = new THREE.CylinderGeometry(tubeRadius, tubeRadius, height, 8);
-            const tubeMaterial = new THREE.MeshBasicMaterial({ color: 0x4CAF50 });
-            
-            // Four corners
-            const positions = [
-                { x: -length/2, z: -width/2 },
-                { x: length/2, z: -width/2 },
-                { x: -length/2, z: width/2 },
-                { x: length/2, z: width/2 }
-            ];
-            
-            positions.forEach(pos => {
-                const tube = new THREE.Mesh(tubeGeometry, tubeMaterial);
-                tube.position.set(pos.x, height/2, pos.z);
-                scaffoldingGroup.add(tube);
-            });
-            
-            // Add horizontal ledgers
-            const ledgerGeometry = new THREE.BoxGeometry(length, 0.1, 0.1);
-            const ledgerMaterial = new THREE.MeshBasicMaterial({ color: 0x2196F3 });
-            
-            // Top ledger
-            const topLedger = new THREE.Mesh(ledgerGeometry, ledgerMaterial);
-            topLedger.position.set(0, height - 0.5, 0);
-            scaffoldingGroup.add(topLedger);
-            
-            // Middle ledger
-            const midLedger = new THREE.Mesh(ledgerGeometry, ledgerMaterial);
-            midLedger.position.set(0, height/2, 0);
-            scaffoldingGroup.add(midLedger);
-            
-            // Add diagonal bracing (simple X shape)
-            const braceMaterial = new THREE.LineBasicMaterial({ color: 0xFF6B35 });
-            
-            // Front face diagonal
-            const points1 = [];
-            points1.push(new THREE.Vector3(-length/2, 0, -width/2));
-            points1.push(new THREE.Vector3(length/2, height, -width/2));
-            const geometry1 = new THREE.BufferGeometry().setFromPoints(points1);
-            const line1 = new THREE.Line(geometry1, braceMaterial);
-            scaffoldingGroup.add(line1);
-            
-            // Back face diagonal
-            const points2 = [];
-            points2.push(new THREE.Vector3(-length/2, height, -width/2));
-            points2.push(new THREE.Vector3(length/2, 0, -width/2));
-            const geometry2 = new THREE.BufferGeometry().setFromPoints(points2);
-            const line2 = new THREE.Line(geometry2, braceMaterial);
-            scaffoldingGroup.add(line2);
-            
-            // Add platform
-            const platformGeometry = new THREE.PlaneGeometry(length * 0.9, width * 0.9);
-            const platformMaterial = new THREE.MeshBasicMaterial({ 
-                color: 0x7B1FA2,
-                transparent: true,
-                opacity: 0.5,
-                side: THREE.DoubleSide
-            });
-            
-            const platform = new THREE.Mesh(platformGeometry, platformMaterial);
-            platform.rotation.x = -Math.PI / 2;
-            platform.position.y = height/2;
-            scaffoldingGroup.add(platform);
-            
-            // Update camera to fit scaffold
-            const maxDim = Math.max(length, width, height);
-            camera.position.set(maxDim * 1.5, maxDim * 1.2, maxDim * 1.5);
-            camera.lookAt(0, height/2, 0);
-            
-            if (controls) {
-                controls.target.set(0, height/2, 0);
-                controls.update();
-            }
-            
-            console.log('Scaffold drawn successfully');
-            updateComplianceStatus('3D Model Generated', 'safe');
-        }
-        
-        // Calculate materials - SIMPLIFIED
-        function calculateMaterials(length, width, height, loadClass, workingLevels) {
-            console.log('Calculating materials for:', length, width, height);
-            
-            // Simple calculation logic
-            const params = {
-                light: { spacing: 2.4 },
-                medium: { spacing: 2.0 },
-                heavy: { spacing: 1.5 }
-            };
-            
-            const p = params[loadClass] || params.medium;
-            
-            // Calculate number of tubes
-            const barsX = Math.max(2, Math.ceil(length / p.spacing) + 1);
-            const barsZ = Math.max(2, Math.ceil(width / p.spacing) + 1);
-            const lifts = Math.ceil(height / 2.0);
-            
-            // Basic calculations
-            const verticalTube = barsX * barsZ * Math.ceil(height / 3);
-            const horizontalTube = (barsZ * lifts * 2) + (barsX * lifts * 2);
-            const diagonalTube = Math.max(1, barsX * barsZ * lifts / 2);
-            const transomTube = Math.ceil(length / p.spacing) * barsZ * lifts;
-            
-            const totalTube = verticalTube + horizontalTube + diagonalTube + transomTube;
-            const estimatedWeight = Math.round(totalTube * 3 * 4.0); // 4kg per meter
-            const platformArea = Math.round(length * width * workingLevels);
-            
-            // Safety equipment
-            const guardrailLength = document.getElementById('guardrail').checked ? 
-                Math.ceil((length + width) * 2 * lifts * 2) : 0;
-            const toeBoardLength = document.getElementById('toe-boards').checked ? 
-                Math.ceil((length + width) * 2 * lifts) : 0;
-            const safetyNetArea = document.getElementById('safety-net').checked ? 
-                Math.ceil(length * width * 1.1) : 0;
-            
-            // Base plates and accessories
-            const basePlates = barsX * barsZ;
-            const wallTies = Math.max(2, Math.ceil(length / 4) * Math.ceil(height / 4));
-            
-            // Platform materials
-            const steelPlanks = Math.ceil(platformArea / (0.3 * 3));
-            const aluminumDeck = document.getElementById('platform-boards').checked ? 
-                Math.ceil(platformArea) : 0;
-            const ladderSets = document.getElementById('ladder').checked ? 1 : 0;
-            
-            return {
-                length, width, height,
-                verticalTube,
-                horizontalTube,
-                diagonalTube,
-                transomTube,
-                totalTube,
-                estimatedWeight,
-                platformArea,
-                guardrailLength,
-                toeBoardLength,
-                safetyNetArea,
-                basePlates,
-                wallTies,
-                steelPlanks,
-                aluminumDeck,
-                ladderSets,
-                lifts,
-                standardSpacing: p.spacing,
-                ledgerSpacing: 2.0,
-                transomSpacing: p.spacing,
-                loadClass
-            };
-        }
-        
-        // Safety validation
-        function validateSafety(length, width, height) {
+
+        // Safety validation function
+        function validateSafety(length, width, height, loadClass, features) {
             const violations = [];
             const warnings = [];
             
-            // Basic checks
-            if (height / Math.min(length, width) > 4) {
-                violations.push(`Height-to-base ratio exceeds 4:1 limit`);
+            // Height-to-base ratio check
+            const baseMin = Math.min(length, width);
+            const heightRatio = height / baseMin;
+            if (heightRatio > 4) {
+                violations.push(`Height-to-base ratio ${heightRatio.toFixed(1)}:1 exceeds 4:1 limit. Ties to structure required.`);
+            } else if (heightRatio > 3) {
+                warnings.push(`Height-to-base ratio ${heightRatio.toFixed(1)}:1. Additional bracing recommended.`);
             }
             
-            if (height > 2.0 && !document.getElementById('guardrail').checked) {
-                violations.push('Guardrail required for heights above 2.0m');
+            // Guardrail requirement
+            if (height > 2.0 && !features.guardrail) {
+                violations.push('Guardrail system required for heights above 2.0m');
             }
             
-            if (height > 1.2 && !document.getElementById('toe-boards').checked) {
-                warnings.push('Toe boards recommended for platform heights above 1.2m');
+            // Toe board requirement
+            if (height > 1.2 && !features.toeBoards) {
+                violations.push('Toe boards required for platform heights above 1.2m');
             }
             
-            const heightRatio = height / Math.min(length, width);
+            // Double ledger for heavy duty
+            if (loadClass === 'heavy' && !features.doubleLedger) {
+                violations.push('Double ledger system required for Heavy Duty classification');
+            }
             
-            return { 
-                violations, 
-                warnings, 
-                heightRatio, 
-                isCompliant: violations.length === 0 
+            // Hanging scaffold safety
+            const systemType = document.getElementById('system-type').value;
+            if (systemType === 'hanging' && !features.secondarySupport) {
+                violations.push('Secondary support system required for hanging scaffolds');
+            }
+            
+            // Working level safety
+            const workingLevels = parseInt(document.getElementById('working-levels').value);
+            if (workingLevels > 3 && !features.extraBracing) {
+                warnings.push('Extra diagonal bracing recommended for scaffolds with more than 3 working levels');
+            }
+            
+            return { violations, warnings, heightRatio, isCompliant: violations.length === 0 };
+        }
+
+        // Calculate materials with engineering logic
+        function calculateMaterials(length, width, height, systemType, loadClass, features, workingLevels) {
+            // Engineering parameters based on load class
+            const params = {
+                light: { 
+                    standardSpacing: 2.4, 
+                    ledgerSpacing: 2.0,
+                    transomSpacing: 1.2,
+                    bracingInterval: 3,
+                    doubleLedger: false
+                },
+                medium: { 
+                    standardSpacing: 2.0, 
+                    ledgerSpacing: 1.8,
+                    transomSpacing: 1.0,
+                    bracingInterval: 2,
+                    doubleLedger: false
+                },
+                heavy: { 
+                    standardSpacing: 1.5, 
+                    ledgerSpacing: 1.5,
+                    transomSpacing: 0.75,
+                    bracingInterval: 1,
+                    doubleLedger: true
+                }
+            };
+            
+            const p = params[loadClass];
+            
+            // Calculate grid
+            const barsX = Math.max(2, Math.ceil(length / p.standardSpacing) + 1);
+            const barsZ = Math.max(2, Math.ceil(width / p.standardSpacing) + 1);
+            const lifts = Math.ceil(height / p.ledgerSpacing);
+            
+            // Calculate structural tubes (in meters)
+            let verticalTube = barsX * barsZ * height * 1.05; // 5% wastage
+            
+            // Horizontal ledgers
+            let horizontalTube = (barsZ * length * lifts) + (barsX * width * lifts);
+            if (p.doubleLedger) horizontalTube *= 2;
+            
+            // Transoms
+            const transomsPerLevel = Math.ceil(length / p.transomSpacing) * barsZ;
+            let transomTube = transomsPerLevel * lifts * 2.0; // 2m transoms
+            
+            // Diagonal bracing
+            const bracingSets = Math.max(1, Math.ceil(length / p.bracingInterval) * Math.ceil(width / p.bracingInterval));
+            let diagonalTube = bracingSets * lifts * Math.sqrt(length*length + width*width) * 0.5;
+            
+            // Tie system calculation
+            const tieHorizontalSpacing = Math.min(6.0, length / 2);
+            const tieVerticalSpacing = Math.min(4.0, height / 3);
+            const wallTies = Math.max(2, Math.ceil(length / tieHorizontalSpacing) * Math.ceil(height / tieVerticalSpacing));
+            
+            // Safety equipment
+            const guardrailLength = features.guardrail ? (length + width) * 2 * lifts * 2 : 0; // Top + mid rail
+            const toeBoardLength = features.toeBoards ? (length + width) * 2 * lifts : 0;
+            const safetyNetArea = features.safetyNet ? length * width * 1.1 : 0; // 10% overhang
+            const debrisNetArea = features.debrisNet ? (length + height * 2) * (width + height * 2) : 0;
+            
+            // Platform materials
+            const platformArea = length * width * workingLevels;
+            const steelPlanks = Math.ceil(platformArea / (0.3 * 3)); // 300mm wide, 3m long
+            const aluminumDeck = features.platformBoards ? platformArea : 0;
+            
+            // Access ladder
+            const ladderSets = features.ladder ? Math.ceil(length / 10) : 0; // One per 10m length
+            
+            // Base plates and jacks
+            const basePlates = barsX * barsZ;
+            const adjustableJacks = document.getElementById('uneven-ground').checked ? basePlates : Math.ceil(basePlates * 0.3);
+            
+            // Anchor bolts
+            const anchorBolts = wallTies * 2; // Two bolts per tie
+            
+            // Calculate totals
+            const totalTubeMeters = verticalTube + horizontalTube + transomTube + diagonalTube;
+            const totalTubePieces = Math.ceil(totalTubeMeters / 3);
+            const estimatedWeight = Math.round(totalTubeMeters * 4.0); // ~4kg per meter
+            
+            // Erection data
+            const erectionHours = Math.round(totalTubePieces * 0.25 + platformArea * 0.1 + wallTies * 0.5);
+            const dismantlingHours = Math.round(erectionHours * 0.7);
+            
+            return {
+                barsX, barsZ, lifts,
+                verticalTube: Math.ceil(verticalTube / 3),
+                horizontalTube: Math.ceil(horizontalTube / 3),
+                transomTube: Math.ceil(transomTube / 2), // 2m pieces
+                diagonalTube: Math.ceil(diagonalTube / 3),
+                totalTube: totalTubePieces,
+                totalTubeMeters,
+                guardrailLength: Math.ceil(guardrailLength),
+                toeBoardLength: Math.ceil(toeBoardLength),
+                safetyNetArea: Math.ceil(safetyNetArea),
+                debrisNetArea: Math.ceil(debrisNetArea),
+                steelPlanks,
+                aluminumDeck: Math.ceil(aluminumDeck),
+                ladderSets,
+                basePlates,
+                adjustableJacks,
+                wallTies,
+                anchorBolts,
+                tieHorizontalSpacing,
+                tieVerticalSpacing,
+                estimatedWeight,
+                platformArea: Math.round(platformArea),
+                erectionHours,
+                dismantlingHours,
+                standardSpacing: p.standardSpacing,
+                ledgerSpacing: p.ledgerSpacing,
+                transomSpacing: p.transomSpacing,
+                bracingInterval: p.bracingInterval,
+                doubleLedger: p.doubleLedger
             };
         }
-        
-        // Display results
-        function displayResults(results, safetyCheck) {
-            currentResults = results;
+
+        // Draw 3D scaffolding with engineering accuracy - FIXED VERSION
+        function drawScaffolding3D(length, width, height, systemType, loadClass, features, results) {
+            if (!is3DInitialized) return;
             
-            // Update stats
-            document.getElementById('total-size').textContent = 
-                `${(results.length * results.width * results.height).toFixed(1)} m³`;
-            document.getElementById('total-tubes').textContent = results.totalTube;
-            document.getElementById('total-weight').textContent = 
-                results.estimatedWeight.toLocaleString() + ' kg';
-            document.getElementById('safety-score').textContent = 
-                safetyCheck.isCompliant ? '100%' : (safetyCheck.violations.length > 0 ? '60%' : '80%');
-            
-            // Update dimensions
-            document.getElementById('disp-length').textContent = results.length + ' m';
-            document.getElementById('disp-width').textContent = results.width + ' m';
-            document.getElementById('disp-height').textContent = results.height + ' m';
-            document.getElementById('disp-load').textContent = 
-                results.loadClass.charAt(0).toUpperCase() + results.loadClass.slice(1);
-            
-            // Update compliance status
-            if (!safetyCheck.isCompliant) {
-                updateComplianceStatus('❌ NON-COMPLIANT', 'danger');
-            } else if (safetyCheck.warnings.length > 0) {
-                updateComplianceStatus('⚠️ COMPLIANT with Notes', 'warning');
-            } else {
-                updateComplianceStatus('✅ FULLY COMPLIANT', 'compliant');
+            // Clear previous scaffolding
+            while(scaffoldingGroup.children.length > 0) {
+                scaffoldingGroup.remove(scaffoldingGroup.children[0]);
             }
             
-            // Update materials
-            document.getElementById('vertical-tubes').textContent = results.verticalTube + ' ';
-            document.getElementById('horizontal-tubes').textContent = results.horizontalTube + ' ';
-            document.getElementById('diagonal-tubes').textContent = results.diagonalTube + ' ';
-            document.getElementById('transom-tubes').textContent = results.transomTube + ' ';
+            const params = {
+                light: { standardSpacing: 2.4, ledgerSpacing: 2.0 },
+                medium: { standardSpacing: 2.0, ledgerSpacing: 1.8 },
+                heavy: { standardSpacing: 1.5, ledgerSpacing: 1.5 }
+            };
             
-            document.getElementById('steel-planks').textContent = results.steelPlanks + ' ';
-            document.getElementById('aluminum-deck').textContent = results.aluminumDeck + ' ';
-            document.getElementById('ladder-sets').textContent = results.ladderSets + ' ';
+            const p = params[loadClass];
+            const barsX = results.barsX;
+            const barsZ = results.barsZ;
+            const lifts = results.lifts;
             
-            document.getElementById('guardrail-length').textContent = results.guardrailLength + ' ';
-            document.getElementById('toeboard-length').textContent = results.toeBoardLength + ' ';
-            document.getElementById('safety-net-area').textContent = results.safetyNetArea + ' ';
+            // Calculate actual dimensions based on spacing
+            const actualLength = (barsX - 1) * p.standardSpacing;
+            const actualWidth = (barsZ - 1) * p.standardSpacing;
             
-            document.getElementById('base-plates').textContent = results.basePlates + ' ';
-            document.getElementById('wall-ties').textContent = results.wallTies + ' ';
-            document.getElementById('adjustable-jacks').textContent = Math.ceil(results.basePlates * 0.3) + ' ';
+            // Materials with color coding
+            const materials = {
+                standard: new THREE.MeshPhongMaterial({ 
+                    color: 0x27AE60,
+                    shininess: 20,
+                    specular: 0x111111
+                }),
+                ledger: new THREE.MeshPhongMaterial({ 
+                    color: 0x3498DB,
+                    shininess: 20,
+                    specular: 0x111111
+                }),
+                bracing: new THREE.MeshPhongMaterial({ 
+                    color: 0xE74C3C,
+                    shininess: 20,
+                    specular: 0x111111
+                }),
+                platform: new THREE.MeshPhongMaterial({ 
+                    color: 0x8E44AD,
+                    transparent: true,
+                    opacity: 0.7,
+                    side: THREE.DoubleSide
+                }),
+                safety: new THREE.MeshPhongMaterial({ 
+                    color: 0xF39C12,
+                    shininess: 40,
+                    specular: 0x333333
+                }),
+                base: new THREE.MeshPhongMaterial({ 
+                    color: 0x7D6608,
+                    roughness: 0.9,
+                    metalness: 0.3
+                })
+            };
             
-            // Update summary
-            document.getElementById('summary-total-tubes').textContent = results.totalTube + ' pcs';
-            document.getElementById('summary-total-weight').textContent = 
-                results.estimatedWeight.toLocaleString() + ' kg';
-            document.getElementById('summary-platform-area').textContent = results.platformArea + ' m²';
-            document.getElementById('summary-wastage').textContent = Math.ceil(results.totalTube * 0.05) + ' pcs';
+            // Tube geometry - FIXED: use proper cylinder with height 1
+            const tubeRadius = 0.06;
+            const tubeGeometry = new THREE.CylinderGeometry(tubeRadius, tubeRadius, 1, 8);
             
-            // Update engineering data
-            document.getElementById('eng-standard-spacing').textContent = results.standardSpacing + ' m';
-            document.getElementById('eng-ledger-spacing').textContent = results.ledgerSpacing + ' m';
-            document.getElementById('eng-transom-spacing').textContent = results.transomSpacing + ' m';
-            document.getElementById('eng-lifts').textContent = results.lifts;
-            
-            document.getElementById('eng-horizontal-tie').textContent = '4.0 m';
-            document.getElementById('eng-vertical-tie').textContent = '4.0 m';
-            document.getElementById('eng-total-ties').textContent = results.wallTies + ' pcs';
-            
-            document.getElementById('eng-height-ratio').textContent = safetyCheck.heightRatio.toFixed(1) + ':1';
-            document.getElementById('eng-guardrail-check').textContent = 
-                document.getElementById('guardrail').checked ? '✅ Compliant' : '❌ Required';
-            document.getElementById('eng-double-ledger').textContent = 
-                results.loadClass === 'heavy' ? 'Required' : 'Not Required';
-            
-            // Update critical notes
-            const criticalNotes = document.getElementById('critical-notes');
-            criticalNotes.innerHTML = '';
-            
-            if (safetyCheck.violations.length > 0) {
-                safetyCheck.violations.forEach(v => {
-                    const li = document.createElement('li');
-                    li.textContent = `❌ ${v}`;
-                    criticalNotes.appendChild(li);
-                });
+            // Draw vertical standards - FIXED: correct positioning and scaling
+            for (let x = 0; x < barsX; x++) {
+                for (let z = 0; z < barsZ; z++) {
+                    const posX = (x * p.standardSpacing) - (actualLength / 2);
+                    const posZ = (z * p.standardSpacing) - (actualWidth / 2);
+                    
+                    // Main vertical tube
+                    const tube = new THREE.Mesh(tubeGeometry, materials.standard);
+                    tube.scale.set(1, height, 1); // Scale height in Y direction
+                    tube.position.set(posX, height / 2, posZ);
+                    tube.castShadow = true;
+                    tube.receiveShadow = true;
+                    tube.userData = { type: 'standard', visible: true };
+                    scaffoldingGroup.add(tube);
+                    
+                    // Base plate
+                    const baseGeometry = new THREE.CylinderGeometry(0.15, 0.15, 0.05, 6);
+                    const basePlate = new THREE.Mesh(baseGeometry, materials.base);
+                    basePlate.position.set(posX, 0.025, posZ);
+                    basePlate.castShadow = true;
+                    basePlate.userData = { type: 'base', visible: true };
+                    scaffoldingGroup.add(basePlate);
+                }
             }
             
-            if (safetyCheck.warnings.length > 0) {
-                safetyCheck.warnings.forEach(w => {
-                    const li = document.createElement('li');
-                    li.textContent = `⚠️ ${w}`;
-                    criticalNotes.appendChild(li);
-                });
-            }
-            
-            // Add standard notes
-            ['Anchor capacity verification required', 
-             'Daily inspection mandatory',
-             'Load testing if design load > 75% capacity'].forEach(note => {
-                const li = document.createElement('li');
-                li.textContent = `📝 ${note}`;
-                criticalNotes.appendChild(li);
-            });
-        }
-        
-        // Main calculation function
-        function calculateScaffolding() {
-            console.log('Starting calculation...');
-            
-            try {
-                // Show loading
-                document.getElementById('loading-overlay').style.display = 'flex';
-                updateComplianceStatus('Calculating...', 'warning');
+            // Draw horizontal ledgers - FIXED: correct orientation and scaling
+            for (let y = 1; y <= lifts; y++) {
+                const posY = y * p.ledgerSpacing;
                 
-                // Get inputs
-                const length = parseFloat(document.getElementById('length').value);
-                const width = parseFloat(document.getElementById('width').value);
-                const height = parseFloat(document.getElementById('height').value);
-                const loadClass = document.getElementById('load-class').value;
-                const workingLevels = parseInt(document.getElementById('working-levels').value);
-                
-                // Validate
-                if (isNaN(length) || isNaN(width) || isNaN(height)) {
-                    throw new Error('Invalid dimensions');
+                // Ledgers along X-axis (front to back)
+                for (let z = 0; z < barsZ; z++) {
+                    const posZ = (z * p.standardSpacing) - (actualWidth / 2);
+                    
+                    const ledger = new THREE.Mesh(tubeGeometry, materials.ledger);
+                    ledger.scale.set(actualLength, 1, 1); // Scale length in X direction
+                    ledger.rotation.z = Math.PI / 2; // Rotate to horizontal
+                    ledger.position.set(0, posY, posZ);
+                    ledger.castShadow = true;
+                    ledger.receiveShadow = true;
+                    ledger.userData = { type: 'ledger', visible: true };
+                    scaffoldingGroup.add(ledger);
                 }
                 
-                // Run safety check
-                const safetyCheck = validateSafety(length, width, height);
-                
-                // Calculate materials
-                const results = calculateMaterials(length, width, height, loadClass, workingLevels);
-                
-                // Display results
-                displayResults(results, safetyCheck);
-                
-                // Generate 3D model
-                setTimeout(() => {
-                    drawSimpleScaffolding(length, width, height);
-                    document.getElementById('loading-overlay').style.display = 'none';
+                // Ledgers along Z-axis (left to right)
+                for (let x = 0; x < barsX; x++) {
+                    const posX = (x * p.standardSpacing) - (actualLength / 2);
                     
-                    if (!safetyCheck.isCompliant) {
-                        alert('SAFETY VIOLATIONS:\n\n' + safetyCheck.violations.join('\n'));
-                    }
-                }, 800);
+                    const ledger = new THREE.Mesh(tubeGeometry, materials.ledger);
+                    ledger.scale.set(actualWidth, 1, 1); // Scale width in X direction
+                    ledger.rotation.z = Math.PI / 2; // Rotate to horizontal
+                    ledger.rotation.y = Math.PI / 2; // Rotate 90° for Z-direction
+                    ledger.position.set(posX, posY, 0);
+                    ledger.castShadow = true;
+                    ledger.receiveShadow = true;
+                    ledger.userData = { type: 'ledger', visible: true };
+                    scaffoldingGroup.add(ledger);
+                }
                 
-            } catch (error) {
-                console.error('Error:', error);
-                document.getElementById('loading-overlay').style.display = 'none';
-                updateComplianceStatus('Calculation Error', 'danger');
-                alert('Error: ' + error.message);
+                // Draw platform at working levels
+                const workingLevels = parseInt(document.getElementById('working-levels').value);
+                const isWorkingLevel = y <= workingLevels;
+                
+                if (isWorkingLevel && features.platformBoards) {
+                    const platformGeometry = new THREE.PlaneGeometry(actualLength - 0.3, actualWidth - 0.3);
+                    const platform = new THREE.Mesh(platformGeometry, materials.platform);
+                    platform.rotation.x = -Math.PI / 2;
+                    platform.position.set(0, posY + 0.05, 0);
+                    platform.receiveShadow = true;
+                    platform.userData = { type: 'platform', visible: true };
+                    scaffoldingGroup.add(platform);
+                }
+                
+                // Draw safety features at top level
+                if (features.guardrail && y === lifts) {
+                    const railingHeight = posY + 1.0;
+                    
+                    // Top rail - all four sides
+                    const topRailFront = new THREE.Mesh(tubeGeometry, materials.safety);
+                    topRailFront.scale.set(actualLength, 1, 1);
+                    topRailFront.rotation.z = Math.PI / 2;
+                    topRailFront.position.set(0, railingHeight, -actualWidth/2);
+                    topRailFront.castShadow = true;
+                    topRailFront.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(topRailFront);
+                    
+                    const topRailBack = new THREE.Mesh(tubeGeometry, materials.safety);
+                    topRailBack.scale.set(actualLength, 1, 1);
+                    topRailBack.rotation.z = Math.PI / 2;
+                    topRailBack.position.set(0, railingHeight, actualWidth/2);
+                    topRailBack.castShadow = true;
+                    topRailBack.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(topRailBack);
+                    
+                    const topRailLeft = new THREE.Mesh(tubeGeometry, materials.safety);
+                    topRailLeft.scale.set(actualWidth, 1, 1);
+                    topRailLeft.rotation.z = Math.PI / 2;
+                    topRailLeft.rotation.y = Math.PI / 2;
+                    topRailLeft.position.set(-actualLength/2, railingHeight, 0);
+                    topRailLeft.castShadow = true;
+                    topRailLeft.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(topRailLeft);
+                    
+                    const topRailRight = new THREE.Mesh(tubeGeometry, materials.safety);
+                    topRailRight.scale.set(actualWidth, 1, 1);
+                    topRailRight.rotation.z = Math.PI / 2;
+                    topRailRight.rotation.y = Math.PI / 2;
+                    topRailRight.position.set(actualLength/2, railingHeight, 0);
+                    topRailRight.castShadow = true;
+                    topRailRight.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(topRailRight);
+                    
+                    // Mid rail at 0.5m below top rail
+                    const midRailHeight = posY + 0.5;
+                    
+                    const midRailFront = new THREE.Mesh(tubeGeometry, materials.safety);
+                    midRailFront.scale.set(actualLength, 1, 1);
+                    midRailFront.rotation.z = Math.PI / 2;
+                    midRailFront.position.set(0, midRailHeight, -actualWidth/2);
+                    midRailFront.castShadow = true;
+                    midRailFront.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(midRailFront);
+                    
+                    const midRailBack = new THREE.Mesh(tubeGeometry, materials.safety);
+                    midRailBack.scale.set(actualLength, 1, 1);
+                    midRailBack.rotation.z = Math.PI / 2;
+                    midRailBack.position.set(0, midRailHeight, actualWidth/2);
+                    midRailBack.castShadow = true;
+                    midRailBack.userData = { type: 'safety', visible: true };
+                    scaffoldingGroup.add(midRailBack);
+                }
             }
-        }
-        
-        // Update compliance status
-        function updateComplianceStatus(message, status) {
-            const element = document.getElementById('compliance-status');
-            const dot = document.getElementById('status-dot');
             
-            element.textContent = message;
-            element.className = `compliance-badge ${status}`;
-            dot.className = `status-dot ${status}`;
+            // Draw diagonal bracing - simplified but visible
+            if (barsX > 1 && barsZ > 1 && lifts > 0) {
+                // Add diagonal braces on two opposite faces
+                const braceHeight = p.ledgerSpacing;
+                
+                // Front face diagonal
+                const frontBraceLength = Math.sqrt(actualLength * actualLength + braceHeight * braceHeight);
+                const frontBraceAngle = Math.atan2(braceHeight, actualLength);
+                
+                const frontBrace = new THREE.Mesh(tubeGeometry, materials.bracing);
+                frontBrace.scale.set(frontBraceLength, 1, 1);
+                frontBrace.rotation.z = Math.PI / 2;
+                frontBrace.rotation.y = -frontBraceAngle;
+                frontBrace.position.set(0, braceHeight/2, -actualWidth/2);
+                frontBrace.castShadow = true;
+                frontBrace.userData = { type: 'bracing', visible: true };
+                scaffoldingGroup.add(frontBrace);
+                
+                // Back face diagonal (opposite direction)
+                const backBrace = new THREE.Mesh(tubeGeometry, materials.bracing);
+                backBrace.scale.set(frontBraceLength, 1, 1);
+                backBrace.rotation.z = Math.PI / 2;
+                backBrace.rotation.y = frontBraceAngle;
+                backBrace.position.set(0, braceHeight/2, actualWidth/2);
+                backBrace.castShadow = true;
+                backBrace.userData = { type: 'bracing', visible: true };
+                scaffoldingGroup.add(backBrace);
+            }
+            
+            // Update camera position to frame the structure properly
+            const centerY = height / 2;
+            const maxDimension = Math.max(actualLength, actualWidth, height);
+            const distance = maxDimension * 1.5;
+            
+            camera.position.set(distance, distance * 0.7, distance);
+            controls.target.set(0, centerY, 0);
+            controls.update();
+            
+            // Update visibility based on current view
+            updateViewVisibility();
+            
+            updateComplianceStatus('3D Model Generated', 'warning');
         }
-        
+
+        // Update view visibility
+        function updateViewVisibility() {
+            scaffoldingGroup.children.forEach(child => {
+                if (child.userData && child.userData.type) {
+                    let visible = false;
+                    switch(currentView) {
+                        case 'all':
+                            visible = true;
+                            break;
+                        case 'structure':
+                            visible = ['standard', 'ledger', 'bracing', 'base'].includes(child.userData.type);
+                            break;
+                        case 'platform':
+                            visible = ['platform', 'standard'].includes(child.userData.type);
+                            break;
+                        case 'safety':
+                            visible = ['safety', 'standard'].includes(child.userData.type);
+                            break;
+                    }
+                    child.visible = visible;
+                }
+            });
+        }
+
         // Toggle view
         function toggleView(view) {
             currentView = view;
             document.querySelectorAll('.view-btn').forEach(btn => {
                 btn.classList.remove('active');
+                if (btn.textContent.toLowerCase().includes(view)) {
+                    btn.classList.add('active');
+                }
             });
-            event.target.classList.add('active');
-            
-            // Simple visibility toggle (for demo)
-            if (scaffoldingGroup) {
-                // In a real implementation, you would hide/show specific parts
-                console.log('Switching to view:', view);
-            }
+            updateViewVisibility();
         }
-        
-        // Switch tab
+
+        // Switch tabs
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
@@ -1811,134 +1685,245 @@
             event.target.classList.add('active');
             document.getElementById(`${tabName}-tab`).classList.add('active');
         }
-        
-        // Export functions
-        function showExportModal() {
-            document.getElementById('export-modal').style.display = 'flex';
-            selectExportFormat('xlsx');
+
+        // Update compliance status
+        function updateComplianceStatus(message, status) {
+            const element = document.getElementById('compliance-status');
+            element.textContent = message;
+            element.className = `compliance-status status-${status}`;
         }
-        
-        function closeExportModal() {
-            document.getElementById('export-modal').style.display = 'none';
-        }
-        
-        function selectExportFormat(format) {
-            currentExportFormat = format;
-            document.querySelectorAll('.export-option').forEach(opt => opt.classList.remove('selected'));
-            document.getElementById(`${format}-option`).classList.add('selected');
-            
-            const btn = document.getElementById('export-confirm-btn');
-            btn.innerHTML = format === 'xlsx' ? '📊 Export Excel' :
-                           format === 'csv' ? '📝 Export CSV' : '📄 Export PDF';
-        }
-        
-        function exportSelectedFormat() {
-            if (!currentResults) {
-                alert('Please calculate scaffolding first');
-                return;
+
+        // Display results
+        function displayResults(results, safetyCheck) {
+            // Materials BOQ
+            const materialQtys = document.querySelectorAll('.material-qty');
+            if (materialQtys.length >= 15) {
+                materialQtys[0].textContent = results.verticalTube + ' ';
+                materialQtys[1].textContent = results.horizontalTube + ' ';
+                materialQtys[2].textContent = results.diagonalTube + ' ';
+                materialQtys[3].textContent = results.transomTube + ' ';
+                materialQtys[4].textContent = results.steelPlanks + ' ';
+                materialQtys[5].textContent = results.aluminumDeck + ' ';
+                materialQtys[6].textContent = results.ladderSets + ' ';
+                materialQtys[7].textContent = results.guardrailLength + ' ';
+                materialQtys[8].textContent = results.toeBoardLength + ' ';
+                materialQtys[9].textContent = results.safetyNetArea + ' ';
+                materialQtys[10].textContent = results.debrisNetArea + ' ';
+                materialQtys[11].textContent = results.basePlates + ' ';
+                materialQtys[12].textContent = results.adjustableJacks + ' ';
+                materialQtys[13].textContent = results.wallTies + ' ';
+                materialQtys[14].textContent = results.anchorBolts + ' ';
             }
             
-            closeExportModal();
-            
-            switch(currentExportFormat) {
-                case 'xlsx':
-                    exportToExcel();
-                    break;
-                case 'csv':
-                    exportToCSV();
-                    break;
-                case 'pdf':
-                    exportToPDF();
-                    break;
+            // Summary section
+            const summaryValues = document.querySelectorAll('.summary-value');
+            if (summaryValues.length >= 4) {
+                summaryValues[0].textContent = results.totalTube + ' batang';
+                summaryValues[1].textContent = results.estimatedWeight.toLocaleString() + ' kg';
+                summaryValues[2].textContent = results.platformArea + ' m²';
+                summaryValues[3].textContent = Math.ceil(results.totalTube * 0.05) + ' batang';
             }
+            
+            // Engineering data
+            const engineeringQtys = document.querySelectorAll('#engineering-tab .material-qty');
+            if (engineeringQtys.length >= 8) {
+                engineeringQtys[0].textContent = results.standardSpacing + ' m';
+                engineeringQtys[1].textContent = results.ledgerSpacing + ' m';
+                engineeringQtys[2].textContent = results.ledgerSpacing + ' m';
+                engineeringQtys[3].textContent = results.lifts;
+                engineeringQtys[4].textContent = results.tieHorizontalSpacing + ' m';
+                engineeringQtys[5].textContent = results.tieVerticalSpacing + ' m';
+                engineeringQtys[6].textContent = results.wallTies + ' pcs';
+                engineeringQtys[7].textContent = 'Chemical Anchor';
+            }
+            
+            // Safety checks
+            document.getElementById('ratio-check').textContent = safetyCheck.heightRatio.toFixed(1) + ':1';
+            document.getElementById('ratio-check').style.color = safetyCheck.heightRatio > 4 ? '#E74C3C' : 
+                                                                safetyCheck.heightRatio > 3 ? '#F39C12' : '#27AE60';
+            
+            const guardrailCheck = document.getElementById('guardrail-check');
+            guardrailCheck.textContent = document.getElementById('guardrail').checked ? '✅ Compliant' : '❌ Required';
+            guardrailCheck.style.color = document.getElementById('guardrail').checked ? '#27AE60' : '#E74C3C';
+            
+            const ledgerCheck = document.getElementById('ledger-check');
+            const loadClass = document.getElementById('load-class').value;
+            ledgerCheck.textContent = loadClass === 'heavy' && results.doubleLedger ? '✅ Double Ledger' : 
+                                     loadClass === 'heavy' ? '❌ Required' : '✅ Single OK';
+            ledgerCheck.style.color = (loadClass === 'heavy' && results.doubleLedger) ? '#27AE60' : 
+                                     (loadClass === 'heavy' ? '#E74C3C' : '#27AE60');
+            
+            const tieCheck = document.getElementById('tie-check');
+            tieCheck.textContent = safetyCheck.heightRatio > 4 ? '⚡ Immediate Required' : 
+                                 safetyCheck.heightRatio > 3 ? '⚠️ Recommended' : '✅ Not Required';
+            tieCheck.style.color = safetyCheck.heightRatio > 4 ? '#E74C3C' : 
+                                  safetyCheck.heightRatio > 3 ? '#F39C12' : '#27AE60';
+            
+            // Construction data
+            const constructionQtys = document.querySelectorAll('#construction-tab .material-qty');
+            if (constructionQtys.length >= 10) {
+                constructionQtys[0].textContent = results.erectionHours + ' hours';
+                constructionQtys[1].textContent = Math.ceil(results.erectionHours / 8) + ' persons';
+                constructionQtys[2].textContent = Math.ceil(results.erectionHours / 8) + ' days';
+                constructionQtys[4].textContent = results.estimatedWeight.toLocaleString() + ' kg';
+                constructionQtys[5].textContent = Math.ceil(results.totalTubeMeters * 0.001) + ' m³';
+                constructionQtys[6].textContent = Math.ceil(results.estimatedWeight / 20000) + ' loads';
+                constructionQtys[7].textContent = results.estimatedWeight > 5000 ? 'Yes (10T)' : 'No';
+                constructionQtys[8].textContent = results.dismantlingHours + ' hours';
+                constructionQtys[9].textContent = Math.ceil(results.totalTubeMeters * 0.0001) + ' m³';
+            }
+            
+            // Safety notes
+            const safetyNotes = document.getElementById('safety-notes');
+            safetyNotes.innerHTML = '';
+            
+            if (safetyCheck.violations.length > 0) {
+                safetyCheck.violations.forEach(violation => {
+                    const li = document.createElement('li');
+                    li.textContent = `❌ ${violation}`;
+                    safetyNotes.appendChild(li);
+                });
+            }
+            
+            if (safetyCheck.warnings.length > 0) {
+                safetyCheck.warnings.forEach(warning => {
+                    const li = document.createElement('li');
+                    li.textContent = `⚠️ ${warning}`;
+                    safetyNotes.appendChild(li);
+                });
+            }
+            
+            // Add standard safety notes
+            const standardNotes = [
+                'Anchor capacity must be verified against concrete strength (minimum 25MPa)',
+                'All connections must be torqued to manufacturer specification',
+                'Daily inspection by competent person required before each shift',
+                'Maximum wind speed: 50 km/h (scaffold must be evacuated above this limit)',
+                'Load testing required if design load exceeds 75% of rated capacity'
+            ];
+            
+            standardNotes.forEach(note => {
+                const li = document.createElement('li');
+                li.textContent = `📝 ${note}`;
+                safetyNotes.appendChild(li);
+            });
         }
-        
-        function generateFullReport() {
-            if (!currentResults) {
-                calculateScaffolding();
+
+        // Main calculation function
+        function calculateScaffolding() {
+            try {
+                document.getElementById('loading-overlay').style.display = 'flex';
+                updateComplianceStatus('Running Safety Checks...', 'warning');
+                
+                // Get inputs
+                const length = parseFloat(document.getElementById('length').value);
+                const width = parseFloat(document.getElementById('width').value);
+                const height = parseFloat(document.getElementById('height').value);
+                const systemType = document.getElementById('system-type').value;
+                const loadClass = document.getElementById('load-class').value;
+                const workingLevels = parseInt(document.getElementById('working-levels').value);
+                
+                // Get features
+                const features = {
+                    guardrail: document.getElementById('guardrail').checked,
+                    toeBoards: document.getElementById('toe-boards').checked,
+                    safetyNet: document.getElementById('safety-net').checked,
+                    debrisNet: document.getElementById('debris-net').checked,
+                    ladder: document.getElementById('ladder').checked,
+                    platformBoards: document.getElementById('platform-boards').checked,
+                    doubleLedger: loadClass === 'heavy', // Auto-enforce for heavy duty
+                    secondarySupport: systemType === 'hanging',
+                    extraBracing: workingLevels > 3
+                };
+                
+                // Validate inputs
+                if (length < 2 || width < 2 || height < 1) {
+                    showError('Invalid dimensions. Minimum: 2m × 2m × 1m');
+                    return;
+                }
+                
+                // Update display
+                document.getElementById('disp-length').textContent = length + ' m';
+                document.getElementById('disp-width').textContent = width + ' m';
+                document.getElementById('disp-height').textContent = height + ' m';
+                document.getElementById('disp-load').textContent = 
+                    document.getElementById('load-class').options[document.getElementById('load-class').selectedIndex].text.split(' ')[0];
+                
+                // Run safety validation
+                const safetyCheck = validateSafety(length, width, height, loadClass, features);
+                
+                // Update compliance status
+                if (!safetyCheck.isCompliant) {
+                    updateComplianceStatus('❌ NON-COMPLIANT - Fix Required', 'danger');
+                    document.getElementById('calculate-btn').disabled = true;
+                    setTimeout(() => {
+                        document.getElementById('loading-overlay').style.display = 'none';
+                        alert('SAFETY VIOLATION:\n\n' + safetyCheck.violations.join('\n') + 
+                              '\n\nScaffold design cannot be generated until violations are resolved.');
+                    }, 1000);
+                    return;
+                } else if (safetyCheck.warnings.length > 0) {
+                    updateComplianceStatus('⚠️ COMPLIANT with Recommendations', 'warning');
+                    document.getElementById('calculate-btn').disabled = false;
+                } else {
+                    updateComplianceStatus('✅ FULLY COMPLIANT', 'compliant');
+                    document.getElementById('calculate-btn').disabled = false;
+                }
+                
+                // Calculate materials
+                const results = calculateMaterials(length, width, height, systemType, loadClass, features, workingLevels);
+                
+                // Display results
+                displayResults(results, safetyCheck);
+                
+                // Generate 3D model
                 setTimeout(() => {
-                    if (currentResults) exportToExcel();
-                }, 1000);
-            } else {
-                exportToExcel();
+                    drawScaffolding3D(length, width, height, systemType, loadClass, features, results);
+                    document.getElementById('loading-overlay').style.display = 'none';
+                }, 800);
+                
+            } catch (error) {
+                console.error('Calculation error:', error);
+                showError('System error occurred. Please check inputs and try again.');
+                document.getElementById('loading-overlay').style.display = 'none';
             }
         }
-        
-        function exportToExcel() {
-            const wb = XLSX.utils.book_new();
+
+        // Export report
+        function exportReport() {
+            const report = {
+                project: 'Scaffolding Design Report - Oil & Gas',
+                timestamp: new Date().toISOString(),
+                compliance: document.getElementById('compliance-status').textContent,
+                dimensions: {
+                    length: document.getElementById('length').value,
+                    width: document.getElementById('width').value,
+                    height: document.getElementById('height').value
+                },
+                system: document.getElementById('system-type').options[document.getElementById('system-type').selectedIndex].text,
+                loadClass: document.getElementById('load-class').options[document.getElementById('load-class').selectedIndex].text,
+                safetyStandard: document.getElementById('safety-standard').options[document.getElementById('safety-standard').selectedIndex].text
+            };
             
-            // Summary sheet
-            const summaryData = [
-                ["SCAFFOLDING PROJECT REPORT", "", ""],
-                ["Generated:", new Date().toLocaleString(), ""],
-                ["", "", ""],
-                ["Dimensions", `${currentResults.length}m × ${currentResults.width}m × ${currentResults.height}m`, ""],
-                ["Total Tubes", currentResults.totalTube, "pcs"],
-                ["Total Weight", currentResults.estimatedWeight, "kg"],
-                ["Platform Area", currentResults.platformArea, "m²"]
-            ];
-            
-            const ws1 = XLSX.utils.aoa_to_sheet(summaryData);
-            XLSX.utils.book_append_sheet(wb, ws1, "Summary");
-            
-            // BOQ sheet
-            const boqData = [
-                ["Item", "Quantity", "Unit"],
-                ["Vertical Standards", currentResults.verticalTube, "pcs"],
-                ["Horizontal Ledgers", currentResults.horizontalTube, "pcs"],
-                ["Diagonal Braces", currentResults.diagonalTube, "pcs"],
-                ["Transoms", currentResults.transomTube, "pcs"],
-                ["Steel Planks", currentResults.steelPlanks, "pcs"],
-                ["Guardrail", currentResults.guardrailLength, "m"],
-                ["Base Plates", currentResults.basePlates, "pcs"]
-            ];
-            
-            const ws2 = XLSX.utils.aoa_to_sheet(boqData);
-            XLSX.utils.book_append_sheet(wb, ws2, "BOQ");
-            
-            XLSX.writeFile(wb, `scaffold_report_${Date.now()}.xlsx`);
-            updateComplianceStatus('Excel Exported', 'safe');
-        }
-        
-        function exportToCSV() {
-            const csv = [
-                "Item,Quantity,Unit",
-                `Vertical Standards,${currentResults.verticalTube},pcs`,
-                `Horizontal Ledgers,${currentResults.horizontalTube},pcs`,
-                `Total Tubes,${currentResults.totalTube},pcs`,
-                `Total Weight,${currentResults.estimatedWeight},kg`
-            ].join('\n');
-            
-            const blob = new Blob([csv], { type: 'text/csv' });
+            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `scaffold_${Date.now()}.csv`;
+            a.download = `scaffold-report-${new Date().getTime()}.json`;
+            document.body.appendChild(a);
             a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
             
-            updateComplianceStatus('CSV Exported', 'safe');
+            updateComplianceStatus('Report Exported', 'warning');
         }
-        
-        function exportToPDF() {
-            const win = window.open('', '_blank');
-            win.document.write(`
-                <html>
-                <head><title>Scaffold Report</title></head>
-                <body>
-                    <h1>Scaffolding Report</h1>
-                    <p>Dimensions: ${currentResults.length}m × ${currentResults.width}m × ${currentResults.height}m</p>
-                    <p>Total Tubes: ${currentResults.totalTube} pcs</p>
-                    <p>Total Weight: ${currentResults.estimatedWeight} kg</p>
-                    <script>window.print();</script>
-                </body>
-                </html>
-            `);
-            win.document.close();
-            
-            updateComplianceStatus('PDF Generated', 'safe');
+
+        // Utility functions
+        function showError(message) {
+            alert(`HSE ALERT: ${message}`);
+            updateComplianceStatus('Input Error', 'danger');
         }
-        
-        // Window resize handler
+
         function onWindowResize() {
             const container = document.getElementById('canvas-container');
             if (camera && renderer) {
@@ -1947,22 +1932,39 @@
                 renderer.setSize(container.clientWidth, container.clientHeight);
             }
         }
-        
+
+        function animate() {
+            requestAnimationFrame(animate);
+            if (controls) controls.update();
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+
         // Initialize on load
         window.addEventListener('load', () => {
-            console.log('Page loaded, initializing...');
             init3D();
             
-            // Auto-calculate on input change
-            ['length', 'width', 'height'].forEach(id => {
+            // Auto-update on input changes
+            const inputs = ['length', 'width', 'height', 'system-type', 'load-class', 'safety-standard', 'working-levels'];
+            inputs.forEach(id => {
                 document.getElementById(id).addEventListener('change', () => {
                     document.getElementById('calculate-btn').disabled = false;
                 });
             });
+            
+            const checkboxes = ['guardrail', 'toe-boards', 'safety-net', 'debris-net', 'ladder', 'platform-boards', 'uneven-ground', 'adjacent-structure'];
+            checkboxes.forEach(id => {
+                document.getElementById(id).addEventListener('change', () => {
+                    document.getElementById('calculate-btn').disabled = false;
+                });
+            });
+            
+            // Initial calculation
+            setTimeout(calculateScaffolding, 1500);
         });
-        
+
         window.addEventListener('resize', onWindowResize);
-        
     </script>
 </body>
 </html>
