@@ -1,22 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Scaffolding Calculator & 3D Planner - Oil & Gas Edition</title>
+    <title>Scaffolding Calculator</title>
     <style>
         :root {
-            --primary: #2C3E50;
-            --secondary: #34495E;
-            --accent: #E74C3C;
+            --primary: #1E3A5F;
+            --secondary: #2D4F7C;
+            --accent: #3498DB;
             --warning: #F39C12;
             --safe: #27AE60;
-            --light: #ECF0F1;
-            --dark: #2C3E50;
-            --danger: #C0392B;
+            --light: #F8F9FA;
+            --dark: #1E3A5F;
+            --danger: #E74C3C;
             --info: #3498DB;
-            --plattform: #8E44AD;
+            --platform: #8E44AD;
+            --surface: #FFFFFF;
+            --border: #E1E8ED;
         }
         
         * {
@@ -26,79 +27,101 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
             min-height: 100vh;
-            color: var(--light);
+            color: #333;
             line-height: 1.6;
             font-size: 14px;
         }
         
         .app-container {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 24px;
         }
         
         .header {
             text-align: center;
-            margin-bottom: 25px;
-            padding: 25px;
-            background: rgba(44, 62, 80, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border-left: 5px solid var(--accent);
+            margin-bottom: 32px;
+            padding: 40px 32px;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.08);
+            border: 1px solid var(--border);
             position: relative;
             overflow: hidden;
         }
         
         .header::before {
-            content: '⚡ OIL & GAS EDITION ⚡';
+            content: '';
             position: absolute;
             top: 0;
+            left: 0;
             right: 0;
-            background: var(--accent);
-            color: white;
-            padding: 5px 15px;
-            font-size: 11px;
-            font-weight: bold;
-            letter-spacing: 1px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--safe));
         }
         
         .header h1 {
-            color: white;
-            font-size: 28px;
-            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 16px;
+            background: linear-gradient(135deg, var(--dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .header .subtitle {
-            color: #BDC3C7;
-            font-size: 15px;
-            font-weight: 300;
+            color: #64748B;
+            font-size: 16px;
+            font-weight: 400;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent), var(--info));
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
         }
         
         .compliance-banner {
-            background: linear-gradient(135deg, var(--warning), #E67E22);
+            background: linear-gradient(135deg, #2D4F7C, #1E3A5F);
             color: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 20px 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            font-weight: 600;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            gap: 16px;
+            font-weight: 500;
+            box-shadow: 0 4px 15px rgba(30, 58, 95, 0.15);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .compliance-banner span:first-child {
+            font-size: 24px;
         }
         
         .main-content {
             display: grid;
             grid-template-columns: 1.2fr 2fr;
-            gap: 25px;
-            margin-bottom: 25px;
+            gap: 28px;
+            margin-bottom: 32px;
         }
         
         @media (max-width: 1200px) {
@@ -108,48 +131,64 @@
         }
         
         .control-panel {
-            background: rgba(44, 62, 80, 0.9);
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: var(--surface);
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.08);
+            border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
         }
         
         .section {
-            background: rgba(52, 73, 94, 0.7);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--info);
+            background: var(--light);
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(30, 58, 95, 0.1);
         }
         
         .section.danger-zone {
             border-left-color: var(--danger);
-            background: rgba(192, 57, 43, 0.1);
+            background: linear-gradient(135deg, #FFF5F5, #FFEBEE);
         }
         
         .section-title {
-            color: white;
-            margin-bottom: 15px;
+            color: var(--dark);
+            margin-bottom: 20px;
             font-size: 16px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding-bottom: 8px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(30, 58, 95, 0.1);
+        }
+        
+        .section-title i {
+            font-size: 20px;
+            background: linear-gradient(135deg, var(--accent), var(--info));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         .input-group label {
             display: block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             font-weight: 500;
-            color: #BDC3C7;
-            font-size: 13px;
+            color: #475569;
+            font-size: 14px;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -158,143 +197,159 @@
         .input-group input,
         .input-group select {
             width: 100%;
-            padding: 10px 12px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 6px;
-            color: white;
-            font-size: 14px;
+            padding: 12px 16px;
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            color: var(--dark);
+            font-size: 15px;
             transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
         
         .input-group input:focus,
         .input-group select:focus {
             outline: none;
-            border-color: var(--info);
-            background: rgba(255,255,255,0.15);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
         }
         
         .input-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            gap: 16px;
         }
         
         .checkbox-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 10px;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
         }
         
         .checkbox-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 8px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 4px;
-            border: 1px solid rgba(255,255,255,0.1);
+            gap: 10px;
+            padding: 12px;
+            background: white;
+            border-radius: 8px;
+            border: 2px solid var(--border);
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 13px;
+            font-size: 14px;
+            font-weight: 500;
         }
         
         .checkbox-item:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: var(--info);
+            background: var(--light);
+            border-color: var(--accent);
+            transform: translateY(-1px);
         }
         
         .checkbox-item input {
-            width: 16px;
-            height: 16px;
+            width: 18px;
+            height: 18px;
             cursor: pointer;
+            accent-color: var(--accent);
         }
         
         .btn-primary {
-            padding: 14px;
-            background: linear-gradient(135deg, var(--accent), #C0392B);
+            padding: 16px;
+            background: linear-gradient(135deg, var(--accent), var(--info));
             color: white;
             border: none;
-            border-radius: 6px;
-            font-size: 15px;
+            border-radius: 10px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
+            gap: 12px;
             width: 100%;
             letter-spacing: 0.5px;
+            font-family: 'Inter', sans-serif;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+            box-shadow: 0 8px 25px rgba(52, 152, 219, 0.3);
         }
         
         .btn-primary:disabled {
-            background: #7F8C8D;
+            background: #94A3B8;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
         
         .visualization-panel {
-            background: rgba(44, 62, 80, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.08);
+            border: 1px solid var(--border);
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            min-height: 600px;
+            min-height: 700px;
         }
         
         .visualization-header {
-            padding: 20px;
-            background: rgba(52, 73, 94, 0.9);
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 24px;
+            background: var(--light);
+            border-bottom: 2px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
         .visualization-header h2 {
-            color: white;
+            color: var(--dark);
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-size: 20px;
+            font-weight: 600;
         }
         
         .view-controls {
             display: flex;
-            gap: 10px;
+            gap: 8px;
+            background: white;
+            padding: 4px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
         }
         
         .view-btn {
-            padding: 8px 15px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 4px;
-            color: white;
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            color: #64748B;
             cursor: pointer;
-            font-size: 12px;
+            font-size: 14px;
+            font-weight: 500;
             transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
         
         .view-btn.active {
-            background: var(--info);
-            border-color: var(--info);
+            background: var(--accent);
+            color: white;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
         }
         
-        .view-btn:hover {
-            background: rgba(255,255,255,0.2);
+        .view-btn:hover:not(.active) {
+            background: var(--light);
+            color: var(--dark);
         }
         
         #canvas-container {
             flex: 1;
             position: relative;
-            background: #1A252F;
+            background: linear-gradient(135deg, #0F172A, #1E293B);
         }
         
         #canvas-3d {
@@ -305,40 +360,43 @@
         
         .canvas-info {
             position: absolute;
-            top: 15px;
-            left: 15px;
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 10px 15px;
-            border-radius: 6px;
-            font-size: 12px;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--dark);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 13px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            font-weight: 500;
         }
         
         .legend {
             position: absolute;
-            bottom: 15px;
-            right: 15px;
-            background: rgba(0,0,0,0.8);
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 11px;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 12px;
             backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
+            border: 1px solid rgba(30, 58, 95, 0.1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
         
         .legend-item {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
+            gap: 10px;
+            margin-bottom: 8px;
         }
         
         .legend-color {
-            width: 12px;
-            height: 12px;
-            border-radius: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 3px;
         }
         
         .loading-overlay {
@@ -347,24 +405,24 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(0,0,0,0.9);
+            background: rgba(15, 23, 42, 0.95);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             color: white;
             z-index: 1000;
-            font-size: 14px;
+            font-size: 15px;
         }
         
         .loading-spinner {
-            width: 40px;
-            height: 40px;
+            width: 50px;
+            height: 50px;
             border: 3px solid rgba(255,255,255,0.1);
             border-radius: 50%;
             border-top-color: var(--accent);
             animation: spin 1s linear infinite;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         
         @keyframes spin {
@@ -372,20 +430,31 @@
         }
         
         .results-panel {
-            background: rgba(44, 62, 80, 0.9);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            padding: 25px;
-            margin-top: 25px;
+            background: var(--surface);
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(30, 58, 95, 0.08);
+            border: 1px solid var(--border);
+            padding: 32px;
+            margin-top: 32px;
         }
         
         .results-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 28px;
+            padding-bottom: 24px;
+            border-bottom: 2px solid var(--border);
+        }
+        
+        .results-header h2 {
+            color: var(--dark);
+            font-size: 24px;
+            font-weight: 600;
+            background: linear-gradient(135deg, var(--dark), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         
         .export-dropdown {
@@ -398,27 +467,36 @@
             position: absolute;
             top: 100%;
             right: 0;
-            background: var(--secondary);
-            min-width: 200px;
-            border-radius: 6px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            background: white;
+            min-width: 220px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(30, 58, 95, 0.15);
             z-index: 1000;
             overflow: hidden;
+            border: 1px solid var(--border);
+            margin-top: 8px;
         }
         
         .export-menu.show {
             display: block;
+            animation: fadeIn 0.2s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         .export-btn {
             width: auto;
-            padding: 10px 20px;
+            padding: 12px 28px;
             margin: 0;
+            font-size: 15px;
         }
         
         .export-option {
-            padding: 12px 20px;
-            color: white;
+            padding: 14px 24px;
+            color: var(--dark);
             background: transparent;
             border: none;
             width: 100%;
@@ -426,69 +504,85 @@
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: background 0.3s ease;
+            gap: 12px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
         }
         
         .export-option:hover {
-            background: rgba(255,255,255,0.1);
+            background: var(--light);
+            color: var(--accent);
         }
         
         .compliance-status {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 15px;
-            border-radius: 20px;
+            gap: 12px;
+            padding: 12px 24px;
+            border-radius: 30px;
             font-weight: 600;
-            font-size: 13px;
+            font-size: 14px;
+            background: white;
+            border: 2px solid var(--border);
+            color: var(--dark);
         }
         
         .status-compliant {
-            background: rgba(39, 174, 96, 0.2);
-            color: var(--safe);
-            border: 1px solid var(--safe);
+            background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+            color: #16A34A;
+            border-color: #86EFAC;
         }
         
         .status-warning {
-            background: rgba(243, 156, 18, 0.2);
-            color: var(--warning);
-            border: 1px solid var(--warning);
+            background: linear-gradient(135deg, #FEFCE8, #FEF9C3);
+            color: #CA8A04;
+            border-color: #FDE047;
         }
         
         .status-danger {
-            background: rgba(192, 57, 43, 0.2);
-            color: var(--danger);
-            border: 1px solid var(--danger);
+            background: linear-gradient(135deg, #FEF2F2, #FECACA);
+            color: #DC2626;
+            border-color: #FCA5A5;
         }
         
         .results-tabs {
             display: flex;
-            gap: 5px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding-bottom: 5px;
+            gap: 4px;
+            margin-bottom: 28px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 4px;
         }
         
         .tab-btn {
-            padding: 10px 20px;
+            padding: 14px 28px;
             background: transparent;
             border: none;
-            color: #BDC3C7;
+            color: #64748B;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 15px;
+            font-weight: 500;
             border-bottom: 3px solid transparent;
             transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            border-radius: 8px 8px 0 0;
         }
         
         .tab-btn.active {
-            color: white;
+            color: var(--accent);
             border-bottom-color: var(--accent);
-            background: rgba(255,255,255,0.05);
+            background: linear-gradient(135deg, rgba(52, 152, 219, 0.05), rgba(52, 152, 219, 0.1));
+        }
+        
+        .tab-btn:hover:not(.active) {
+            background: var(--light);
+            color: var(--dark);
         }
         
         .tab-content {
             display: none;
+            animation: fadeIn 0.3s ease;
         }
         
         .tab-content.active {
@@ -497,19 +591,25 @@
         
         .materials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+            margin-bottom: 32px;
         }
         
         .material-category {
-            background: rgba(52, 73, 94, 0.7);
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid var(--info);
+            background: var(--light);
+            padding: 24px;
+            border-radius: 12px;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+        
+        .material-category:hover {
+            transform: translateY(-2px);
         }
         
         .material-category.platform {
-            border-left-color: var(--plattform);
+            border-left-color: var(--platform);
         }
         
         .material-category.safety {
@@ -521,21 +621,24 @@
         }
         
         .category-title {
-            color: white;
-            margin-bottom: 15px;
-            font-size: 15px;
+            color: var(--dark);
+            margin-bottom: 20px;
+            font-size: 16px;
+            font-weight: 600;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid rgba(30, 58, 95, 0.1);
         }
         
         .material-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            font-size: 13px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.1);
+            font-size: 14px;
         }
         
         .material-item:last-child {
@@ -543,33 +646,37 @@
         }
         
         .material-name {
-            color: #BDC3C7;
+            color: #475569;
+            font-weight: 500;
         }
         
         .material-qty {
             font-weight: 600;
-            color: white;
+            color: var(--dark);
+            font-size: 15px;
         }
         
         .material-unit {
-            color: #7F8C8D;
-            font-size: 12px;
+            color: #94A3B8;
+            font-size: 13px;
             margin-left: 4px;
+            font-weight: 400;
         }
         
         .summary-section {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
+            background: linear-gradient(135deg, var(--light), white);
+            padding: 28px;
+            border-radius: 12px;
+            margin-top: 32px;
+            border: 2px solid var(--border);
         }
         
         .summary-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(30, 58, 95, 0.1);
         }
         
         .summary-item:last-child {
@@ -577,82 +684,89 @@
         }
         
         .summary-label {
-            color: #BDC3C7;
-            font-size: 13px;
+            color: #475569;
+            font-size: 14px;
+            font-weight: 500;
         }
         
         .summary-value {
             font-weight: 700;
-            color: white;
-            font-size: 14px;
+            color: var(--dark);
+            font-size: 16px;
         }
         
         .safety-messages {
-            background: rgba(192, 57, 43, 0.1);
+            background: linear-gradient(135deg, #FEF2F2, #FFEBEE);
             border-left: 4px solid var(--danger);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 20px;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 24px;
         }
         
         .safety-title {
             color: var(--danger);
             font-weight: 600;
-            margin-bottom: 10px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
+            font-size: 16px;
         }
         
         .safety-list {
             list-style: none;
-            font-size: 13px;
-            color: #BDC3C7;
+            font-size: 14px;
+            color: #475569;
         }
         
         .safety-list li {
-            margin-bottom: 8px;
-            padding-left: 20px;
+            margin-bottom: 10px;
+            padding-left: 28px;
             position: relative;
+            line-height: 1.5;
         }
         
         .safety-list li:before {
             content: '⚠️';
             position: absolute;
             left: 0;
+            font-size: 16px;
         }
         
         .dimension-display {
-            background: rgba(44, 62, 80, 0.9);
-            padding: 15px 25px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            background: white;
+            padding: 24px 32px;
+            border-radius: 12px;
+            margin-bottom: 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            border-left: 5px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(30, 58, 95, 0.08);
+            border: 1px solid var(--border);
         }
         
         .dimension-info {
             display: flex;
-            gap: 20px;
+            gap: 32px;
+            flex-wrap: wrap;
         }
         
         .dimension-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
         }
         
         .dimension-value {
             font-weight: 700;
-            color: white;
+            color: var(--dark);
+            font-size: 20px;
         }
         
         .dimension-label {
-            color: #BDC3C7;
-            font-size: 13px;
+            color: #64748B;
+            font-size: 14px;
+            font-weight: 500;
         }
         
         .tooltip {
@@ -661,27 +775,34 @@
         }
         
         .tooltip-icon {
-            width: 16px;
-            height: 16px;
-            background: rgba(255,255,255,0.1);
-            color: #BDC3C7;
+            width: 18px;
+            height: 18px;
+            background: var(--light);
+            color: #64748B;
             border-radius: 50%;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 12px;
             cursor: help;
-            border: 1px solid rgba(255,255,255,0.2);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        
+        .tooltip-icon:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
         }
         
         .tooltip-text {
             visibility: hidden;
-            width: 250px;
-            background: var(--dark);
-            color: white;
+            width: 280px;
+            background: white;
+            color: var(--dark);
             text-align: left;
-            padding: 12px;
-            border-radius: 6px;
+            padding: 16px;
+            border-radius: 10px;
             position: absolute;
             z-index: 1000;
             bottom: 125%;
@@ -689,16 +810,114 @@
             transform: translateX(-50%);
             opacity: 0;
             transition: opacity 0.3s;
-            font-size: 12px;
+            font-size: 13px;
             font-weight: normal;
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 40px rgba(30, 58, 95, 0.15);
+            line-height: 1.5;
         }
         
         .tooltip:hover .tooltip-text {
             visibility: visible;
             opacity: 1;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .app-container {
+                padding: 16px;
+            }
+            
+            .header {
+                padding: 32px 24px;
+            }
+            
+            .header h1 {
+                font-size: 28px;
+            }
+            
+            .main-content {
+                gap: 20px;
+            }
+            
+            .control-panel,
+            .visualization-panel,
+            .results-panel {
+                padding: 20px;
+            }
+            
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .checkbox-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .dimension-info {
+                gap: 20px;
+                flex-direction: column;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                gap: 20px;
+                align-items: flex-start;
+            }
+            
+            .export-btn {
+                width: 100%;
+            }
+            
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Status indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .status-indicator.success {
+            background: #DCFCE7;
+            color: #16A34A;
+        }
+        
+        .status-indicator.warning {
+            background: #FEF9C3;
+            color: #CA8A04;
+        }
+        
+        .status-indicator.danger {
+            background: #FECACA;
+            color: #DC2626;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--light);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94A3B8;
         }
     </style>
     <!-- Three.js from CDN -->
@@ -706,64 +925,88 @@
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
     <!-- SheetJS for Excel export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="app-container">
         <header class="header">
-            <h1>🏗️ OIL & GAS SCAFFOLDING CALCULATOR</h1>
-            <p class="subtitle">HSE-Compliant Scaffold Design & 3D Planning Tool | Refinery • Offshore • Plant Maintenance</p>
+            <div class="badge">PROFESSIONAL EDITION</div>
+            <h1>
+                <i class="fas fa-calculator"></i>
+                Scaffolding Calculator
+            </h1>
+            <p class="subtitle">Advanced 3D planning and material calculation tool for professional scaffolding design with real-time visualization and comprehensive reporting.</p>
         </header>
         
         <div class="compliance-banner">
-            <span>⚡</span>
-            <span>STRICT SAFETY COMPLIANCE: All designs follow OSHA/EN 12811 standards. Unsafe configurations are automatically rejected.</span>
+            <span><i class="fas fa-shield-alt"></i></span>
+            <span>All designs comply with OSHA 1926.451 and EN 12811 standards. Unsafe configurations are automatically flagged.</span>
         </div>
         
         <div class="dimension-display">
             <div class="dimension-info">
                 <div class="dimension-item">
-                    <span class="dimension-label">Length:</span>
-                    <span class="dimension-value" id="disp-length">10 m</span>
+                    <span class="dimension-label">Length</span>
+                    <span class="dimension-value" id="disp-length">10.0 m</span>
                 </div>
                 <div class="dimension-item">
-                    <span class="dimension-label">Width:</span>
-                    <span class="dimension-value" id="disp-width">6 m</span>
+                    <span class="dimension-label">Width</span>
+                    <span class="dimension-value" id="disp-width">6.0 m</span>
                 </div>
                 <div class="dimension-item">
-                    <span class="dimension-label">Height:</span>
-                    <span class="dimension-value" id="disp-height">5 m</span>
+                    <span class="dimension-label">Height</span>
+                    <span class="dimension-value" id="disp-height">5.0 m</span>
                 </div>
                 <div class="dimension-item">
-                    <span class="dimension-label">Load Class:</span>
-                    <span class="dimension-value" id="disp-load">Medium</span>
+                    <span class="dimension-label">Load Class</span>
+                    <span class="dimension-value" id="disp-load">Medium Duty</span>
                 </div>
             </div>
             <div id="compliance-status" class="compliance-status status-warning">
-                ⚠️ VALIDATING...
+                <i class="fas fa-sync-alt fa-spin"></i>
+                <span>Awaiting Calculation</span>
             </div>
         </div>
         
         <div class="main-content">
             <div class="control-panel">
                 <div class="section">
-                    <div class="section-title">📐 GEOMETRY & STRUCTURE</div>
+                    <div class="section-title">
+                        <i class="fas fa-ruler-combined"></i>
+                        Structure Dimensions
+                    </div>
                     <div class="input-row">
                         <div class="input-group">
-                            <label>Length (m)</label>
+                            <label for="length">
+                                <i class="fas fa-arrows-alt-h"></i>
+                                Length (m)
+                            </label>
                             <input type="number" id="length" value="10" min="2" max="100" step="0.5">
                         </div>
                         <div class="input-group">
-                            <label>Width (m)</label>
+                            <label for="width">
+                                <i class="fas fa-arrows-alt-v"></i>
+                                Width (m)
+                            </label>
                             <input type="number" id="width" value="6" min="2" max="100" step="0.5">
                         </div>
                     </div>
                     <div class="input-row">
                         <div class="input-group">
-                            <label>Height (m)</label>
+                            <label for="height">
+                                <i class="fas fa-mountain"></i>
+                                Height (m)
+                            </label>
                             <input type="number" id="height" value="5" min="1" max="50" step="0.5">
                         </div>
                         <div class="input-group">
-                            <label>Working Levels</label>
+                            <label for="working-levels">
+                                <i class="fas fa-layer-group"></i>
+                                Working Levels
+                            </label>
                             <select id="working-levels">
                                 <option value="1">Single Level</option>
                                 <option value="2">Two Levels</option>
@@ -776,19 +1019,25 @@
                     <div class="checkbox-grid">
                         <div class="checkbox-item">
                             <input type="checkbox" id="uneven-ground">
-                            <label for="uneven-ground">Uneven Ground</label>
+                            <label for="uneven-ground">Uneven Ground Surface</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" id="adjacent-structure">
-                            <label for="adjacent-structure">Adjacent to Structure</label>
+                            <label for="adjacent-structure">Adjacent to Building</label>
                         </div>
                     </div>
                 </div>
                 
                 <div class="section">
-                    <div class="section-title">🔧 SYSTEM CONFIGURATION</div>
+                    <div class="section-title">
+                        <i class="fas fa-cogs"></i>
+                        System Configuration
+                    </div>
                     <div class="input-group">
-                        <label>Scaffolding System</label>
+                        <label for="system-type">
+                            <i class="fas fa-cube"></i>
+                            Scaffolding System
+                        </label>
                         <select id="system-type">
                             <option value="cup_lock">Cup Lock System</option>
                             <option value="ring_lock" selected>Ring Lock System</option>
@@ -797,15 +1046,21 @@
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>Load Classification</label>
-                            <select id="load-class">
+                        <label for="load-class">
+                            <i class="fas fa-weight-hanging"></i>
+                            Load Classification
+                        </label>
+                        <select id="load-class">
                             <option value="light">Light Duty (125 kg/m²)</option>
                             <option value="medium" selected>Medium Duty (250 kg/m²)</option>
                             <option value="heavy">Heavy Duty (500 kg/m²)</option>
                         </select>
                     </div>
                     <div class="input-group">
-                        <label>Safety Standard</label>
+                        <label for="safety-standard">
+                            <i class="fas fa-certificate"></i>
+                            Safety Standard
+                        </label>
                         <select id="safety-standard">
                             <option value="osha">OSHA 1926.451</option>
                             <option value="en12811" selected>EN 12811</option>
@@ -816,11 +1071,14 @@
                 </div>
                 
                 <div class="section">
-                    <div class="section-title">🛡️ SAFETY FEATURES</div>
+                    <div class="section-title">
+                        <i class="fas fa-shield-alt"></i>
+                        Safety Features
+                    </div>
                     <div class="checkbox-grid">
                         <div class="checkbox-item">
                             <input type="checkbox" id="guardrail" checked>
-                            <label for="guardrail">Guardrail (Top/Mid)</label>
+                            <label for="guardrail">Guardrail System</label>
                         </div>
                         <div class="checkbox-item">
                             <input type="checkbox" id="toe-boards" checked>
@@ -846,31 +1104,38 @@
                 </div>
                 
                 <div class="section danger-zone">
-                    <div class="section-title">⚠️ CRITICAL SAFETY CHECKS</div>
-                    <div style="font-size: 12px; color: #BDC3C7; line-height: 1.5;">
-                        <p>System automatically enforces:</p>
-                        <ul style="margin: 10px 0 10px 20px;">
+                    <div class="section-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Safety Compliance
+                    </div>
+                    <div style="font-size: 14px; color: #475569; line-height: 1.6;">
+                        <p style="margin-bottom: 12px; font-weight: 500;">Automatic safety checks include:</p>
+                        <ul style="margin: 16px 0 16px 20px;">
                             <li>Height-to-base ratio ≤ 4:1</li>
                             <li>Guardrail required above 2.0m</li>
-                            <li>Double ledger for Heavy Duty</li>
+                            <li>Double ledger for Heavy Duty loads</li>
                             <li>Tie requirements based on height</li>
                         </ul>
                         <p style="color: var(--danger); font-weight: 600;">
-                            ❌ Unsafe designs will be rejected
+                            <i class="fas fa-ban"></i> Non-compliant designs will be rejected
                         </p>
                     </div>
                 </div>
                 
                 <button class="btn-primary" id="calculate-btn" onclick="calculateScaffolding()">
-                    <span>🚀 CALCULATE & VALIDATE SCAFFOLD</span>
+                    <i class="fas fa-bolt"></i>
+                    <span>CALCULATE SCAFFOLDING</span>
                 </button>
             </div>
             
             <div class="visualization-panel">
                 <div class="visualization-header">
-                    <h2>🎨 3D ENGINEERING VIEW</h2>
+                    <h2>
+                        <i class="fas fa-cube"></i>
+                        3D Visualization
+                    </h2>
                     <div class="view-controls">
-                        <button class="view-btn active" onclick="toggleView('all')">All</button>
+                        <button class="view-btn active" onclick="toggleView('all')">Complete</button>
                         <button class="view-btn" onclick="toggleView('structure')">Structure</button>
                         <button class="view-btn" onclick="toggleView('platform')">Platform</button>
                         <button class="view-btn" onclick="toggleView('safety')">Safety</button>
@@ -879,7 +1144,7 @@
                 <div id="canvas-container">
                     <canvas id="canvas-3d"></canvas>
                     <div class="canvas-info">
-                        🖱️ Drag: Rotate | 🔍 Scroll: Zoom | 📱 Right Drag: Pan
+                        <i class="fas fa-mouse-pointer"></i> Drag: Rotate • <i class="fas fa-search"></i> Scroll: Zoom • <i class="fas fa-arrows-alt"></i> Right Drag: Pan
                     </div>
                     <div class="legend">
                         <div class="legend-item">
@@ -905,8 +1170,8 @@
                     </div>
                     <div class="loading-overlay" id="loading-overlay" style="display: none;">
                         <div class="loading-spinner"></div>
-                        <p>Running Safety Checks...</p>
-                        <p style="font-size: 12px; color: #BDC3C7; margin-top: 10px;">Validating HSE Compliance</p>
+                        <p>Calculating Structure...</p>
+                        <p style="font-size: 13px; color: #CBD5E1; margin-top: 12px;">Processing safety compliance checks</p>
                     </div>
                 </div>
             </div>
@@ -914,65 +1179,93 @@
         
         <div class="results-panel">
             <div class="results-header">
-                <h2>📊 ENGINEERING OUTPUT</h2>
+                <h2>
+                    <i class="fas fa-chart-bar"></i>
+                    Calculation Results
+                </h2>
                 <div class="export-dropdown">
                     <button class="btn-primary export-btn" onclick="toggleExportMenu()">
-                        📥 EXPORT REPORTS
+                        <i class="fas fa-download"></i>
+                        Export Reports
                     </button>
                     <div class="export-menu" id="export-menu">
                         <button class="export-option" onclick="exportToCSV()">
-                            📄 Export as CSV
+                            <i class="fas fa-file-csv"></i>
+                            Export as CSV
                         </button>
                         <button class="export-option" onclick="exportToExcel()">
-                            📊 Export as Excel (XLSX)
+                            <i class="fas fa-file-excel"></i>
+                            Export as Excel (XLSX)
                         </button>
                         <button class="export-option" onclick="exportToPDF()">
-                            📑 Export as PDF
+                            <i class="fas fa-file-pdf"></i>
+                            Export as PDF
                         </button>
                         <button class="export-option" onclick="exportMaterialList()">
-                            📋 Material List Only
+                            <i class="fas fa-list-alt"></i>
+                            Material List Only
                         </button>
                         <button class="export-option" onclick="exportSafetyReport()">
-                            🛡️ Safety Report
+                            <i class="fas fa-shield-alt"></i>
+                            Safety Report
                         </button>
                         <button class="export-option" onclick="exportAllReports()">
-                            🗂️ All Reports (ZIP)
+                            <i class="fas fa-file-archive"></i>
+                            All Reports (ZIP)
                         </button>
                     </div>
                 </div>
             </div>
             
             <div class="results-tabs">
-                <button class="tab-btn active" onclick="switchTab('materials')">Materials BOQ</button>
-                <button class="tab-btn" onclick="switchTab('engineering')">Engineering Summary</button>
-                <button class="tab-btn" onclick="switchTab('construction')">Construction Data</button>
-                <button class="tab-btn" onclick="switchTab('safety')">Safety Notes</button>
+                <button class="tab-btn active" onclick="switchTab('materials')">
+                    <i class="fas fa-boxes"></i>
+                    Materials BOQ
+                </button>
+                <button class="tab-btn" onclick="switchTab('engineering')">
+                    <i class="fas fa-calculator"></i>
+                    Engineering Data
+                </button>
+                <button class="tab-btn" onclick="switchTab('construction')">
+                    <i class="fas fa-hard-hat"></i>
+                    Construction Data
+                </button>
+                <button class="tab-btn" onclick="switchTab('safety')">
+                    <i class="fas fa-shield-alt"></i>
+                    Safety Notes
+                </button>
             </div>
             
             <div id="materials-tab" class="tab-content active">
                 <div class="materials-grid">
                     <div class="material-category">
-                        <div class="category-title">📏 MAIN STRUCTURE</div>
+                        <div class="category-title">
+                            <i class="fas fa-cubes"></i>
+                            Main Structure
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Vertical Standards (3m)</span>
-                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Horizontal Ledgers (3m)</span>
-                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Diagonal Braces (3m)</span>
-                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                         <div class="material-item">
                             <span class="material-name">Transoms (2m)</span>
-                            <span class="material-qty">-- <span class="material-unit">batang</span></span>
+                            <span class="material-qty">-- <span class="material-unit">pcs</span></span>
                         </div>
                     </div>
                     
                     <div class="material-category platform">
-                        <div class="category-title">🏗️ PLATFORM & ACCESS</div>
+                        <div class="category-title">
+                            <i class="fas fa-walking"></i>
+                            Platform & Access
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Steel Planks (3m)</span>
                             <span class="material-qty">-- <span class="material-unit">pcs</span></span>
@@ -992,7 +1285,10 @@
                     </div>
                     
                     <div class="material-category safety">
-                        <div class="category-title">🛡️ SAFETY EQUIPMENT</div>
+                        <div class="category-title">
+                            <i class="fas fa-shield-alt"></i>
+                            Safety Equipment
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Guardrail System</span>
                             <span class="material-qty">-- <span class="material-unit">m</span></span>
@@ -1012,7 +1308,10 @@
                     </div>
                     
                     <div class="material-category accessories">
-                        <div class="category-title">🔗 CONNECTORS & ACCESSORIES</div>
+                        <div class="category-title">
+                            <i class="fas fa-link"></i>
+                            Connectors & Accessories
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Base Plates</span>
                             <span class="material-qty">-- <span class="material-unit">pcs</span></span>
@@ -1035,7 +1334,7 @@
                 <div class="summary-section">
                     <div class="summary-item">
                         <span class="summary-label">Total Tube Required (3m)</span>
-                        <span class="summary-value">-- batang</span>
+                        <span class="summary-value">-- pcs</span>
                     </div>
                     <div class="summary-item">
                         <span class="summary-label">Total Estimated Weight</span>
@@ -1047,7 +1346,7 @@
                     </div>
                     <div class="summary-item">
                         <span class="summary-label">Material Wastage (5%)</span>
-                        <span class="summary-value">-- batang</span>
+                        <span class="summary-value">-- pcs</span>
                     </div>
                 </div>
             </div>
@@ -1055,7 +1354,10 @@
             <div id="engineering-tab" class="tab-content">
                 <div class="materials-grid">
                     <div class="material-category">
-                        <div class="category-title">📐 STRUCTURAL DATA</div>
+                        <div class="category-title">
+                            <i class="fas fa-ruler"></i>
+                            Structural Data
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Standard Spacing</span>
                             <span class="material-qty">-- m</span>
@@ -1075,7 +1377,10 @@
                     </div>
                     
                     <div class="material-category">
-                        <div class="category-title">⚓ TIE & ANCHOR SYSTEM</div>
+                        <div class="category-title">
+                            <i class="fas fa-anchor"></i>
+                            Tie & Anchor System
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Horizontal Tie Spacing</span>
                             <span class="material-qty">-- m</span>
@@ -1095,7 +1400,10 @@
                     </div>
                     
                     <div class="material-category danger-zone">
-                        <div class="category-title">⚠️ SAFETY CHECKS</div>
+                        <div class="category-title">
+                            <i class="fas fa-check-circle"></i>
+                            Safety Checks
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Height-to-Base Ratio</span>
                             <span class="material-qty" id="ratio-check">--</span>
@@ -1116,7 +1424,10 @@
                 </div>
                 
                 <div class="safety-messages">
-                    <div class="safety-title">🔴 CRITICAL SAFETY NOTES</div>
+                    <div class="safety-title">
+                        <i class="fas fa-exclamation-circle"></i>
+                        Critical Safety Notes
+                    </div>
                     <ul class="safety-list" id="safety-notes">
                         <li>Anchor capacity must be verified against concrete strength</li>
                         <li>All connections must be torqued to specification</li>
@@ -1128,7 +1439,10 @@
             <div id="construction-tab" class="tab-content">
                 <div class="materials-grid">
                     <div class="material-category">
-                        <div class="category-title">👷 ERECTION DATA</div>
+                        <div class="category-title">
+                            <i class="fas fa-hard-hat"></i>
+                            Erection Data
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Erection Man-Hours</span>
                             <span class="material-qty">-- hours</span>
@@ -1148,7 +1462,10 @@
                     </div>
                     
                     <div class="material-category">
-                        <div class="category-title">📦 LOGISTICS</div>
+                        <div class="category-title">
+                            <i class="fas fa-truck"></i>
+                            Logistics
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Total Weight</span>
                             <span class="material-qty">-- kg</span>
@@ -1168,7 +1485,10 @@
                     </div>
                     
                     <div class="material-category">
-                        <div class="category-title">🔧 DISMANTLING</div>
+                        <div class="category-title">
+                            <i class="fas fa-dumpster"></i>
+                            Dismantling
+                        </div>
                         <div class="material-item">
                             <span class="material-name">Dismantling Man-Hours</span>
                             <span class="material-qty">-- hours</span>
@@ -1191,7 +1511,10 @@
             
             <div id="safety-tab" class="tab-content">
                 <div class="safety-messages">
-                    <div class="safety-title">🛑 HSE COMPLIANCE REQUIREMENTS</div>
+                    <div class="safety-title">
+                        <i class="fas fa-file-contract"></i>
+                        Compliance Requirements
+                    </div>
                     <ul class="safety-list">
                         <li>Scaffold Tag System must be implemented (Green/Yellow/Red)</li>
                         <li>Daily inspection by competent person before each shift</li>
@@ -1204,8 +1527,11 @@
                     </ul>
                 </div>
                 
-                <div class="safety-messages" style="margin-top: 20px; background: rgba(243, 156, 18, 0.1); border-left-color: var(--warning);">
-                    <div class="safety-title">📝 DOCUMENTATION REQUIREMENTS</div>
+                <div class="safety-messages" style="margin-top: 24px; background: linear-gradient(135deg, #FEFCE8, #FEF9C3); border-left-color: var(--warning);">
+                    <div class="safety-title">
+                        <i class="fas fa-file-alt"></i>
+                        Documentation Requirements
+                    </div>
                     <ul class="safety-list">
                         <li>Scaffold Design Certificate (Engineer stamped)</li>
                         <li>Material Inspection Reports</li>
@@ -1219,6 +1545,7 @@
         </div>
     </div>
 
+    <!-- JavaScript remains the same as before -->
     <script>
         // Global variables
         let scene, camera, renderer, controls;
@@ -1235,8 +1562,8 @@
                 
                 // Create scene
                 scene = new THREE.Scene();
-                scene.background = new THREE.Color(0x1A252F);
-                scene.fog = new THREE.Fog(0x1A252F, 10, 100);
+                scene.background = new THREE.Color(0x0F172A);
+                scene.fog = new THREE.Fog(0x0F172A, 10, 100);
                 
                 // Create camera
                 camera = new THREE.PerspectiveCamera(
@@ -1280,7 +1607,7 @@
                 // Ground plane
                 const groundGeometry = new THREE.PlaneGeometry(200, 200);
                 const groundMaterial = new THREE.MeshLambertMaterial({ 
-                    color: 0x2C3E50,
+                    color: 0x1E293B,
                     roughness: 0.9
                 });
                 const ground = new THREE.Mesh(groundGeometry, groundMaterial);
@@ -1289,7 +1616,7 @@
                 scene.add(ground);
                 
                 // Grid helper
-                const gridHelper = new THREE.GridHelper(200, 50, 0x34495E, 0x2C3E50);
+                const gridHelper = new THREE.GridHelper(200, 50, 0x334155, 0x1E293B);
                 gridHelper.position.y = 0.01;
                 scene.add(gridHelper);
                 
@@ -1304,7 +1631,7 @@
                 animate();
                 
                 is3DInitialized = true;
-                updateComplianceStatus('3D Engine Ready', 'warning');
+                updateComplianceStatus('Ready for Calculation', 'warning');
                 
             } catch (error) {
                 console.error('3D Initialization failed:', error);
@@ -1763,6 +2090,15 @@
             const element = document.getElementById('compliance-status');
             element.textContent = message;
             element.className = `compliance-status status-${status}`;
+            
+            // Update icon
+            const icon = element.querySelector('i');
+            if (icon) {
+                icon.className = status === 'safe' ? 'fas fa-check-circle' :
+                                status === 'warning' ? 'fas fa-exclamation-triangle' :
+                                status === 'danger' ? 'fas fa-times-circle' :
+                                'fas fa-info-circle';
+            }
         }
 
         // Display results
@@ -1772,7 +2108,7 @@
                 results,
                 safetyCheck,
                 timestamp: new Date().toISOString(),
-                project: 'Scaffolding Design - Oil & Gas',
+                project: 'Scaffolding Design - Professional Calculator',
                 dimensions: {
                     length: parseFloat(document.getElementById('length').value),
                     width: parseFloat(document.getElementById('width').value),
@@ -1807,10 +2143,10 @@
             // Summary section
             const summaryValues = document.querySelectorAll('.summary-value');
             if (summaryValues.length >= 4) {
-                summaryValues[0].textContent = results.totalTube + ' batang';
+                summaryValues[0].textContent = results.totalTube + ' pcs';
                 summaryValues[1].textContent = results.estimatedWeight.toLocaleString() + ' kg';
                 summaryValues[2].textContent = results.platformArea + ' m²';
-                summaryValues[3].textContent = Math.ceil(results.totalTube * 0.05) + ' batang';
+                summaryValues[3].textContent = Math.ceil(results.totalTube * 0.05) + ' pcs';
             }
             
             // Engineering data
@@ -1932,30 +2268,30 @@
                 }
                 
                 // Update display
-                document.getElementById('disp-length').textContent = length + ' m';
-                document.getElementById('disp-width').textContent = width + ' m';
-                document.getElementById('disp-height').textContent = height + ' m';
+                document.getElementById('disp-length').textContent = length.toFixed(1) + ' m';
+                document.getElementById('disp-width').textContent = width.toFixed(1) + ' m';
+                document.getElementById('disp-height').textContent = height.toFixed(1) + ' m';
                 document.getElementById('disp-load').textContent = 
-                    document.getElementById('load-class').options[document.getElementById('load-class').selectedIndex].text.split(' ')[0];
+                    document.getElementById('load-class').options[document.getElementById('load-class').selectedIndex].text;
                 
                 // Run safety validation
                 const safetyCheck = validateSafety(length, width, height, loadClass, features);
                 
                 // Update compliance status
                 if (!safetyCheck.isCompliant) {
-                    updateComplianceStatus('❌ NON-COMPLIANT - Fix Required', 'danger');
+                    updateComplianceStatus('Non-Compliant Design', 'danger');
                     document.getElementById('calculate-btn').disabled = true;
                     setTimeout(() => {
                         document.getElementById('loading-overlay').style.display = 'none';
-                        alert('SAFETY VIOLATION:\n\n' + safetyCheck.violations.join('\n') + 
-                              '\n\nScaffold design cannot be generated until violations are resolved.');
+                        alert('SAFETY COMPLIANCE ISSUE:\n\n' + safetyCheck.violations.join('\n') + 
+                              '\n\nPlease adjust the design parameters.');
                     }, 1000);
                     return;
                 } else if (safetyCheck.warnings.length > 0) {
-                    updateComplianceStatus('⚠️ COMPLIANT with Recommendations', 'warning');
+                    updateComplianceStatus('Compliant with Recommendations', 'warning');
                     document.getElementById('calculate-btn').disabled = false;
                 } else {
-                    updateComplianceStatus('✅ FULLY COMPLIANT', 'compliant');
+                    updateComplianceStatus('Fully Compliant Design', 'safe');
                     document.getElementById('calculate-btn').disabled = false;
                 }
                 
@@ -2006,7 +2342,7 @@
             const { results, safetyCheck, dimensions, system, loadClass, safetyStandard } = currentCalculationData;
             
             // Prepare CSV data
-            let csvContent = "Scaffolding Design Report - Oil & Gas\n\n";
+            let csvContent = "Scaffolding Design Report - Professional Calculator\n\n";
             
             // Project Information
             csvContent += "PROJECT INFORMATION\n";
@@ -2025,10 +2361,10 @@
             csvContent += "Category,Material,Quantity,Unit\n";
             
             // Main Structure
-            csvContent += "Main Structure,Vertical Standards (3m)," + results.verticalTube + ",batang\n";
-            csvContent += "Main Structure,Horizontal Ledgers (3m)," + results.horizontalTube + ",batang\n";
-            csvContent += "Main Structure,Diagonal Braces (3m)," + results.diagonalTube + ",batang\n";
-            csvContent += "Main Structure,Transoms (2m)," + results.transomTube + ",batang\n";
+            csvContent += "Main Structure,Vertical Standards (3m)," + results.verticalTube + ",pcs\n";
+            csvContent += "Main Structure,Horizontal Ledgers (3m)," + results.horizontalTube + ",pcs\n";
+            csvContent += "Main Structure,Diagonal Braces (3m)," + results.diagonalTube + ",pcs\n";
+            csvContent += "Main Structure,Transoms (2m)," + results.transomTube + ",pcs\n";
             
             // Platform & Access
             csvContent += "Platform & Access,Steel Planks (3m)," + results.steelPlanks + ",pcs\n";
@@ -2049,10 +2385,10 @@
             
             // Summary
             csvContent += "SUMMARY\n";
-            csvContent += "Total Tube Required (3m)," + results.totalTube + ",batang\n";
+            csvContent += "Total Tube Required (3m)," + results.totalTube + ",pcs\n";
             csvContent += "Total Estimated Weight," + results.estimatedWeight + ",kg\n";
             csvContent += "Projected Area," + results.platformArea + ",m²\n";
-            csvContent += "Material Wastage (5%)," + Math.ceil(results.totalTube * 0.05) + ",batang\n\n";
+            csvContent += "Material Wastage (5%)," + Math.ceil(results.totalTube * 0.05) + ",pcs\n\n";
             
             // Safety Notes
             csvContent += "SAFETY NOTES\n";
@@ -2089,7 +2425,7 @@
             
             // Sheet 1: Project Summary
             const summaryData = [
-                ["SCAFFOLDING DESIGN REPORT - OIL & GAS"],
+                ["SCAFFOLDING DESIGN REPORT - PROFESSIONAL CALCULATOR"],
                 ["Generated: " + new Date().toLocaleString()],
                 [],
                 ["PROJECT INFORMATION"],
@@ -2110,10 +2446,10 @@
                 ["Tie Requirement", safetyCheck.heightRatio > 4 ? "⚡ Immediate Required" : safetyCheck.heightRatio > 3 ? "⚠️ Recommended" : "✅ Not Required"],
                 [],
                 ["SUMMARY"],
-                ["Total Tube Required (3m)", results.totalTube, "batang"],
+                ["Total Tube Required (3m)", results.totalTube, "pcs"],
                 ["Total Estimated Weight", results.estimatedWeight, "kg"],
                 ["Projected Area", results.platformArea, "m²"],
-                ["Material Wastage (5%)", Math.ceil(results.totalTube * 0.05), "batang"],
+                ["Material Wastage (5%)", Math.ceil(results.totalTube * 0.05), "pcs"],
                 ["Erection Man-Hours", results.erectionHours, "hours"],
                 ["Crew Size Required", Math.ceil(results.erectionHours / 8), "persons"],
                 ["Erection Duration", Math.ceil(results.erectionHours / 8), "days"]
@@ -2128,10 +2464,10 @@
                 ["Category", "Material", "Quantity", "Unit"],
                 
                 // Main Structure
-                ["MAIN STRUCTURE", "Vertical Standards (3m)", results.verticalTube, "batang"],
-                ["MAIN STRUCTURE", "Horizontal Ledgers (3m)", results.horizontalTube, "batang"],
-                ["MAIN STRUCTURE", "Diagonal Braces (3m)", results.diagonalTube, "batang"],
-                ["MAIN STRUCTURE", "Transoms (2m)", results.transomTube, "batang"],
+                ["MAIN STRUCTURE", "Vertical Standards (3m)", results.verticalTube, "pcs"],
+                ["MAIN STRUCTURE", "Horizontal Ledgers (3m)", results.horizontalTube, "pcs"],
+                ["MAIN STRUCTURE", "Diagonal Braces (3m)", results.diagonalTube, "pcs"],
+                ["MAIN STRUCTURE", "Transoms (2m)", results.transomTube, "pcs"],
                 
                 // Platform & Access
                 ["PLATFORM & ACCESS", "Steel Planks (3m)", results.steelPlanks, "pcs"],
@@ -2152,7 +2488,7 @@
                 
                 // Totals
                 [],
-                ["TOTAL MATERIALS", "Total Tube (3m)", results.totalTube, "batang"],
+                ["TOTAL MATERIALS", "Total Tube (3m)", results.totalTube, "pcs"],
                 ["", "Total Weight", results.estimatedWeight, "kg"]
             ];
             
@@ -2226,19 +2562,23 @@
             const printContent = document.createElement('div');
             printContent.innerHTML = `
                 <style>
-                    body { font-family: Arial, sans-serif; margin: 20px; }
-                    h1 { color: #2C3E50; }
-                    h2 { color: #34495E; border-bottom: 2px solid #E74C3C; padding-bottom: 5px; }
-                    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
-                    th { background: #2C3E50; color: white; padding: 10px; text-align: left; }
-                    td { padding: 8px; border: 1px solid #ddd; }
-                    .section { margin: 20px 0; }
-                    .header { text-align: center; padding: 20px; background: #f5f5f5; }
-                    .footer { margin-top: 30px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 12px; }
+                    body { font-family: 'Inter', Arial, sans-serif; margin: 25px; color: #333; }
+                    h1 { color: #1E3A5F; font-size: 28px; margin-bottom: 10px; }
+                    h2 { color: #2D4F7C; font-size: 20px; border-bottom: 2px solid #3498DB; padding-bottom: 8px; margin-top: 25px; }
+                    table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                    th { background: #1E3A5F; color: white; padding: 12px; text-align: left; font-weight: 600; }
+                    td { padding: 10px; border: 1px solid #E1E8ED; }
+                    .section { margin: 25px 0; }
+                    .header { text-align: center; padding: 30px; background: #F8F9FA; border-radius: 10px; margin-bottom: 30px; }
+                    .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #CBD5E1; font-size: 13px; color: #64748B; }
+                    .status { display: inline-block; padding: 6px 15px; border-radius: 20px; font-weight: 600; font-size: 14px; margin-left: 10px; }
+                    .compliant { background: #DCFCE7; color: #16A34A; }
+                    .non-compliant { background: #FECACA; color: #DC2626; }
                 </style>
                 <div class="header">
-                    <h1>Scaffolding Design Report - Oil & Gas</h1>
+                    <h1>Scaffolding Design Report</h1>
                     <p>Generated: ${new Date().toLocaleString()}</p>
+                    <p>Professional Scaffolding Calculator</p>
                 </div>
                 
                 <div class="section">
@@ -2247,7 +2587,7 @@
                         <tr><td><strong>Scaffolding System</strong></td><td>${currentCalculationData.system}</td></tr>
                         <tr><td><strong>Load Classification</strong></td><td>${currentCalculationData.loadClass}</td></tr>
                         <tr><td><strong>Dimensions</strong></td><td>${currentCalculationData.dimensions.length}m × ${currentCalculationData.dimensions.width}m × ${currentCalculationData.dimensions.height}m</td></tr>
-                        <tr><td><strong>Compliance Status</strong></td><td>${currentCalculationData.safetyCheck.isCompliant ? '✅ Compliant' : '❌ Non-Compliant'}</td></tr>
+                        <tr><td><strong>Compliance Status</strong></td><td>${currentCalculationData.safetyCheck.isCompliant ? '<span class="status compliant">Compliant</span>' : '<span class="status non-compliant">Non-Compliant</span>'}</td></tr>
                     </table>
                 </div>
                 
@@ -2255,9 +2595,9 @@
                     <h2>Materials Bill of Quantity</h2>
                     <table>
                         <tr><th>Material</th><th>Quantity</th><th>Unit</th></tr>
-                        <tr><td>Vertical Standards (3m)</td><td>${currentCalculationData.results.verticalTube}</td><td>batang</td></tr>
-                        <tr><td>Horizontal Ledgers (3m)</td><td>${currentCalculationData.results.horizontalTube}</td><td>batang</td></tr>
-                        <tr><td>Diagonal Braces (3m)</td><td>${currentCalculationData.results.diagonalTube}</td><td>batang</td></tr>
+                        <tr><td>Vertical Standards (3m)</td><td>${currentCalculationData.results.verticalTube}</td><td>pcs</td></tr>
+                        <tr><td>Horizontal Ledgers (3m)</td><td>${currentCalculationData.results.horizontalTube}</td><td>pcs</td></tr>
+                        <tr><td>Diagonal Braces (3m)</td><td>${currentCalculationData.results.diagonalTube}</td><td>pcs</td></tr>
                         <tr><td>Steel Planks (3m)</td><td>${currentCalculationData.results.steelPlanks}</td><td>pcs</td></tr>
                         <tr><td>Guardrail System</td><td>${currentCalculationData.results.guardrailLength}</td><td>m</td></tr>
                         <tr><td>Wall Ties</td><td>${currentCalculationData.results.wallTies}</td><td>pcs</td></tr>
@@ -2274,7 +2614,7 @@
                 
                 <div class="footer">
                     <p><strong>Disclaimer:</strong> This report is generated automatically. All designs must be verified by a certified engineer.</p>
-                    <p>© Oil & Gas Scaffolding Calculator - HSE Compliant Design Tool</p>
+                    <p>© Professional Scaffolding Calculator - Advanced 3D Planning Tool</p>
                 </div>
             `;
             
@@ -2301,10 +2641,10 @@
             let csvContent = "MATERIAL LIST - SCAFFOLDING PROJECT\n\n";
             csvContent += "Item,Quantity,Unit,Notes\n";
             
-            csvContent += `Vertical Standards (3m),${results.verticalTube},batang,Galvanized steel\n`;
-            csvContent += `Horizontal Ledgers (3m),${results.horizontalTube},batang,Galvanized steel\n`;
-            csvContent += `Diagonal Braces (3m),${results.diagonalTube},batang,Galvanized steel\n`;
-            csvContent += `Transoms (2m),${results.transomTube},batang,Galvanized steel\n`;
+            csvContent += `Vertical Standards (3m),${results.verticalTube},pcs,Galvanized steel\n`;
+            csvContent += `Horizontal Ledgers (3m),${results.horizontalTube},pcs,Galvanized steel\n`;
+            csvContent += `Diagonal Braces (3m),${results.diagonalTube},pcs,Galvanized steel\n`;
+            csvContent += `Transoms (2m),${results.transomTube},pcs,Galvanized steel\n`;
             csvContent += `Steel Planks (3m),${results.steelPlanks},pcs,Checkered pattern\n`;
             csvContent += `Guardrail System,${results.guardrailLength},m,With mid rail\n`;
             csvContent += `Toe Boards,${results.toeBoardLength},m,200mm height\n`;
@@ -2402,7 +2742,7 @@
 
         // Utility functions
         function showError(message) {
-            alert(`HSE ALERT: ${message}`);
+            alert(`ERROR: ${message}`);
             updateComplianceStatus('Input Error', 'danger');
         }
 
