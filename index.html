@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scaffolding Calculator & 3D Planner - Oil & Gas Edition</title>
+    <style>
+        :root {
+            --primary: #2C3E50;
+            --secondary: #34495E;
+            --accent: #E74C3C;
+            --warning: #F39C12;
+            --safe: #27AE60;
+            --light: #ECF0F1;
+            --dark: #2C3E50;
+            --danger: #C0392B;
+            --info: #3498DB;
+            --platform: #8E44AD;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #4a6491 100%);
+            min-height: 100vh;
+            color: var(--light);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        .app-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 25px;
+            background: rgba(44, 62, 80, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border-left: 5px solid var(--accent);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '⚡ OIL & GAS EDITION ⚡';
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: var(--accent);
+            color: white;
+            padding: 5px 15px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+        
+        .header h1 {
+            color: white;
+            font-size: 28px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .header .subtitle {
+            color: #BDC3C7;
+            font-size: 15px;
+            font-weight: 300;
+        }
+        
+        .compliance-banner {
+            background: linear-gradient(135deg, var(--warning), #E67E22);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-weight: 600;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1.2fr 2fr;
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .control-panel {
+            background: rgba(44, 62, 80, 0.9);
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .section {
+            background: rgba(52, 73, 94, 0.7);
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid var(--info);
+        }
+        
+        .section.danger-zone {
+            border-left-color: var(--danger);
+            background: rgba(192, 57, 43, 0.1);
+        }
+        
+        .section-title {
+            color: white;
+            margin-bottom: 15px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        
+        .input-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #BDC3C7;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-group input,
+        .input-group select {
+            width: 100%;
+            padding: 10px 12px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            color: white;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .input-group input:focus,
+        .input-group select:focus {
+            outline: none;
+            border-color: var(--info);
+            background: rgba(255,255,255,0.15);
+        }
+        
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 13px;
+        }
+        
+        .checkbox-item:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: var(--info);
+        }
+        
+        .checkbox-item input {
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        
+        .btn-primary {
+            padding: 14px;
+            background: linear-gradient(135deg, var(--accent), #C0392B);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .btn-primary:disabled {
+            background: #7F8C8D;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .visualization-panel {
+            background: rgba(44, 62, 80, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 600px;
+        }
+        
+        .visualization-header {
+            padding: 20px;
+            background: rgba(52, 73, 94, 0.9);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .visualization-header h2 {
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .view-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .view-btn {
+            padding: 8px 15px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            color: white;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+        
+        .view-btn.active {
+            background: var(--info);
+            border-color: var(--info);
+        }
+        
+        .view-btn:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        #canvas-container {
+            flex: 1;
+            position: relative;
+            background: #1A252F;
+        }
+        
+        #canvas-3d {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+        
+        .canvas-info {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-size: 12px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .legend {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background: rgba(0,0,0,0.8);
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+        }
+        
+        .loading-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            z-index: 1000;
+            font-size: 14px;
+        }
+        
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            border-top-color: var(--accent);
+            animation: spin 1s linear infinite;
+            margin-bottom: 15px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .results-panel {
+            background: rgba(44, 62, 80, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            padding: 25px;
+            margin-top: 25px;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .compliance-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        
+        .status-compliant {
+            background: rgba(39, 174, 96, 0.2);
+            color: var(--safe);
+            border: 1px solid var(--safe);
+        }
+        
+        .status-warning {
+            background: rgba(243, 156, 18, 0.2);
+            color: var(--warning);
+            border: 1px solid var(--warning);
+        }
+        
+        .status-danger {
+            background: rgba(192, 57, 43, 0.2);
+            color: var(--danger);
+            border: 1px solid var(--danger);
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <h1>🏗️ OIL & GAS SCAFFOLDING CALCULATOR</h1>
+            <p class="subtitle">3D Engineering Visualization | Modular System</p>
+        </header>
+        
+        <div class="compliance-banner">
+            <span>⚡</span>
+            <span>Modular Grid System: Bay = 2m, Lift = 2m | All Components Engineered Position</span>
+        </div>
+        
+        <div class="main-content">
+            <div class="control-panel">
+                <div class="section">
+                    <div class="section-title">📐 SCAFFOLD DIMENSIONS</div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Length (m)</label>
+                            <input type="number" id="length" value="8" min="2" max="50" step="2">
+                        </div>
+                        <div class="input-group">
+                            <label>Width (m)</label>
+                            <input type="number" id="width" value="4" min="2" max="50" step="2">
+                        </div>
+                    </div>
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label>Height (m)</label>
+                            <input type="number" id="height" value="6" min="2" max="30" step="2">
+                        </div>
+                        <div class="input-group">
+                            <label>Working Levels</label>
+                            <select id="working-levels">
+                                <option value="1">Single Level</option>
+                                <option value="2">Two Levels</option>
+                                <option value="3" selected>Three Levels</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="section">
+                    <div class="section-title">🔧 COMPONENTS</div>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="guardrail" checked>
+                            <label for="guardrail">Guardrail System</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="platform" checked>
+                            <label for="platform">Working Platform</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="bracing" checked>
+                            <label for="bracing">Diagonal Bracing</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="ladder" checked>
+                            <label for="ladder">Access Ladder</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn-primary" id="calculate-btn" onclick="generateScaffold()">
+                    <span>🚀 GENERATE 3D SCAFFOLD</span>
+                </button>
+                
+                <div class="section">
+                    <div class="section-title">🔄 VIEW CONTROLS</div>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="show-standards" checked>
+                            <label for="show-standards">Standards</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="show-ledgers" checked>
+                            <label for="show-ledgers">Ledgers</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="show-braces" checked>
+                            <label for="show-braces">Braces</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="show-platform" checked>
+                            <label for="show-platform">Platform</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="show-safety" checked>
+                            <label for="show-safety">Safety</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="visualization-panel">
+                <div class="visualization-header">
+                    <h2>🎨 3D ENGINEERING VIEW</h2>
+                    <div class="view-controls">
+                        <button class="view-btn active" onclick="setView('top')">Top</button>
+                        <button class="view-btn" onclick="setView('front')">Front</button>
+                        <button class="view-btn" onclick="setView('side')">Side</button>
+                        <button class="view-btn" onclick="setView('iso')">Isometric</button>
+                    </div>
+                </div>
+                <div id="canvas-container">
+                    <canvas id="canvas-3d"></canvas>
+                    <div class="canvas-info">
+                        🖱️ Drag: Rotate | 🔍 Scroll: Zoom | 📱 Right Drag: Pan
+                    </div>
+                    <div class="legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #27AE60;"></div>
+                            <span>Standards (Vertical)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #3498DB;"></div>
+                            <span>Ledgers (Horizontal)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #E74C3C;"></div>
+                            <span>Diagonal Braces</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #8E44AD;"></div>
+                            <span>Platform</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: #F39C12;"></div>
+                            <span>Safety Systems</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="results-panel">
+            <div class="results-header">
+                <h2>📊 ENGINEERING SUMMARY</h2>
+                <div id="compliance-status" class="compliance-status status-compliant">
+                    ✅ READY
+                </div>
+            </div>
+            <div style="padding: 20px; background: rgba(52, 73, 94, 0.7); border-radius: 8px;">
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div>
+                        <h3 style="color: #27AE60; margin-bottom: 10px;">🏗️ STRUCTURE</h3>
+                        <p style="font-size: 13px;">Standards: <span id="std-count">0</span> pcs</p>
+                        <p style="font-size: 13px;">Ledgers: <span id="ledger-count">0</span> pcs</p>
+                        <p style="font-size: 13px;">Braces: <span id="brace-count">0</span> pcs</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #3498DB; margin-bottom: 10px;">📐 DIMENSIONS</h3>
+                        <p style="font-size: 13px;">Length: <span id="dim-length">8</span> m</p>
+                        <p style="font-size: 13px;">Width: <span id="dim-width">4</span> m</p>
+                        <p style="font-size: 13px;">Height: <span id="dim-height">6</span> m</p>
+                    </div>
+                    <div>
+                        <h3 style="color: #F39C12; margin-bottom: 10px;">⚙️ CONFIGURATION</h3>
+                        <p style="font-size: 13px;">Bays: <span id="bay-count">0</span></p>
+                        <p style="font-size: 13px;">Lifts: <span id="lift-count">0</span></p>
+                        <p style="font-size: 13px;">Working Levels: <span id="level-count">3</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Three.js variables
+        let scene, camera, renderer, controls;
+        let scaffoldGroup;
+        let currentView = 'iso';
+        
+        // Engineering constants
+        const BAY_SIZE = 2.0;      // Standard bay width (meters)
+        const LIFT_HEIGHT = 2.0;   // Standard lift height (meters)
+        const TUBE_DIAMETER = 0.048; // Standard tube diameter
+        
+        // Initialize Three.js
+        function initThreeJS() {
+            const canvas = document.getElementById('canvas-3d');
+            const container = document.getElementById('canvas-container');
+            
+            // Scene
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0x1A252F);
+            
+            // Camera
+            camera = new THREE.PerspectiveCamera(
+                45,
+                container.clientWidth / container.clientHeight,
+                0.1,
+                1000
+            );
+            setView('iso'); // Set initial view
+            
+            // Renderer
+            renderer = new THREE.WebGLRenderer({ 
+                canvas: canvas,
+                antialias: true 
+            });
+            renderer.setSize(container.clientWidth, container.clientHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.shadowMap.enabled = true;
+            renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+            
+            // Controls
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true;
+            controls.dampingFactor = 0.05;
+            controls.minDistance = 5;
+            controls.maxDistance = 100;
+            
+            // Lighting
+            const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+            directionalLight.position.set(50, 100, 50);
+            directionalLight.castShadow = true;
+            scene.add(directionalLight);
+            
+            // Ground grid
+            const gridHelper = new THREE.GridHelper(100, 50, 0x34495E, 0x2C3E50);
+            gridHelper.position.y = 0;
+            scene.add(gridHelper);
+            
+            // Ground plane
+            const groundGeometry = new THREE.PlaneGeometry(200, 200);
+            const groundMaterial = new THREE.MeshLambertMaterial({ 
+                color: 0x2C3E50,
+                side: THREE.DoubleSide
+            });
+            const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+            ground.rotation.x = -Math.PI / 2;
+            ground.receiveShadow = true;
+            scene.add(ground);
+            
+            // Create scaffold group
+            scaffoldGroup = new THREE.Group();
+            scene.add(scaffoldGroup);
+            
+            // Initial render
+            animate();
+            
+            // Handle resize
+            window.addEventListener('resize', onWindowResize);
+            
+            console.log('Three.js initialized');
+        }
+        
+        // Set camera view
+        function setView(view) {
+            currentView = view;
+            
+            // Update button states
+            document.querySelectorAll('.view-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+            const height = parseFloat(document.getElementById('height').value);
+            
+            const maxDim = Math.max(length, width, height);
+            const distance = maxDim * 2;
+            
+            switch(view) {
+                case 'top':
+                    camera.position.set(0, distance, 0);
+                    camera.lookAt(0, 0, 0);
+                    break;
+                case 'front':
+                    camera.position.set(0, height/2, distance);
+                    camera.lookAt(0, height/2, 0);
+                    break;
+                case 'side':
+                    camera.position.set(distance, height/2, 0);
+                    camera.lookAt(0, height/2, 0);
+                    break;
+                case 'iso':
+                    camera.position.set(distance, distance, distance);
+                    camera.lookAt(0, height/2, 0);
+                    break;
+            }
+            
+            controls.target.set(0, height/2, 0);
+            controls.update();
+        }
+        
+        // Generate scaffold
+        function generateScaffold() {
+            // Clear previous scaffold
+            while(scaffoldGroup.children.length > 0) {
+                scaffoldGroup.remove(scaffoldGroup.children[0]);
+            }
+            
+            // Get dimensions
+            const length = parseFloat(document.getElementById('length').value);
+            const width = parseFloat(document.getElementById('width').value);
+            const height = parseFloat(document.getElementById('height').value);
+            const workingLevels = parseInt(document.getElementById('working-levels').value);
+            
+            // Calculate bays and lifts
+            const baysX = Math.max(1, Math.floor(length / BAY_SIZE));
+            const baysZ = Math.max(1, Math.floor(width / BAY_SIZE));
+            const lifts = Math.max(1, Math.floor(height / LIFT_HEIGHT));
+            
+            // Actual dimensions (grid-aligned)
+            const actualLength = baysX * BAY_SIZE;
+            const actualWidth = baysZ * BAY_SIZE;
+            const actualHeight = lifts * LIFT_HEIGHT;
+            
+            console.log(`Creating scaffold: ${baysX}x${baysZ} bays, ${lifts} lifts`);
+            
+            // Center offset
+            const offsetX = -actualLength / 2;
+            const offsetZ = -actualWidth / 2;
+            
+            // Materials
+            const materials = {
+                standard: new THREE.MeshPhongMaterial({ color: 0x27AE60 }),
+                ledger: new THREE.MeshPhongMaterial({ color: 0x3498DB }),
+                brace: new THREE.MeshPhongMaterial({ color: 0xE74C3C }),
+                platform: new THREE.MeshPhongMaterial({ 
+                    color: 0x8E44AD,
+                    transparent: true,
+                    opacity: 0.7,
+                    side: THREE.DoubleSide
+                }),
+                safety: new THREE.MeshPhongMaterial({ color: 0xF39C12 }),
+                base: new THREE.MeshPhongMaterial({ color: 0x7D6608 })
+            };
+            
+            // Counters for summary
+            let standardsCount = 0;
+            let ledgersCount = 0;
+            let bracesCount = 0;
+            
+            // 1. VERTICAL STANDARDS
+            const standardGeo = new THREE.CylinderGeometry(
+                TUBE_DIAMETER/2, TUBE_DIAMETER/2, actualHeight, 8
+            );
+            
+            for (let x = 0; x <= baysX; x++) {
+                for (let z = 0; z <= baysZ; z++) {
+                    if (document.getElementById('show-standards').checked) {
+                        const standard = new THREE.Mesh(standardGeo, materials.standard);
+                        standard.position.set(
+                            offsetX + (x * BAY_SIZE),
+                            actualHeight / 2,
+                            offsetZ + (z * BAY_SIZE)
+                        );
+                        standard.castShadow = true;
+                        standard.receiveShadow = true;
+                        scaffoldGroup.add(standard);
+                        standardsCount++;
+                    }
+                    
+                    // Base plates
+                    const baseGeo = new THREE.CylinderGeometry(0.15, 0.15, 0.03, 6);
+                    const base = new THREE.Mesh(baseGeo, materials.base);
+                    base.position.set(
+                        offsetX + (x * BAY_SIZE),
+                        0.015,
+                        offsetZ + (z * BAY_SIZE)
+                    );
+                    scaffoldGroup.add(base);
+                }
+            }
+            
+            // 2. HORIZONTAL LEDGERS
+            const ledgerGeo = new THREE.CylinderGeometry(
+                TUBE_DIAMETER/2 * 0.9, TUBE_DIAMETER/2 * 0.9, BAY_SIZE, 8
+            );
+            
+            if (document.getElementById('show-ledgers').checked) {
+                // Ledgers along X direction
+                for (let lift = 1; lift <= lifts; lift++) {
+                    const yPos = lift * LIFT_HEIGHT;
+                    
+                    for (let z = 0; z <= baysZ; z++) {
+                        for (let x = 0; x < baysX; x++) {
+                            const ledger = new THREE.Mesh(ledgerGeo, materials.ledger);
+                            ledger.rotation.z = Math.PI / 2;
+                            ledger.position.set(
+                                offsetX + (x * BAY_SIZE) + BAY_SIZE/2,
+                                yPos,
+                                offsetZ + (z * BAY_SIZE)
+                            );
+                            ledger.castShadow = true;
+                            scaffoldGroup.add(ledger);
+                            ledgersCount++;
+                        }
+                    }
+                    
+                    // Ledgers along Z direction
+                    for (let x = 0; x <= baysX; x++) {
+                        for (let z = 0; z < baysZ; z++) {
+                            const ledger = new THREE.Mesh(ledgerGeo, materials.ledger);
+                            ledger.rotation.x = Math.PI / 2;
+                            ledger.position.set(
+                                offsetX + (x * BAY_SIZE),
+                                yPos,
+                                offsetZ + (z * BAY_SIZE) + BAY_SIZE/2
+                            );
+                            ledger.castShadow = true;
+                            scaffoldGroup.add(ledger);
+                            ledgersCount++;
+                        }
+                    }
+                }
+            }
+            
+            // 3. DIAGONAL BRACING
+            if (document.getElementById('show-braces').checked && document.getElementById('bracing').checked) {
+                const braceGeo = new THREE.CylinderGeometry(
+                    TUBE_DIAMETER/2 * 0.8, TUBE_DIAMETER/2 * 0.8, 1, 8
+                );
+                
+                // Diagonal braces on sides
+                for (let lift = 1; lift <= lifts; lift += 2) {
+                    const yPos = lift * LIFT_HEIGHT - LIFT_HEIGHT/2;
+                    
+                    // Front face (negative Z)
+                    for (let x = 0; x < baysX; x++) {
+                        const braceLength = Math.sqrt(BAY_SIZE*BAY_SIZE + LIFT_HEIGHT*LIFT_HEIGHT);
+                        const brace = new THREE.Mesh(braceGeo, materials.brace);
+                        brace.scale.x = braceLength;
+                        brace.rotation.z = -Math.atan2(LIFT_HEIGHT, BAY_SIZE);
+                        brace.position.set(
+                            offsetX + (x * BAY_SIZE) + BAY_SIZE/2,
+                            yPos,
+                            offsetZ
+                        );
+                        brace.castShadow = true;
+                        scaffoldGroup.add(brace);
+                        bracesCount++;
+                    }
+                    
+                    // Back face (positive Z)
+                    for (let x = 0; x < baysX; x++) {
+                        const braceLength = Math.sqrt(BAY_SIZE*BAY_SIZE + LIFT_HEIGHT*LIFT_HEIGHT);
+                        const brace = new THREE.Mesh(braceGeo, materials.brace);
+                        brace.scale.x = braceLength;
+                        brace.rotation.z = Math.atan2(LIFT_HEIGHT, BAY_SIZE);
+                        brace.position.set(
+                            offsetX + (x * BAY_SIZE) + BAY_SIZE/2,
+                            yPos,
+                            offsetZ + actualWidth
+                        );
+                        brace.castShadow = true;
+                        scaffoldGroup.add(brace);
+                        bracesCount++;
+                    }
+                }
+            }
+            
+            // 4. WORKING PLATFORMS
+            if (document.getElementById('show-platform').checked && document.getElementById('platform').checked) {
+                for (let level = 1; level <= Math.min(workingLevels, lifts); level++) {
+                    const yPos = level * LIFT_HEIGHT + 0.02;
+                    
+                    const platformGeo = new THREE.PlaneGeometry(
+                        actualLength - 0.5,
+                        actualWidth - 0.5
+                    );
+                    const platform = new THREE.Mesh(platformGeo, materials.platform);
+                    platform.rotation.x = -Math.PI / 2;
+                    platform.position.set(0, yPos, 0);
+                    platform.receiveShadow = true;
+                    scaffoldGroup.add(platform);
+                }
+            }
+            
+            // 5. SAFETY SYSTEMS
+            if (document.getElementById('show-safety').checked) {
+                const railGeo = new THREE.CylinderGeometry(
+                    TUBE_DIAMETER/2 * 0.8, TUBE_DIAMETER/2 * 0.8, 1, 6
+                );
+                
+                // Guardrails
+                if (document.getElementById('guardrail').checked) {
+                    for (let level = 1; level <= Math.min(workingLevels, lifts); level++) {
+                        const yPos = level * LIFT_HEIGHT;
+                        const railHeight = 1.1; // Standard guardrail height
+                        
+                        // Top rail
+                        const topRailY = yPos + railHeight;
+                        
+                        // Front rail
+                        const frontRail = new THREE.Mesh(railGeo, materials.safety);
+                        frontRail.scale.x = actualLength;
+                        frontRail.rotation.z = Math.PI / 2;
+                        frontRail.position.set(0, topRailY, offsetZ);
+                        frontRail.castShadow = true;
+                        scaffoldGroup.add(frontRail);
+                        
+                        // Back rail
+                        const backRail = new THREE.Mesh(railGeo, materials.safety);
+                        backRail.scale.x = actualLength;
+                        backRail.rotation.z = Math.PI / 2;
+                        backRail.position.set(0, topRailY, offsetZ + actualWidth);
+                        backRail.castShadow = true;
+                        scaffoldGroup.add(backRail);
+                        
+                        // Side rails
+                        const sideRailLength = actualWidth;
+                        
+                        const leftRail = new THREE.Mesh(railGeo, materials.safety);
+                        leftRail.scale.x = sideRailLength;
+                        leftRail.rotation.z = Math.PI / 2;
+                        leftRail.rotation.y = Math.PI / 2;
+                        leftRail.position.set(offsetX, topRailY, 0);
+                        leftRail.castShadow = true;
+                        scaffoldGroup.add(leftRail);
+                        
+                        const rightRail = new THREE.Mesh(railGeo, materials.safety);
+                        rightRail.scale.x = sideRailLength;
+                        rightRail.rotation.z = Math.PI / 2;
+                        rightRail.rotation.y = Math.PI / 2;
+                        rightRail.position.set(offsetX + actualLength, topRailY, 0);
+                        rightRail.castShadow = true;
+                        scaffoldGroup.add(rightRail);
+                    }
+                }
+                
+                // Access ladder
+                if (document.getElementById('ladder').checked) {
+                    const ladderGeo = new THREE.BoxGeometry(0.6, actualHeight, 0.05);
+                    const ladder = new THREE.Mesh(ladderGeo, materials.safety);
+                    ladder.position.set(
+                        offsetX + actualLength - 0.3,
+                        actualHeight / 2,
+                        offsetZ + 0.5
+                    );
+                    ladder.castShadow = true;
+                    scaffoldGroup.add(ladder);
+                }
+            }
+            
+            // Update summary display
+            updateSummary({
+                standards: standardsCount,
+                ledgers: ledgersCount,
+                braces: bracesCount,
+                length: actualLength,
+                width: actualWidth,
+                height: actualHeight,
+                baysX: baysX,
+                baysZ: baysZ,
+                lifts: lifts,
+                workingLevels: workingLevels
+            });
+            
+            // Update compliance status
+            const ratio = actualHeight / Math.min(actualLength, actualWidth);
+            const statusEl = document.getElementById('compliance-status');
+            if (ratio > 4) {
+                statusEl.textContent = '⚠️ TIES REQUIRED';
+                statusEl.className = 'compliance-status status-warning';
+            } else if (ratio > 3.5) {
+                statusEl.textContent = '⚠️ MONITOR CLOSELY';
+                statusEl.className = 'compliance-status status-warning';
+            } else {
+                statusEl.textContent = '✅ STRUCTURALLY SOUND';
+                statusEl.className = 'compliance-status status-compliant';
+            }
+            
+            // Update camera for new scaffold
+            setView(currentView);
+            
+            console.log('Scaffold generated successfully');
+        }
+        
+        // Update summary display
+        function updateSummary(data) {
+            document.getElementById('std-count').textContent = data.standards;
+            document.getElementById('ledger-count').textContent = data.ledgers;
+            document.getElementById('brace-count').textContent = data.braces;
+            document.getElementById('dim-length').textContent = data.length.toFixed(1);
+            document.getElementById('dim-width').textContent = data.width.toFixed(1);
+            document.getElementById('dim-height').textContent = data.height.toFixed(1);
+            document.getElementById('bay-count').textContent = `${data.baysX} × ${data.baysZ}`;
+            document.getElementById('lift-count').textContent = data.lifts;
+            document.getElementById('level-count').textContent = data.workingLevels;
+        }
+        
+        // Animation loop
+        function animate() {
+            requestAnimationFrame(animate);
+            if (controls) {
+                controls.update();
+            }
+            if (renderer && scene && camera) {
+                renderer.render(scene, camera);
+            }
+        }
+        
+        // Handle window resize
+        function onWindowResize() {
+            const container = document.getElementById('canvas-container');
+            if (camera && renderer) {
+                camera.aspect = container.clientWidth / container.clientHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(container.clientWidth, container.clientHeight);
+            }
+        }
+        
+        // Initialize when page loads
+        window.addEventListener('load', () => {
+            // Load Three.js from CDN
+            const script = document.createElement('script');
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
+            script.onload = () => {
+                // Load OrbitControls
+                const controlsScript = document.createElement('script');
+                controlsScript.src = 'https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js';
+                controlsScript.onload = () => {
+                    initThreeJS();
+                    generateScaffold(); // Generate initial scaffold
+                    
+                    // Add event listeners for checkboxes
+                    const checkboxes = ['show-standards', 'show-ledgers', 'show-braces', 'show-platform', 'show-safety'];
+                    checkboxes.forEach(id => {
+                        document.getElementById(id).addEventListener('change', generateScaffold);
+                    });
+                    
+                    // Add event listeners for component toggles
+                    const componentCheckboxes = ['guardrail', 'platform', 'bracing', 'ladder'];
+                    componentCheckboxes.forEach(id => {
+                        document.getElementById(id).addEventListener('change', generateScaffold);
+                    });
+                    
+                    // Add event listeners for dimension inputs
+                    const dimensionInputs = ['length', 'width', 'height', 'working-levels'];
+                    dimensionInputs.forEach(id => {
+                        document.getElementById(id).addEventListener('change', generateScaffold);
+                    });
+                };
+                document.head.appendChild(controlsScript);
+            };
+            document.head.appendChild(script);
+        });
+    </script>
+</body>
+</html>
