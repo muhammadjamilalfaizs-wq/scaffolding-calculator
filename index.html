@@ -387,6 +387,52 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
+        .export-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .export-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--secondary);
+            min-width: 200px;
+            border-radius: 6px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            overflow: hidden;
+        }
+        
+        .export-menu.show {
+            display: block;
+        }
+        
+        .export-btn {
+            width: auto;
+            padding: 10px 20px;
+            margin: 0;
+        }
+        
+        .export-option {
+            padding: 12px 20px;
+            color: white;
+            background: transparent;
+            border: none;
+            width: 100%;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: background 0.3s ease;
+        }
+        
+        .export-option:hover {
+            background: rgba(255,255,255,0.1);
+        }
+        
         .compliance-status {
             display: flex;
             align-items: center;
@@ -657,6 +703,8 @@
     <!-- Three.js from CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    <!-- SheetJS for Excel export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="app-container">
@@ -866,9 +914,31 @@
         <div class="results-panel">
             <div class="results-header">
                 <h2>📊 ENGINEERING OUTPUT</h2>
-                <button class="btn-primary" onclick="exportReport()" style="width: auto; padding: 10px 20px;">
-                    📥 EXPORT BOQ & REPORT
-                </button>
+                <div class="export-dropdown">
+                    <button class="btn-primary export-btn" onclick="toggleExportMenu()">
+                        📥 EXPORT REPORTS
+                    </button>
+                    <div class="export-menu" id="export-menu">
+                        <button class="export-option" onclick="exportToCSV()">
+                            📄 Export as CSV
+                        </button>
+                        <button class="export-option" onclick="exportToExcel()">
+                            📊 Export as Excel (XLSX)
+                        </button>
+                        <button class="export-option" onclick="exportToPDF()">
+                            📑 Export as PDF
+                        </button>
+                        <button class="export-option" onclick="exportMaterialList()">
+                            📋 Material List Only
+                        </button>
+                        <button class="export-option" onclick="exportSafetyReport()">
+                            🛡️ Safety Report
+                        </button>
+                        <button class="export-option" onclick="exportAllReports()">
+                            🗂️ All Reports (ZIP)
+                        </button>
+                    </div>
+                </div>
             </div>
             
             <div class="results-tabs">
@@ -1149,11 +1219,12 @@
     </div>
 
     <script>
-        // Global Three.js variables
+        // Global variables
         let scene, camera, renderer, controls;
         let scaffoldingGroup;
         let is3DInitialized = false;
         let currentView = 'all';
+        let currentCalculationData = null;
 
         // Initialize 3D Scene
         function init3D() {
@@ -1402,7 +1473,7 @@
             };
         }
 
-        // Draw 3D scaffolding with engineering accuracy - FIXED VERSION
+        // Draw 3D scaffolding with engineering accuracy
         function drawScaffolding3D(length, width, height, systemType, loadClass, features, results) {
             if (!is3DInitialized) return;
             
@@ -1461,11 +1532,11 @@
                 })
             };
             
-            // Tube geometry - FIXED: use proper cylinder with height 1
+            // Tube geometry
             const tubeRadius = 0.06;
             const tubeGeometry = new THREE.CylinderGeometry(tubeRadius, tubeRadius, 1, 8);
             
-            // Draw vertical standards - FIXED: correct positioning and scaling
+            // Draw vertical standards
             for (let x = 0; x < barsX; x++) {
                 for (let z = 0; z < barsZ; z++) {
                     const posX = (x * p.standardSpacing) - (actualLength / 2);
@@ -1473,7 +1544,7 @@
                     
                     // Main vertical tube
                     const tube = new THREE.Mesh(tubeGeometry, materials.standard);
-                    tube.scale.set(1, height, 1); // Scale height in Y direction
+                    tube.scale.set(1, height, 1);
                     tube.position.set(posX, height / 2, posZ);
                     tube.castShadow = true;
                     tube.receiveShadow = true;
@@ -1490,7 +1561,7 @@
                 }
             }
             
-            // Draw horizontal ledgers - FIXED: correct orientation and scaling
+            // Draw horizontal ledgers
             for (let y = 1; y <= lifts; y++) {
                 const posY = y * p.ledgerSpacing;
                 
@@ -1499,8 +1570,8 @@
                     const posZ = (z * p.standardSpacing) - (actualWidth / 2);
                     
                     const ledger = new THREE.Mesh(tubeGeometry, materials.ledger);
-                    ledger.scale.set(actualLength, 1, 1); // Scale length in X direction
-                    ledger.rotation.z = Math.PI / 2; // Rotate to horizontal
+                    ledger.scale.set(actualLength, 1, 1);
+                    ledger.rotation.z = Math.PI / 2;
                     ledger.position.set(0, posY, posZ);
                     ledger.castShadow = true;
                     ledger.receiveShadow = true;
@@ -1513,9 +1584,9 @@
                     const posX = (x * p.standardSpacing) - (actualLength / 2);
                     
                     const ledger = new THREE.Mesh(tubeGeometry, materials.ledger);
-                    ledger.scale.set(actualWidth, 1, 1); // Scale width in X direction
-                    ledger.rotation.z = Math.PI / 2; // Rotate to horizontal
-                    ledger.rotation.y = Math.PI / 2; // Rotate 90° for Z-direction
+                    ledger.scale.set(actualWidth, 1, 1);
+                    ledger.rotation.z = Math.PI / 2;
+                    ledger.rotation.y = Math.PI / 2;
                     ledger.position.set(posX, posY, 0);
                     ledger.castShadow = true;
                     ledger.receiveShadow = true;
@@ -1597,7 +1668,7 @@
                 }
             }
             
-            // Draw diagonal bracing - simplified but visible
+            // Draw diagonal bracing
             if (barsX > 1 && barsZ > 1 && lifts > 0) {
                 // Add diagonal braces on two opposite faces
                 const braceHeight = p.ledgerSpacing;
@@ -1695,6 +1766,23 @@
 
         // Display results
         function displayResults(results, safetyCheck) {
+            // Store calculation data for export
+            currentCalculationData = {
+                results,
+                safetyCheck,
+                timestamp: new Date().toISOString(),
+                project: 'Scaffolding Design - Oil & Gas',
+                dimensions: {
+                    length: parseFloat(document.getElementById('length').value),
+                    width: parseFloat(document.getElementById('width').value),
+                    height: parseFloat(document.getElementById('height').value)
+                },
+                system: document.getElementById('system-type').options[document.getElementById('system-type').selectedIndex].text,
+                loadClass: document.getElementById('load-class').options[document.getElementById('load-class').selectedIndex].text,
+                safetyStandard: document.getElementById('safety-standard').options[document.getElementById('safety-standard').selectedIndex].text,
+                workingLevels: parseInt(document.getElementById('working-levels').value)
+            };
+            
             // Materials BOQ
             const materialQtys = document.querySelectorAll('.material-qty');
             if (materialQtys.length >= 15) {
@@ -1889,33 +1977,426 @@
             }
         }
 
-        // Export report
-        function exportReport() {
-            const report = {
-                project: 'Scaffolding Design Report - Oil & Gas',
-                timestamp: new Date().toISOString(),
-                compliance: document.getElementById('compliance-status').textContent,
-                dimensions: {
-                    length: document.getElementById('length').value,
-                    width: document.getElementById('width').value,
-                    height: document.getElementById('height').value
-                },
-                system: document.getElementById('system-type').options[document.getElementById('system-type').selectedIndex].text,
-                loadClass: document.getElementById('load-class').options[document.getElementById('load-class').selectedIndex].text,
-                safetyStandard: document.getElementById('safety-standard').options[document.getElementById('safety-standard').selectedIndex].text
-            };
+        // ==================== EXPORT FUNCTIONS ====================
+
+        // Toggle export menu
+        function toggleExportMenu() {
+            const menu = document.getElementById('export-menu');
+            menu.classList.toggle('show');
             
-            const blob = new Blob([JSON.stringify(report, null, 2)], { type: 'application/json' });
+            // Close menu when clicking outside
+            setTimeout(() => {
+                document.addEventListener('click', function closeMenu(e) {
+                    if (!menu.contains(e.target) && !e.target.classList.contains('export-btn')) {
+                        menu.classList.remove('show');
+                        document.removeEventListener('click', closeMenu);
+                    }
+                });
+            }, 0);
+        }
+
+        // Export to CSV
+        function exportToCSV() {
+            if (!currentCalculationData) {
+                alert('Please calculate scaffolding first!');
+                return;
+            }
+            
+            const { results, safetyCheck, dimensions, system, loadClass, safetyStandard } = currentCalculationData;
+            
+            // Prepare CSV data
+            let csvContent = "Scaffolding Design Report - Oil & Gas\n\n";
+            
+            // Project Information
+            csvContent += "PROJECT INFORMATION\n";
+            csvContent += `Timestamp,${new Date().toLocaleString()}\n`;
+            csvContent += `Scaffolding System,${system}\n`;
+            csvContent += `Load Classification,${loadClass}\n`;
+            csvContent += `Safety Standard,${safetyStandard}\n`;
+            csvContent += `Length,${dimensions.length} m\n`;
+            csvContent += `Width,${dimensions.width} m\n`;
+            csvContent += `Height,${dimensions.height} m\n`;
+            csvContent += `Height-to-Base Ratio,${safetyCheck.heightRatio.toFixed(2)}:1\n`;
+            csvContent += `Compliance Status,${safetyCheck.isCompliant ? 'Compliant' : 'Non-Compliant'}\n\n`;
+            
+            // Material Bill of Quantity
+            csvContent += "BILL OF QUANTITY (BOQ)\n";
+            csvContent += "Category,Material,Quantity,Unit\n";
+            
+            // Main Structure
+            csvContent += "Main Structure,Vertical Standards (3m)," + results.verticalTube + ",batang\n";
+            csvContent += "Main Structure,Horizontal Ledgers (3m)," + results.horizontalTube + ",batang\n";
+            csvContent += "Main Structure,Diagonal Braces (3m)," + results.diagonalTube + ",batang\n";
+            csvContent += "Main Structure,Transoms (2m)," + results.transomTube + ",batang\n";
+            
+            // Platform & Access
+            csvContent += "Platform & Access,Steel Planks (3m)," + results.steelPlanks + ",pcs\n";
+            csvContent += "Platform & Access,Aluminum Deck," + results.aluminumDeck + ",m²\n";
+            csvContent += "Platform & Access,Access Ladder," + results.ladderSets + ",set\n";
+            
+            // Safety Equipment
+            csvContent += "Safety Equipment,Guardrail System," + results.guardrailLength + ",m\n";
+            csvContent += "Safety Equipment,Toe Boards," + results.toeBoardLength + ",m\n";
+            csvContent += "Safety Equipment,Safety Net," + results.safetyNetArea + ",m²\n";
+            csvContent += "Safety Equipment,Debris Net," + results.debrisNetArea + ",m²\n";
+            
+            // Accessories
+            csvContent += "Accessories,Base Plates," + results.basePlates + ",pcs\n";
+            csvContent += "Accessories,Adjustable Jacks," + results.adjustableJacks + ",pcs\n";
+            csvContent += "Accessories,Wall Ties," + results.wallTies + ",pcs\n";
+            csvContent += "Accessories,Anchor Bolts," + results.anchorBolts + ",pcs\n\n";
+            
+            // Summary
+            csvContent += "SUMMARY\n";
+            csvContent += "Total Tube Required (3m)," + results.totalTube + ",batang\n";
+            csvContent += "Total Estimated Weight," + results.estimatedWeight + ",kg\n";
+            csvContent += "Projected Area," + results.platformArea + ",m²\n";
+            csvContent += "Material Wastage (5%)," + Math.ceil(results.totalTube * 0.05) + ",batang\n\n";
+            
+            // Safety Notes
+            csvContent += "SAFETY NOTES\n";
+            safetyCheck.violations.forEach(violation => {
+                csvContent += "VIOLATION," + violation + "\n";
+            });
+            safetyCheck.warnings.forEach(warning => {
+                csvContent += "WARNING," + warning + "\n";
+            });
+            
+            // Download CSV
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
             const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `scaffold-report-${new Date().getTime()}.json`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Scaffolding_Design_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
             URL.revokeObjectURL(url);
             
-            updateComplianceStatus('Report Exported', 'warning');
+            updateComplianceStatus('CSV Exported', 'safe');
+        }
+
+        // Export to Excel (XLSX)
+        function exportToExcel() {
+            if (!currentCalculationData) {
+                alert('Please calculate scaffolding first!');
+                return;
+            }
+            
+            const { results, safetyCheck, dimensions, system, loadClass, safetyStandard, workingLevels } = currentCalculationData;
+            
+            // Prepare workbook
+            const wb = XLSX.utils.book_new();
+            
+            // Sheet 1: Project Summary
+            const summaryData = [
+                ["SCAFFOLDING DESIGN REPORT - OIL & GAS"],
+                ["Generated: " + new Date().toLocaleString()],
+                [],
+                ["PROJECT INFORMATION"],
+                ["Scaffolding System", system],
+                ["Load Classification", loadClass],
+                ["Safety Standard", safetyStandard],
+                ["Working Levels", workingLevels],
+                ["Length", dimensions.length, "m"],
+                ["Width", dimensions.width, "m"],
+                ["Height", dimensions.height, "m"],
+                ["Height-to-Base Ratio", safetyCheck.heightRatio.toFixed(2) + ":1"],
+                ["Compliance Status", safetyCheck.isCompliant ? "✅ Compliant" : "❌ Non-Compliant"],
+                [],
+                ["SAFETY CHECKS"],
+                ["Height-to-Base Ratio", safetyCheck.heightRatio.toFixed(2) + ":1", safetyCheck.heightRatio > 4 ? "❌ Failed" : safetyCheck.heightRatio > 3 ? "⚠️ Warning" : "✅ Passed"],
+                ["Guardrail Compliance", document.getElementById('guardrail').checked ? "✅ Compliant" : "❌ Required"],
+                ["Double Ledger Check", loadClass === 'heavy' && results.doubleLedger ? "✅ Double Ledger" : loadClass === 'heavy' ? "❌ Required" : "✅ Single OK"],
+                ["Tie Requirement", safetyCheck.heightRatio > 4 ? "⚡ Immediate Required" : safetyCheck.heightRatio > 3 ? "⚠️ Recommended" : "✅ Not Required"],
+                [],
+                ["SUMMARY"],
+                ["Total Tube Required (3m)", results.totalTube, "batang"],
+                ["Total Estimated Weight", results.estimatedWeight, "kg"],
+                ["Projected Area", results.platformArea, "m²"],
+                ["Material Wastage (5%)", Math.ceil(results.totalTube * 0.05), "batang"],
+                ["Erection Man-Hours", results.erectionHours, "hours"],
+                ["Crew Size Required", Math.ceil(results.erectionHours / 8), "persons"],
+                ["Erection Duration", Math.ceil(results.erectionHours / 8), "days"]
+            ];
+            
+            const ws1 = XLSX.utils.aoa_to_sheet(summaryData);
+            XLSX.utils.book_append_sheet(wb, ws1, "Summary");
+            
+            // Sheet 2: Materials BOQ
+            const boqData = [
+                ["BILL OF QUANTITY (BOQ)"],
+                ["Category", "Material", "Quantity", "Unit"],
+                
+                // Main Structure
+                ["MAIN STRUCTURE", "Vertical Standards (3m)", results.verticalTube, "batang"],
+                ["MAIN STRUCTURE", "Horizontal Ledgers (3m)", results.horizontalTube, "batang"],
+                ["MAIN STRUCTURE", "Diagonal Braces (3m)", results.diagonalTube, "batang"],
+                ["MAIN STRUCTURE", "Transoms (2m)", results.transomTube, "batang"],
+                
+                // Platform & Access
+                ["PLATFORM & ACCESS", "Steel Planks (3m)", results.steelPlanks, "pcs"],
+                ["PLATFORM & ACCESS", "Aluminum Deck", results.aluminumDeck, "m²"],
+                ["PLATFORM & ACCESS", "Access Ladder", results.ladderSets, "set"],
+                
+                // Safety Equipment
+                ["SAFETY EQUIPMENT", "Guardrail System", results.guardrailLength, "m"],
+                ["SAFETY EQUIPMENT", "Toe Boards", results.toeBoardLength, "m"],
+                ["SAFETY EQUIPMENT", "Safety Net", results.safetyNetArea, "m²"],
+                ["SAFETY EQUIPMENT", "Debris Net", results.debrisNetArea, "m²"],
+                
+                // Accessories
+                ["ACCESSORIES", "Base Plates", results.basePlates, "pcs"],
+                ["ACCESSORIES", "Adjustable Jacks", results.adjustableJacks, "pcs"],
+                ["ACCESSORIES", "Wall Ties", results.wallTies, "pcs"],
+                ["ACCESSORIES", "Anchor Bolts", results.anchorBolts, "pcs"],
+                
+                // Totals
+                [],
+                ["TOTAL MATERIALS", "Total Tube (3m)", results.totalTube, "batang"],
+                ["", "Total Weight", results.estimatedWeight, "kg"]
+            ];
+            
+            const ws2 = XLSX.utils.aoa_to_sheet(boqData);
+            XLSX.utils.book_append_sheet(wb, ws2, "Materials BOQ");
+            
+            // Sheet 3: Engineering Data
+            const engineeringData = [
+                ["ENGINEERING DATA"],
+                ["Parameter", "Value", "Unit"],
+                ["Standard Spacing", results.standardSpacing, "m"],
+                ["Ledger Spacing", results.ledgerSpacing, "m"],
+                ["Transom Spacing", results.transomSpacing, "m"],
+                ["Bracing Interval", results.bracingInterval, "bays"],
+                ["Lift Height", results.ledgerSpacing, "m"],
+                ["Number of Lifts", results.lifts, ""],
+                ["Horizontal Tie Spacing", results.tieHorizontalSpacing, "m"],
+                ["Vertical Tie Spacing", results.tieVerticalSpacing, "m"],
+                ["Total Wall Ties", results.wallTies, "pcs"],
+                ["Anchor Bolt Type", "Chemical Anchor", ""],
+                [],
+                ["SAFETY VIOLATIONS"],
+                ...safetyCheck.violations.map(v => [v]),
+                [],
+                ["SAFETY WARNINGS"],
+                ...safetyCheck.warnings.map(w => [w])
+            ];
+            
+            const ws3 = XLSX.utils.aoa_to_sheet(engineeringData);
+            XLSX.utils.book_append_sheet(wb, ws3, "Engineering");
+            
+            // Sheet 4: Construction Data
+            const constructionData = [
+                ["CONSTRUCTION DATA"],
+                ["Activity", "Value", "Unit"],
+                ["Erection Man-Hours", results.erectionHours, "hours"],
+                ["Crew Size Required", Math.ceil(results.erectionHours / 8), "persons"],
+                ["Erection Duration", Math.ceil(results.erectionHours / 8), "days"],
+                ["Scaffolder Level", "Advanced", ""],
+                [],
+                ["LOGISTICS"],
+                ["Total Weight", results.estimatedWeight, "kg"],
+                ["Volume Required", Math.ceil(results.totalTubeMeters * 0.001), "m³"],
+                ["Truck Loads", Math.ceil(results.estimatedWeight / 20000), "loads"],
+                ["Crane Required", results.estimatedWeight > 5000 ? "Yes (10T)" : "No", ""],
+                [],
+                ["DISMANTLING"],
+                ["Dismantling Man-Hours", results.dismantlingHours, "hours"],
+                ["Waste Disposal", Math.ceil(results.totalTubeMeters * 0.0001), "m³"],
+                ["Cleaning Required", "4", "hours"],
+                ["Inspection Post-Dismantle", "Required", ""]
+            ];
+            
+            const ws4 = XLSX.utils.aoa_to_sheet(constructionData);
+            XLSX.utils.book_append_sheet(wb, ws4, "Construction");
+            
+            // Generate and download Excel file
+            XLSX.writeFile(wb, `Scaffolding_Design_${new Date().toISOString().slice(0,10)}.xlsx`);
+            
+            updateComplianceStatus('Excel Exported', 'safe');
+        }
+
+        // Export to PDF (simplified - using print)
+        function exportToPDF() {
+            if (!currentCalculationData) {
+                alert('Please calculate scaffolding first!');
+                return;
+            }
+            
+            // Create a printable version
+            const printContent = document.createElement('div');
+            printContent.innerHTML = `
+                <style>
+                    body { font-family: Arial, sans-serif; margin: 20px; }
+                    h1 { color: #2C3E50; }
+                    h2 { color: #34495E; border-bottom: 2px solid #E74C3C; padding-bottom: 5px; }
+                    table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+                    th { background: #2C3E50; color: white; padding: 10px; text-align: left; }
+                    td { padding: 8px; border: 1px solid #ddd; }
+                    .section { margin: 20px 0; }
+                    .header { text-align: center; padding: 20px; background: #f5f5f5; }
+                    .footer { margin-top: 30px; padding-top: 10px; border-top: 1px solid #ccc; font-size: 12px; }
+                </style>
+                <div class="header">
+                    <h1>Scaffolding Design Report - Oil & Gas</h1>
+                    <p>Generated: ${new Date().toLocaleString()}</p>
+                </div>
+                
+                <div class="section">
+                    <h2>Project Information</h2>
+                    <table>
+                        <tr><td><strong>Scaffolding System</strong></td><td>${currentCalculationData.system}</td></tr>
+                        <tr><td><strong>Load Classification</strong></td><td>${currentCalculationData.loadClass}</td></tr>
+                        <tr><td><strong>Dimensions</strong></td><td>${currentCalculationData.dimensions.length}m × ${currentCalculationData.dimensions.width}m × ${currentCalculationData.dimensions.height}m</td></tr>
+                        <tr><td><strong>Compliance Status</strong></td><td>${currentCalculationData.safetyCheck.isCompliant ? '✅ Compliant' : '❌ Non-Compliant'}</td></tr>
+                    </table>
+                </div>
+                
+                <div class="section">
+                    <h2>Materials Bill of Quantity</h2>
+                    <table>
+                        <tr><th>Material</th><th>Quantity</th><th>Unit</th></tr>
+                        <tr><td>Vertical Standards (3m)</td><td>${currentCalculationData.results.verticalTube}</td><td>batang</td></tr>
+                        <tr><td>Horizontal Ledgers (3m)</td><td>${currentCalculationData.results.horizontalTube}</td><td>batang</td></tr>
+                        <tr><td>Diagonal Braces (3m)</td><td>${currentCalculationData.results.diagonalTube}</td><td>batang</td></tr>
+                        <tr><td>Steel Planks (3m)</td><td>${currentCalculationData.results.steelPlanks}</td><td>pcs</td></tr>
+                        <tr><td>Guardrail System</td><td>${currentCalculationData.results.guardrailLength}</td><td>m</td></tr>
+                        <tr><td>Wall Ties</td><td>${currentCalculationData.results.wallTies}</td><td>pcs</td></tr>
+                    </table>
+                </div>
+                
+                <div class="section">
+                    <h2>Safety Notes</h2>
+                    <ul>
+                        ${currentCalculationData.safetyCheck.violations.map(v => `<li>❌ ${v}</li>`).join('')}
+                        ${currentCalculationData.safetyCheck.warnings.map(w => `<li>⚠️ ${w}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="footer">
+                    <p><strong>Disclaimer:</strong> This report is generated automatically. All designs must be verified by a certified engineer.</p>
+                    <p>© Oil & Gas Scaffolding Calculator - HSE Compliant Design Tool</p>
+                </div>
+            `;
+            
+            // Open print dialog
+            const printWindow = window.open('', '_blank');
+            printWindow.document.write(printContent.innerHTML);
+            printWindow.document.close();
+            printWindow.focus();
+            printWindow.print();
+            printWindow.close();
+            
+            updateComplianceStatus('PDF Generated', 'warning');
+        }
+
+        // Export Material List Only
+        function exportMaterialList() {
+            if (!currentCalculationData) {
+                alert('Please calculate scaffolding first!');
+                return;
+            }
+            
+            const { results } = currentCalculationData;
+            
+            let csvContent = "MATERIAL LIST - SCAFFOLDING PROJECT\n\n";
+            csvContent += "Item,Quantity,Unit,Notes\n";
+            
+            csvContent += `Vertical Standards (3m),${results.verticalTube},batang,Galvanized steel\n`;
+            csvContent += `Horizontal Ledgers (3m),${results.horizontalTube},batang,Galvanized steel\n`;
+            csvContent += `Diagonal Braces (3m),${results.diagonalTube},batang,Galvanized steel\n`;
+            csvContent += `Transoms (2m),${results.transomTube},batang,Galvanized steel\n`;
+            csvContent += `Steel Planks (3m),${results.steelPlanks},pcs,Checkered pattern\n`;
+            csvContent += `Guardrail System,${results.guardrailLength},m,With mid rail\n`;
+            csvContent += `Toe Boards,${results.toeBoardLength},m,200mm height\n`;
+            csvContent += `Safety Net,${results.safetyNetArea},m²,UV resistant\n`;
+            csvContent += `Base Plates,${results.basePlates},pcs,200x200mm\n`;
+            csvContent += `Adjustable Jacks,${results.adjustableJacks},pcs,500mm adjustment\n`;
+            csvContent += `Wall Ties,${results.wallTies},pcs,Cup lock type\n`;
+            csvContent += `Anchor Bolts,${results.anchorBolts},pcs,M16 chemical anchor\n`;
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Material_List_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+            
+            updateComplianceStatus('Material List Exported', 'safe');
+        }
+
+        // Export Safety Report
+        function exportSafetyReport() {
+            if (!currentCalculationData) {
+                alert('Please calculate scaffolding first!');
+                return;
+            }
+            
+            const { safetyCheck, dimensions } = currentCalculationData;
+            
+            let csvContent = "SAFETY INSPECTION REPORT - SCAFFOLDING\n\n";
+            csvContent += "Project: Scaffolding Design\n";
+            csvContent += `Date: ${new Date().toLocaleString()}\n`;
+            csvContent += `Dimensions: ${dimensions.length}m × ${dimensions.width}m × ${dimensions.height}m\n\n`;
+            
+            csvContent += "SAFETY CHECKS\n";
+            csvContent += "Check,Status,Remarks\n";
+            csvContent += `Height-to-Base Ratio (max 4:1),${safetyCheck.heightRatio.toFixed(2)}:1,${safetyCheck.heightRatio > 4 ? 'FAIL' : safetyCheck.heightRatio > 3 ? 'WARNING' : 'PASS'}\n`;
+            csvContent += `Guardrail System (required >2m),${document.getElementById('guardrail').checked ? 'INSTALLED' : 'MISSING'},${document.getElementById('guardrail').checked ? 'PASS' : 'FAIL'}\n`;
+            csvContent += `Toe Boards (required >1.2m),${document.getElementById('toe-boards').checked ? 'INSTALLED' : 'MISSING'},${document.getElementById('toe-boards').checked ? 'PASS' : 'FAIL'}\n`;
+            csvContent += `Access Ladder,${document.getElementById('ladder').checked ? 'PROVIDED' : 'MISSING'},${document.getElementById('ladder').checked ? 'PASS' : 'FAIL'}\n`;
+            csvContent += `Platform Boards,${document.getElementById('platform-boards').checked ? 'INSTALLED' : 'MISSING'},${document.getElementById('platform-boards').checked ? 'PASS' : 'FAIL'}\n\n`;
+            
+            if (safetyCheck.violations.length > 0) {
+                csvContent += "CRITICAL VIOLATIONS\n";
+                safetyCheck.violations.forEach((v, i) => {
+                    csvContent += `${i+1}. ${v}\n`;
+                });
+                csvContent += "\n";
+            }
+            
+            if (safetyCheck.warnings.length > 0) {
+                csvContent += "WARNINGS & RECOMMENDATIONS\n";
+                safetyCheck.warnings.forEach((w, i) => {
+                    csvContent += `${i+1}. ${w}\n`;
+                });
+                csvContent += "\n";
+            }
+            
+            csvContent += "INSPECTOR SIGN-OFF\n";
+            csvContent += "Inspected by: ____________________\n";
+            csvContent += "Date: ____________________________\n";
+            csvContent += "Status: □ Approved  □ Rejected  □ Needs Review\n";
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Safety_Report_${new Date().toISOString().slice(0,10)}.csv`;
+            link.click();
+            URL.revokeObjectURL(url);
+            
+            updateComplianceStatus('Safety Report Exported', 'safe');
+        }
+
+        // Export All Reports (simulated ZIP)
+        function exportAllReports() {
+            if (!currentCalculationData) {
+                alert('Please calculate scaffolding first!');
+                return;
+            }
+            
+            // In a real implementation, you would use a ZIP library like JSZip
+            // Here we'll export the Excel file which contains multiple sheets
+            exportToExcel();
+            
+            setTimeout(() => {
+                // Export additional individual files
+                exportToCSV();
+                exportSafetyReport();
+                
+                updateComplianceStatus('Multiple Reports Generated', 'safe');
+                alert('Multiple reports have been generated:\n1. Excel (XLSX) with all data\n2. CSV summary\n3. Safety report');
+            }, 1000);
         }
 
         // Utility functions
