@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Scaffolding Platform Calculator</title>
+    <title>Tube & Coupler - Platform Calculator</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,7 +11,7 @@
         .card {
             background: white;
             padding: 20px;
-            max-width: 500px;
+            max-width: 600px;
             margin: auto;
             border-radius: 10px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -30,9 +30,6 @@
             border-radius: 5px;
             cursor: pointer;
         }
-        button:hover {
-            background: #1e40af;
-        }
         .result {
             margin-top: 20px;
             background: #eef2ff;
@@ -44,18 +41,18 @@
 <body>
 
 <div class="card">
-    <h2>Platform Calculation - 1 Bay Tower</h2>
+    <h2>Tube & Coupler - 1 Bay Manual Input</h2>
 
-    <label>Bay Length (meter)</label>
+    <label>Bay Length (m)</label>
     <input type="number" id="length" value="3">
 
-    <label>Bay Width (meter)</label>
+    <label>Bay Width (m)</label>
     <input type="number" id="width" value="1.2">
 
     <label>Number of Lift</label>
     <input type="number" id="lift" value="1">
 
-    <label>Lift Height (meter)</label>
+    <label>Lift Height (m)</label>
     <input type="number" id="liftHeight" value="1.8">
 
     <button onclick="calculate()">Calculate</button>
@@ -71,31 +68,46 @@ function calculate() {
     let lift = parseInt(document.getElementById("lift").value);
     let liftHeight = parseFloat(document.getElementById("liftHeight").value);
 
-    let boardWidth = 0.23; // 23 cm
+    let boardWidth = 0.23;
     let minStandardHeight = 2.5;
 
-    // PLATFORM ONLY ON TOP LIFT
-    let platformArea = length * width;
+    if(lift <= 0){
+        alert("Lift tidak boleh 0");
+        return;
+    }
 
-    // jumlah papan berdasarkan lebar
-    let boardsNeeded = Math.ceil(width / boardWidth);
-
-    // toe board ikut semua sisi
-    let toeBoardLength = (2 * length) + (2 * width);
-
-    // tinggi total scaffold
+    // Total Height
     let totalHeight = lift * liftHeight;
     if(totalHeight < minStandardHeight){
         totalHeight = minStandardHeight;
     }
 
+    // Platform Top Lift Only
+    let boardsNeeded = Math.ceil(width / boardWidth);
+    let platformArea = length * width;
+
+    // Toe board semua sisi
+    let toeBoardLength = (2 * length) + (2 * width);
+
+    // Standard (4 tiang untuk 1 bay)
+    let standardCount = 4;
+
+    // Ledger (2 per sisi per lift)
+    let ledgerCount = lift * 4;
+
+    // Base Coupler estimation (basic)
+    let couplerEstimate = (ledgerCount * 2);
+
     document.getElementById("result").innerHTML = `
-        <b>Platform Area:</b> ${platformArea.toFixed(2)} m²<br>
-        <b>Boards Needed (Top Lift Only):</b> ${boardsNeeded} pcs<br>
-        <b>Toe Board Total Length:</b> ${toeBoardLength.toFixed(2)} m<br>
-        <b>Total Scaffold Height:</b> ${totalHeight.toFixed(2)} m<br>
+        <b>Total Scaffold Height:</b> ${totalHeight.toFixed(2)} m<br><br>
+        <b>Top Platform Area:</b> ${platformArea.toFixed(2)} m²<br>
+        <b>Boards Needed (23cm):</b> ${boardsNeeded} pcs<br>
+        <b>Toe Board Length:</b> ${toeBoardLength.toFixed(2)} m<br><br>
+        <b>Standard:</b> ${standardCount} pcs<br>
+        <b>Ledger:</b> ${ledgerCount} pcs<br>
+        <b>Estimated Coupler:</b> ${couplerEstimate} pcs<br>
         <br>
-        <small>*Working platform only on top lift</small>
+        <small>*Platform only at top lift</small>
     `;
 }
 </script>
