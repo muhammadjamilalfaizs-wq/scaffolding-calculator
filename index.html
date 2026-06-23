@@ -637,13 +637,13 @@ body::before {
       
       <div class="input-group">
         <label class="input-label">Bay Spacing (m)</label>
-        <input type="number" id="baySpacing" class="input-field" value="2.0" step="0.1" min="0.5" max="3">
+        <input type="number" id="baySpacing" class="input-field" value="2.0" step="0.1" min="0.3" max="5">
         <div id="baySpacingError" class="input-error"></div>
       </div>
       
       <div class="input-group">
         <label class="input-label">Lift Height (m)</label>
-        <input type="number" id="liftHeight" class="input-field" value="2.0" step="0.1" min="1" max="3">
+        <input type="number" id="liftHeight" class="input-field" value="2.0" step="0.1" min="0.5" max="4">
         <div id="liftHeightError" class="input-error"></div>
       </div>
       
@@ -814,27 +814,29 @@ function validateInputs() {
     errors.lift = 'Number of lifts must be greater than 0';
     isValid = false;
   }
-  if (baySpacing < 0.5 || baySpacing > 3) {
-    errors.baySpacing = 'Bay spacing must be between 0.5m and 3m';
+  if (baySpacing < 0.3 || baySpacing > 5) {
+    errors.baySpacing = 'Bay spacing must be between 0.3m and 5m';
     isValid = false;
   }
-  if (liftHeight < 1 || liftHeight > 3) {
-    errors.liftHeight = 'Lift height must be between 1m and 3m';
+  if (liftHeight < 0.5 || liftHeight > 4) {
+    errors.liftHeight = 'Lift height must be between 0.5m and 4m';
     isValid = false;
   }
   
-  // Check if total length matches bays * spacing
+  // Check if total length matches bays * spacing — warning only, not error
   const expectedLength = bay * baySpacing;
-  if (Math.abs(expectedLength - panjang) > 0.5) {
-    errors.bay = `Bay count × spacing (${expectedLength.toFixed(1)}m) doesn't match length`;
-    isValid = false;
+  const lengthDiff = Math.abs(expectedLength - panjang);
+  if (lengthDiff > panjang * 0.05 && panjang > 0) {
+    showDimensionWarning('length', panjang, expectedLength, lengthDiff);
+    // JANGAN set isValid = false — perhitungan tetap jalan
   }
-  
-  // Check if total height matches lifts * height
+
+  // Check if total height matches lifts * height — warning only, not error
   const expectedHeight = lift * liftHeight;
-  if (Math.abs(expectedHeight - tinggi) > 0.5) {
-    errors.lift = `Lift count × height (${expectedHeight.toFixed(1)}m) doesn't match total height`;
-    isValid = false;
+  const heightDiff = Math.abs(expectedHeight - tinggi);
+  if (heightDiff > tinggi * 0.05 && tinggi > 0) {
+    showDimensionWarning('height', tinggi, expectedHeight, heightDiff);
+    // JANGAN set isValid = false — perhitungan tetap jalan
   }
   
   // Display errors
@@ -863,6 +865,27 @@ function validateInputs() {
   return { isValid, errors };
 }
  
+// Show dimension mismatch warning (orange, non-blocking)
+function showDimensionWarning(type, actual, expected, diff) {
+  const warningBox = document.getElementById('warningBox');
+  const warningText = document.getElementById('warningText');
+  
+  let message = '';
+  if (type === 'length') {
+    message = `⚠️ Panjang (${actual}m) ≠ bay × spacing (${expected.toFixed(2)}m). Selisih: ${diff.toFixed(2)}m. Sistem menggunakan dimensi aktual untuk perhitungan.`;
+  } else if (type === 'height') {
+    message = `⚠️ Tinggi (${actual}m) ≠ lift × height (${expected.toFixed(2)}m). Selisih: ${diff.toFixed(2)}m. Sistem menggunakan dimensi aktual untuk perhitungan.`;
+  }
+  
+  // Append jika sudah ada pesan lain
+  const existing = warningText.textContent;
+  warningText.textContent = existing ? existing + ' | ' + message : message;
+  warningBox.classList.add('visible');
+  warningBox.style.borderColor = '#ff6b35';
+  warningBox.style.background = 'rgba(255, 107, 53, 0.1)';
+  warningBox.querySelector('.warning-title').style.color = '#ff6b35';
+}
+
 // Safety check
 function checkSafetyRatio() {
   const tinggi = parseFloat(document.getElementById('tinggi').value) || 0;
@@ -889,6 +912,16 @@ function checkSafetyRatio() {
  
 // Main calculation
 function calculate() {
+  // Reset dimension warning setiap kalkulasi
+  const wb = document.getElementById('warningBox');
+  const wt = document.getElementById('warningText');
+  wt.textContent = '';
+  wb.classList.remove('visible');
+  wb.style.borderColor = '';
+  wb.style.background = '';
+  const wTitle = wb.querySelector('.warning-title');
+  if (wTitle) wTitle.style.color = '';
+
   const validation = validateInputs();
   if (!validation.isValid) {
     clearResults();
@@ -1226,8 +1259,9 @@ function render3DScaffold(inputs) {
   if (inputs.bay <= 0 || inputs.lift <= 0) return;
   
   const pipeRadius = 0.025;
-  const baySpacing = inputs.baySpacing;
-  const liftHeight = inputs.liftHeight;
+  // Gunakan nilai aktual: hitung ulang spacing dari dimensi aktual
+  const baySpacing = inputs.panjang / inputs.bay;
+  const liftHeight = inputs.tinggi / inputs.lift;
   
   // Materials
   const standardMaterial = new THREE.MeshPhongMaterial({ 
