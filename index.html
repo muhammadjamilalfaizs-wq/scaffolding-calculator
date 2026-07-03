@@ -977,8 +977,8 @@ function calculateIndependentScaffold(d) {
   const ledgersPerSide = d.bay + 1;
   const ledgers = ledgersPerSide * 2 * d.lift;
   
-  // Transoms (cross horizontals)
-  const transoms = d.bay * 2 * d.lift;
+  // Transoms (cross horizontals) — 3 per bay
+  const transoms = d.bay * 3 * d.lift;
   
   // Putlogs (board supports)
   const putlogs = transoms;
@@ -1043,7 +1043,7 @@ function calculateTowerScaffold(d) {
   
   // More horizontal members for stability
   const ledgers = (d.bay + 1) * 4 * d.lift;
-  const transoms = d.bay * 4 * d.lift;
+  const transoms = d.bay * 3 * d.lift;  // 3 transoms per bay
   const putlogs = transoms;
   
   // More bracing for tower
