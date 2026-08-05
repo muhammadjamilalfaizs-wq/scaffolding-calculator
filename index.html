@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Scaffold Engineering Pro | 3D Calculator</title>
- 
+
 <!-- CDN Libraries -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -13,11 +13,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
- 
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Red+Hat+Display:wght@400;600;700;900&display=swap" rel="stylesheet">
- 
+
 <style>
 :root {
   --blueprint-dark: #0a1628;
@@ -31,13 +31,13 @@
   --text-secondary: #94a3b8;
   --text-dim: #64748b;
 }
- 
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
- 
+
 body {
   font-family: 'Red Hat Display', system-ui, sans-serif;
   background: var(--blueprint-dark);
@@ -45,7 +45,7 @@ body {
   overflow-x: hidden;
   position: relative;
 }
- 
+
 body::before {
   content: '';
   position: fixed;
@@ -60,12 +60,12 @@ body::before {
   pointer-events: none;
   z-index: 0;
 }
- 
+
 .app-container {
   position: relative;
   z-index: 1;
 }
- 
+
 /* Header Styles */
 .app-header {
   background: linear-gradient(135deg, var(--blueprint-navy) 0%, var(--blueprint-blue) 100%);
@@ -74,7 +74,7 @@ body::before {
   position: relative;
   overflow: hidden;
 }
- 
+
 .app-header::before {
   content: '';
   position: absolute;
@@ -85,7 +85,7 @@ body::before {
   background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
   pointer-events: none;
 }
- 
+
 .header-content {
   display: flex;
   justify-content: space-between;
@@ -93,7 +93,7 @@ body::before {
   position: relative;
   z-index: 1;
 }
- 
+
 .app-title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1.75rem;
@@ -105,7 +105,7 @@ body::before {
   background-clip: text;
   text-transform: uppercase;
 }
- 
+
 .app-subtitle {
   font-size: 0.75rem;
   color: var(--text-secondary);
@@ -114,7 +114,7 @@ body::before {
   text-transform: uppercase;
   margin-top: 0.25rem;
 }
- 
+
 .status-indicator {
   display: flex;
   align-items: center;
@@ -123,7 +123,7 @@ body::before {
   font-size: 0.75rem;
   color: var(--tech-cyan);
 }
- 
+
 .status-dot {
   width: 8px;
   height: 8px;
@@ -132,12 +132,12 @@ body::before {
   box-shadow: 0 0 12px var(--tech-cyan);
   animation: pulse 2s ease-in-out infinite;
 }
- 
+
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
- 
+
 /* Main Layout */
 .main-grid {
   display: grid;
@@ -147,7 +147,7 @@ body::before {
   max-width: 1800px;
   margin: 0 auto;
 }
- 
+
 /* Card Styles */
 .card {
   background: var(--blueprint-navy);
@@ -158,7 +158,7 @@ body::before {
   overflow: hidden;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
 }
- 
+
 .card::before {
   content: '';
   position: absolute;
@@ -168,7 +168,7 @@ body::before {
   height: 2px;
   background: linear-gradient(90deg, var(--tech-cyan) 0%, transparent 100%);
 }
- 
+
 .card-title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.875rem;
@@ -181,17 +181,17 @@ body::before {
   align-items: center;
   gap: 0.5rem;
 }
- 
+
 .card-title::before {
   content: '▸';
   color: var(--tech-orange);
 }
- 
+
 /* Input Styles */
 .input-group {
   margin-bottom: 1rem;
 }
- 
+
 .input-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
@@ -201,7 +201,7 @@ body::before {
   margin-bottom: 0.5rem;
   display: block;
 }
- 
+
 .input-field {
   width: 100%;
   background: var(--blueprint-dark);
@@ -213,24 +213,24 @@ body::before {
   font-size: 0.875rem;
   transition: all 0.2s ease;
 }
- 
+
 .input-field:focus {
   outline: none;
   border-color: var(--tech-cyan);
   box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
 }
- 
+
 .input-field.error {
   border-color: var(--warn-red);
   animation: shake 0.3s ease;
 }
- 
+
 @keyframes shake {
   0%, 100% { transform: translateX(0); }
   25% { transform: translateX(-4px); }
   75% { transform: translateX(4px); }
 }
- 
+
 .input-error {
   font-size: 0.7rem;
   color: var(--warn-red);
@@ -238,17 +238,17 @@ body::before {
   font-family: 'JetBrains Mono', monospace;
   display: none;
 }
- 
+
 .input-error.visible {
   display: block;
   animation: slideDown 0.2s ease;
 }
- 
+
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-4px); }
   to { opacity: 1; transform: translateY(0); }
 }
- 
+
 /* Select Dropdown */
 .select-field {
   width: 100%;
@@ -262,13 +262,13 @@ body::before {
   cursor: pointer;
   transition: all 0.2s ease;
 }
- 
+
 .select-field:focus {
   outline: none;
   border-color: var(--tech-cyan);
   box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
 }
- 
+
 /* Checkbox */
 .checkbox-group {
   display: flex;
@@ -281,19 +281,19 @@ body::before {
   cursor: pointer;
   transition: all 0.2s ease;
 }
- 
+
 .checkbox-group:hover {
   border-color: var(--tech-cyan);
   background: rgba(0, 217, 255, 0.05);
 }
- 
+
 .checkbox-input {
   width: 18px;
   height: 18px;
   accent-color: var(--tech-cyan);
   cursor: pointer;
 }
- 
+
 .checkbox-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.8rem;
@@ -301,7 +301,7 @@ body::before {
   cursor: pointer;
   user-select: none;
 }
- 
+
 /* Warning Box */
 .warning-box {
   background: rgba(255, 71, 87, 0.1);
@@ -312,11 +312,11 @@ body::before {
   display: none;
   animation: slideDown 0.3s ease;
 }
- 
+
 .warning-box.visible {
   display: block;
 }
- 
+
 .warning-title {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.8rem;
@@ -328,18 +328,18 @@ body::before {
   align-items: center;
   gap: 0.5rem;
 }
- 
+
 .warning-title::before {
   content: '⚠';
   font-size: 1rem;
 }
- 
+
 .warning-text {
   font-size: 0.75rem;
   color: var(--text-secondary);
   line-height: 1.5;
 }
- 
+
 /* Results Display */
 .results-grid {
   display: grid;
@@ -347,7 +347,7 @@ body::before {
   gap: 0.75rem;
   margin-top: 1rem;
 }
- 
+
 .result-item {
   background: var(--blueprint-dark);
   border: 1px solid rgba(0, 217, 255, 0.2);
@@ -355,12 +355,12 @@ body::before {
   padding: 0.75rem;
   transition: all 0.2s ease;
 }
- 
+
 .result-item:hover {
   border-color: var(--tech-cyan);
   transform: translateY(-2px);
 }
- 
+
 .result-label {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.7rem;
@@ -369,20 +369,20 @@ body::before {
   letter-spacing: 0.05em;
   margin-bottom: 0.25rem;
 }
- 
+
 .result-value {
   font-family: 'JetBrains Mono', monospace;
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--tech-cyan);
 }
- 
+
 .result-unit {
   font-size: 0.75rem;
   color: var(--text-secondary);
   margin-left: 0.25rem;
 }
- 
+
 /* 3D Viewer */
 .viewer-container {
   background: var(--blueprint-dark);
@@ -392,7 +392,7 @@ body::before {
   position: relative;
   height: 600px;
 }
- 
+
 .viewer-overlay {
   position: absolute;
   top: 1rem;
@@ -407,23 +407,23 @@ body::before {
   z-index: 10;
   backdrop-filter: blur(8px);
 }
- 
+
 .viewer-overlay-item {
   display: flex;
   justify-content: space-between;
   gap: 1rem;
   margin-bottom: 0.25rem;
 }
- 
+
 .viewer-overlay-label {
   color: var(--text-dim);
 }
- 
+
 .viewer-overlay-value {
   color: var(--tech-cyan);
   font-weight: 700;
 }
- 
+
 .viewer-controls {
   position: absolute;
   bottom: 1rem;
@@ -432,7 +432,7 @@ body::before {
   gap: 0.5rem;
   z-index: 10;
 }
- 
+
 .viewer-control-btn {
   background: rgba(10, 22, 40, 0.9);
   border: 1px solid rgba(0, 217, 255, 0.3);
@@ -448,24 +448,24 @@ body::before {
   transition: all 0.2s ease;
   backdrop-filter: blur(8px);
 }
- 
+
 .viewer-control-btn:hover {
   background: var(--tech-cyan);
   color: var(--blueprint-dark);
   transform: scale(1.1);
 }
- 
+
 /* Export Buttons */
 .export-section {
   margin-top: 1.5rem;
 }
- 
+
 .export-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 0.75rem;
 }
- 
+
 .export-btn {
   background: linear-gradient(135deg, var(--tech-orange) 0%, #ff8c5a 100%);
   border: none;
@@ -482,7 +482,7 @@ body::before {
   position: relative;
   overflow: hidden;
 }
- 
+
 .export-btn::before {
   content: '';
   position: absolute;
@@ -495,25 +495,25 @@ body::before {
   transform: translate(-50%, -50%);
   transition: width 0.4s ease, height 0.4s ease;
 }
- 
+
 .export-btn:hover::before {
   width: 300px;
   height: 300px;
 }
- 
+
 .export-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
 }
- 
+
 .export-btn:active {
   transform: translateY(0);
 }
- 
+
 .export-btn-icon {
   margin-right: 0.5rem;
 }
- 
+
 /* Loading State */
 .loading {
   display: none;
@@ -528,11 +528,11 @@ body::before {
   justify-content: center;
   backdrop-filter: blur(4px);
 }
- 
+
 .loading.active {
   display: flex;
 }
- 
+
 .loading-spinner {
   width: 60px;
   height: 60px;
@@ -541,13 +541,141 @@ body::before {
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
- 
+
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
- 
-/* Responsive */
-@media (max-width: 1200px) {
+
+/* Tooltip */
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: rgba(0, 217, 255, 0.15);
+  border: 1px solid rgba(0, 217, 255, 0.4);
+  color: var(--tech-cyan);
+  font-size: 0.6rem;
+  cursor: help;
+  margin-left: 0.35rem;
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.2s;
+}
+.tooltip-icon:hover { background: rgba(0, 217, 255, 0.35); }
+.tooltip-icon::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  background: #0d1f38;
+  border: 1px solid rgba(0,217,255,0.4);
+  color: var(--text-primary);
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  padding: 0.4rem 0.65rem;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 999;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.tooltip-icon:hover::after { opacity: 1; }
+
+/* Multi-warning box */
+.warning-box-multi {
+  background: rgba(255, 107, 53, 0.08);
+  border: 1px solid var(--tech-orange);
+  border-radius: 4px;
+  padding: 0.85rem;
+  margin-top: 0.75rem;
+  display: none;
+  animation: slideDown 0.3s ease;
+}
+.warning-box-multi.visible { display: block; }
+.warning-box-multi .warning-title { color: var(--tech-orange); }
+.warning-item {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(255,107,53,0.15);
+}
+.warning-item:last-child { border-bottom: none; }
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--blueprint-navy);
+  border: 1px solid var(--tech-cyan);
+  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--tech-cyan);
+  z-index: 9998;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  max-width: 320px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* Auto-adjust row */
+.auto-adjust-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.auto-adjust-btn {
+  flex: 1;
+  background: rgba(0,217,255,0.1);
+  border: 1px solid var(--tech-cyan);
+  color: var(--tech-cyan);
+  padding: 0.55rem 0.75rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.auto-adjust-btn:hover {
+  background: var(--tech-cyan);
+  color: var(--blueprint-dark);
+}
+
+/* Calc log */
+.calc-log {
+  background: var(--blueprint-dark);
+  border: 1px solid rgba(0,217,255,0.15);
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  max-height: 120px;
+  overflow-y: auto;
+  display: none;
+}
+.calc-log.visible { display: block; }
+.calc-log-line { margin-bottom: 0.2rem; }
+.calc-log-line.ok  { color: #00c47a; }
+.calc-log-line.warn { color: var(--tech-orange); }
+.calc-log-line.info { color: var(--tech-cyan); }
   .main-grid {
     grid-template-columns: 1fr;
   }
@@ -556,7 +684,7 @@ body::before {
     grid-template-columns: repeat(2, 1fr);
   }
 }
- 
+
 @media (max-width: 640px) {
   .results-grid {
     grid-template-columns: 1fr;
@@ -568,10 +696,10 @@ body::before {
 }
 </style>
 </head>
- 
+
 <body>
 <div class="app-container">
- 
+
 <!-- Header -->
 <header class="app-header">
   <div class="header-content">
@@ -585,7 +713,7 @@ body::before {
     </div>
   </div>
 </header>
- 
+
 <!-- Main Content -->
 <main class="main-grid">
   
@@ -597,7 +725,9 @@ body::before {
       <h2 class="card-title">Configuration</h2>
       
       <div class="input-group">
-        <label class="input-label">Scaffold Type</label>
+        <label class="input-label">Scaffold Type
+          <span class="tooltip-icon" data-tooltip="Tipe menentukan pola standar & rasio aman">ⓘ</span>
+        </label>
         <select id="scaffoldType" class="select-field">
           <option value="independent">Independent Scaffold</option>
           <option value="tower">Tower Scaffold</option>
@@ -606,56 +736,88 @@ body::before {
       </div>
       
       <div class="input-group">
-        <label class="input-label">Height (m)</label>
+        <label class="input-label">Height / Tinggi (m)
+          <span class="tooltip-icon" data-tooltip="Total tinggi scaffold. Harus > 0">ⓘ</span>
+        </label>
         <input type="number" id="tinggi" class="input-field" placeholder="e.g., 12" step="0.1" min="0">
         <div id="tinggiError" class="input-error"></div>
       </div>
       
       <div class="input-group">
-        <label class="input-label">Length (m)</label>
+        <label class="input-label">Length / Panjang (m)
+          <span class="tooltip-icon" data-tooltip="Dimensi memanjang scaffold (arah bay)">ⓘ</span>
+        </label>
         <input type="number" id="panjang" class="input-field" placeholder="e.g., 20" step="0.1" min="0">
         <div id="panjangError" class="input-error"></div>
       </div>
       
       <div class="input-group">
-        <label class="input-label">Width (m)</label>
+        <label class="input-label">Width / Lebar (m)
+          <span class="tooltip-icon" data-tooltip="Dimensi melintang scaffold (arah transom)">ⓘ</span>
+        </label>
         <input type="number" id="lebar" class="input-field" placeholder="e.g., 8" step="0.1" min="0">
         <div id="lebarError" class="input-error"></div>
       </div>
       
       <div class="input-group">
-        <label class="input-label">Number of Bays</label>
+        <label class="input-label">Number of Bays
+          <span class="tooltip-icon" data-tooltip="Jumlah bay. Bay spacing = Panjang ÷ Bay">ⓘ</span>
+        </label>
         <input type="number" id="bay" class="input-field" placeholder="e.g., 10" step="1" min="1">
         <div id="bayError" class="input-error"></div>
       </div>
       
       <div class="input-group">
-        <label class="input-label">Number of Lifts</label>
+        <label class="input-label">Number of Lifts
+          <span class="tooltip-icon" data-tooltip="Jumlah lantai. Lift height = Tinggi ÷ Lift">ⓘ</span>
+        </label>
         <input type="number" id="lift" class="input-field" placeholder="e.g., 6" step="1" min="1">
         <div id="liftError" class="input-error"></div>
       </div>
       
       <div class="input-group">
-        <label class="input-label">Bay Spacing (m)</label>
-        <input type="number" id="baySpacing" class="input-field" value="2.0" step="0.1" min="0.3" max="5">
-        <div id="baySpacingError" class="input-error"></div>
+        <label class="input-label">Bay Spacing (m) <span style="color:var(--tech-cyan);font-size:0.65rem;">AUTO</span>
+          <span class="tooltip-icon" data-tooltip="Dihitung otomatis: Panjang ÷ Bay. Rentang wajar 0.3–5m">ⓘ</span>
+        </label>
+        <div id="baySpacingDisplay" class="input-field" style="cursor:default;opacity:0.6;">—</div>
       </div>
       
       <div class="input-group">
-        <label class="input-label">Lift Height (m)</label>
-        <input type="number" id="liftHeight" class="input-field" value="2.0" step="0.1" min="0.5" max="4">
-        <div id="liftHeightError" class="input-error"></div>
+        <label class="input-label">Lift Height (m) <span style="color:var(--tech-cyan);font-size:0.65rem;">AUTO</span>
+          <span class="tooltip-icon" data-tooltip="Dihitung otomatis: Tinggi ÷ Lift. Rentang wajar 0.5–4m">ⓘ</span>
+        </label>
+        <div id="liftHeightDisplay" class="input-field" style="cursor:default;opacity:0.6;">—</div>
+      </div>
+
+      <div class="auto-adjust-row">
+        <button class="auto-adjust-btn" onclick="autoAdjustBay()" title="Hitung jumlah bay optimal dari panjang & target spacing 2m">⚙ Auto Bay</button>
+        <button class="auto-adjust-btn" onclick="autoAdjustLift()" title="Hitung jumlah lift optimal dari tinggi & target lift 2m">⚙ Auto Lift</button>
       </div>
       
-      <div class="checkbox-group">
+      <div class="checkbox-group" style="margin-top:0.75rem;">
         <input type="checkbox" id="screwjack" class="checkbox-input">
         <label for="screwjack" class="checkbox-label">Include Screw Jacks</label>
       </div>
+
+      <div class="checkbox-group" style="margin-top:0.5rem;">
+        <input type="checkbox" id="showCalcLog" class="checkbox-input" onchange="toggleCalcLog()">
+        <label for="showCalcLog" class="checkbox-label">Show Calculation Log</label>
+      </div>
       
+      <!-- Safety warning -->
       <div id="warningBox" class="warning-box">
         <div class="warning-title">Safety Alert</div>
         <div id="warningText" class="warning-text"></div>
       </div>
+
+      <!-- Dimension warnings (non-blocking) -->
+      <div id="dimWarningBox" class="warning-box-multi">
+        <div class="warning-title">⚠ Dimension Notices</div>
+        <div id="dimWarningList"></div>
+      </div>
+
+      <!-- Calculation log -->
+      <div id="calcLog" class="calc-log"></div>
     </div>
     
     <!-- Results Card -->
@@ -717,435 +879,504 @@ body::before {
   </section>
   
 </main>
- 
+
 </div>
- 
+
 <div class="loading" id="loading">
   <div class="loading-spinner"></div>
 </div>
- 
+<div class="toast" id="toast"></div>
+
 <script>
- 
+
 // Standard pipe stock lengths
 const STOCK_LENGTHS = [0.3, 0.5, 0.7, 0.8, 0.9, 1, 1.2, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6];
- 
+
 // Safety ratios for different scaffold types
 const SAFETY_RATIOS = {
   independent: { maxHeightRatio: 3.5, name: 'Independent Scaffold' },
-  tower: { maxHeightRatio: 4.0, name: 'Tower Scaffold' },
-  birdcage: { maxHeightRatio: 5.0, name: 'Birdcage Scaffold' }
+  tower:       { maxHeightRatio: 4.0, name: 'Tower Scaffold' },
+  birdcage:    { maxHeightRatio: 5.0, name: 'Birdcage Scaffold' }
 };
- 
+
 // Global state
 let currentResult = {};
 let currentInputs = {};
 let scene, camera, renderer, controls;
 let scaffoldGroup;
 let wireframeMode = false;
- 
-// Initialize
+let calcLogLines = [];
+
+// ── Initialize ────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   initializeViewer();
 });
- 
+
 function setupEventListeners() {
-  const inputs = ['tinggi', 'panjang', 'lebar', 'bay', 'lift', 'baySpacing', 'liftHeight', 'scaffoldType', 'screwjack'];
+  const inputs = ['tinggi', 'panjang', 'lebar', 'bay', 'lift', 'scaffoldType', 'screwjack'];
   inputs.forEach(id => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.addEventListener('input', debounce(calculate, 300));
-      element.addEventListener('change', calculate);
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input',  debounce(calculate, 350));
+      el.addEventListener('change', calculate);
     }
   });
 }
- 
+
 function debounce(func, wait) {
   let timeout;
-  return function executedFunction(...args) {
-    const later = () => {
-      clearTimeout(timeout);
-      func(...args);
-    };
+  return function(...args) {
     clearTimeout(timeout);
-    timeout = setTimeout(later, wait);
+    timeout = setTimeout(() => func(...args), wait);
   };
 }
- 
-// Find nearest stock length
+
 function nearestUp(value) {
-  for (let s of STOCK_LENGTHS) {
-    if (s >= value) return s;
-  }
+  for (let s of STOCK_LENGTHS) { if (s >= value) return s; }
   return 6;
 }
- 
-// Validation
+
+// ── Toast notification ────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, duration = 3000) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+}
+
+// ── Status indicator ──────────────────────────────────────────────────────
+function updateStatusIndicator(status, message) {
+  const dot  = document.querySelector('.status-dot');
+  const span = document.querySelector('.status-indicator span');
+  const colors = {
+    ready:   { bg: '#00d9ff', shadow: '0 0 12px #00d9ff' },
+    warning: { bg: '#ff6b35', shadow: '0 0 12px #ff6b35' },
+    error:   { bg: '#ff4757', shadow: '0 0 12px #ff4757' },
+  };
+  const c = colors[status] || colors.ready;
+  dot.style.background  = c.bg;
+  dot.style.boxShadow   = c.shadow;
+  if (span) span.textContent = message || status.toUpperCase();
+}
+
+// ── Calculation log ───────────────────────────────────────────────────────
+function logCalc(type, msg) {
+  calcLogLines.push({ type, msg });
+  if (calcLogLines.length > 40) calcLogLines.shift();
+  const box = document.getElementById('calcLog');
+  if (box) {
+    box.innerHTML = calcLogLines.map(l =>
+      `<div class="calc-log-line ${l.type}">[${l.type.toUpperCase()}] ${l.msg}</div>`
+    ).join('');
+    box.scrollTop = box.scrollHeight;
+  }
+}
+
+function toggleCalcLog() {
+  const box = document.getElementById('calcLog');
+  const checked = document.getElementById('showCalcLog').checked;
+  box.classList.toggle('visible', checked);
+}
+
+// ── Dimension warnings (non-blocking) ────────────────────────────────────
+let dimWarnings = [];
+
+function clearDimWarnings() {
+  dimWarnings = [];
+  document.getElementById('dimWarningBox').classList.remove('visible');
+  document.getElementById('dimWarningList').innerHTML = '';
+}
+
+function addDimWarning(msg) {
+  dimWarnings.push(msg);
+  const list = document.getElementById('dimWarningList');
+  list.innerHTML = dimWarnings.map(w => `<div class="warning-item">${w}</div>`).join('');
+  document.getElementById('dimWarningBox').classList.add('visible');
+  logCalc('warn', msg);
+}
+
+// ── Auto-adjust helpers ───────────────────────────────────────────────────
+function autoAdjustBay() {
+  const panjang = parseFloat(document.getElementById('panjang').value) || 0;
+  if (panjang <= 0) { showToast('⚠ Masukkan Panjang terlebih dahulu'); return; }
+  const target = 2.0; // target spacing
+  const optBay = Math.max(1, Math.round(panjang / target));
+  document.getElementById('bay').value = optBay;
+  showToast(`✓ Bay disesuaikan → ${optBay} (spacing ~${(panjang/optBay).toFixed(2)}m)`);
+  calculate();
+}
+
+function autoAdjustLift() {
+  const tinggi = parseFloat(document.getElementById('tinggi').value) || 0;
+  if (tinggi <= 0) { showToast('⚠ Masukkan Tinggi terlebih dahulu'); return; }
+  const target = 2.0; // target lift height
+  const optLift = Math.max(1, Math.round(tinggi / target));
+  document.getElementById('lift').value = optLift;
+  showToast(`✓ Lift disesuaikan → ${optLift} (height ~${(tinggi/optLift).toFixed(2)}m)`);
+  calculate();
+}
+
+// ── Validation — FLEXIBLE, non-blocking for geometry ─────────────────────
 function validateInputs() {
   let isValid = true;
   const errors = {};
-  
-  const tinggi = parseFloat(document.getElementById('tinggi').value) || 0;
+  clearDimWarnings();
+
+  const tinggi  = parseFloat(document.getElementById('tinggi').value)  || 0;
   const panjang = parseFloat(document.getElementById('panjang').value) || 0;
-  const lebar = parseFloat(document.getElementById('lebar').value) || 0;
-  const bay = parseInt(document.getElementById('bay').value) || 0;
-  const lift = parseInt(document.getElementById('lift').value) || 0;
-  const baySpacing = parseFloat(document.getElementById('baySpacing').value) || 2.0;
-  const liftHeight = parseFloat(document.getElementById('liftHeight').value) || 2.0;
-  
-  // Basic validation
-  if (tinggi <= 0) {
-    errors.tinggi = 'Height must be greater than 0';
-    isValid = false;
+  const lebar   = parseFloat(document.getElementById('lebar').value)   || 0;
+  const bay     = parseInt(document.getElementById('bay').value)       || 0;
+  const lift    = parseInt(document.getElementById('lift').value)      || 0;
+
+  // ── Hard errors (truly missing values) ──────────────────────
+  if (tinggi  <= 0) { errors.tinggi  = 'Height must be > 0'; isValid = false; }
+  if (panjang <= 0) { errors.panjang = 'Length must be > 0'; isValid = false; }
+  if (lebar   <= 0) { errors.lebar   = 'Width must be > 0';  isValid = false; }
+  if (bay     <= 0) { errors.bay     = 'Bays must be > 0';   isValid = false; }
+  if (lift    <= 0) { errors.lift    = 'Lifts must be > 0';  isValid = false; }
+
+  if (!isValid) {
+    renderFieldErrors(errors);
+    updateStatusIndicator('error', 'INPUT ERROR');
+    return { isValid, errors };
   }
-  if (panjang <= 0) {
-    errors.panjang = 'Length must be greater than 0';
-    isValid = false;
-  }
-  if (lebar <= 0) {
-    errors.lebar = 'Width must be greater than 0';
-    isValid = false;
-  }
-  if (bay <= 0) {
-    errors.bay = 'Number of bays must be greater than 0';
-    isValid = false;
-  }
-  if (lift <= 0) {
-    errors.lift = 'Number of lifts must be greater than 0';
-    isValid = false;
-  }
+
+  // ── Derived spacings ─────────────────────────────────────────
+  const baySpacing = panjang / bay;
+  const liftHeight = tinggi  / lift;
+
+  // Update AUTO display
+  document.getElementById('baySpacingDisplay').textContent = baySpacing.toFixed(2) + ' m';
+  document.getElementById('liftHeightDisplay').textContent = liftHeight.toFixed(2) + ' m';
+
+  // ── Soft warnings (non-blocking) ─────────────────────────────
+  // Bay spacing range
   if (baySpacing < 0.3 || baySpacing > 5) {
-    errors.baySpacing = 'Bay spacing must be between 0.3m and 5m';
-    isValid = false;
+    addDimWarning(`Bay spacing (${baySpacing.toFixed(2)}m) diluar rentang tipikal 0.3–5m. Hasil BOQ mungkin tidak akurat untuk kondisi lapangan.`);
   }
+  // Lift height range
   if (liftHeight < 0.5 || liftHeight > 4) {
-    errors.liftHeight = 'Lift height must be between 0.5m and 4m';
-    isValid = false;
+    addDimWarning(`Lift height (${liftHeight.toFixed(2)}m) diluar rentang tipikal 0.5–4m. Perhatikan stabilitas per lantai.`);
   }
-  
-  // Check if total length matches bays * spacing — warning only, not error
-  const expectedLength = bay * baySpacing;
-  const lengthDiff = Math.abs(expectedLength - panjang);
-  if (lengthDiff > panjang * 0.05 && panjang > 0) {
-    showDimensionWarning('length', panjang, expectedLength, lengthDiff);
-    // JANGAN set isValid = false — perhitungan tetap jalan
+  // Length/width ratio
+  const lwRatio = Math.max(panjang, lebar) / Math.min(panjang, lebar);
+  if (lwRatio > 10) {
+    addDimWarning(`Rasio panjang:lebar (${lwRatio.toFixed(1)}:1) sangat besar. Pastikan bracing memadai di arah pendek.`);
+  }
+  // Very large dimensions
+  if (panjang > 100 || lebar > 50 || tinggi > 50) {
+    addDimWarning(`Dimensi sangat besar (P:${panjang}m, L:${lebar}m, T:${tinggi}m). Pastikan perhitungan beban & stabilitas diperhatikan oleh engineer.`);
   }
 
-  // Check if total height matches lifts * height — warning only, not error
-  const expectedHeight = lift * liftHeight;
-  const heightDiff = Math.abs(expectedHeight - tinggi);
-  if (heightDiff > tinggi * 0.05 && tinggi > 0) {
-    showDimensionWarning('height', tinggi, expectedHeight, heightDiff);
-    // JANGAN set isValid = false — perhitungan tetap jalan
-  }
-  
-  // Display errors
-  Object.keys(errors).forEach(key => {
-    const errorElement = document.getElementById(`${key}Error`);
-    const inputElement = document.getElementById(key);
-    if (errorElement && inputElement) {
-      errorElement.textContent = errors[key];
-      errorElement.classList.add('visible');
-      inputElement.classList.add('error');
-    }
-  });
-  
-  // Clear errors for valid fields
-  ['tinggi', 'panjang', 'lebar', 'bay', 'lift', 'baySpacing', 'liftHeight'].forEach(key => {
-    if (!errors[key]) {
-      const errorElement = document.getElementById(`${key}Error`);
-      const inputElement = document.getElementById(key);
-      if (errorElement && inputElement) {
-        errorElement.classList.remove('visible');
-        inputElement.classList.remove('error');
-      }
-    }
-  });
-  
-  return { isValid, errors };
-}
- 
-// Show dimension mismatch warning (orange, non-blocking)
-function showDimensionWarning(type, actual, expected, diff) {
-  const warningBox = document.getElementById('warningBox');
-  const warningText = document.getElementById('warningText');
-  
-  let message = '';
-  if (type === 'length') {
-    message = `⚠️ Panjang (${actual}m) ≠ bay × spacing (${expected.toFixed(2)}m). Selisih: ${diff.toFixed(2)}m. Sistem menggunakan dimensi aktual untuk perhitungan.`;
-  } else if (type === 'height') {
-    message = `⚠️ Tinggi (${actual}m) ≠ lift × height (${expected.toFixed(2)}m). Selisih: ${diff.toFixed(2)}m. Sistem menggunakan dimensi aktual untuk perhitungan.`;
-  }
-  
-  // Append jika sudah ada pesan lain
-  const existing = warningText.textContent;
-  warningText.textContent = existing ? existing + ' | ' + message : message;
-  warningBox.classList.add('visible');
-  warningBox.style.borderColor = '#ff6b35';
-  warningBox.style.background = 'rgba(255, 107, 53, 0.1)';
-  warningBox.querySelector('.warning-title').style.color = '#ff6b35';
+  const hasWarnings = dimWarnings.length > 0;
+  updateStatusIndicator(hasWarnings ? 'warning' : 'ready', hasWarnings ? 'WARNINGS' : 'SYSTEM READY');
+
+  logCalc('info', `Inputs OK — baySpacing=${baySpacing.toFixed(2)}m, liftHeight=${liftHeight.toFixed(2)}m`);
+  renderFieldErrors(errors);
+  return { isValid: true, errors };
 }
 
-// Safety check
-function checkSafetyRatio() {
-  const tinggi = parseFloat(document.getElementById('tinggi').value) || 0;
-  const panjang = parseFloat(document.getElementById('panjang').value) || 0;
-  const lebar = parseFloat(document.getElementById('lebar').value) || 0;
-  const scaffoldType = document.getElementById('scaffoldType').value;
-  
-  const smallestBaseDim = Math.min(panjang, lebar);
-  const ratio = tinggi / smallestBaseDim;
+function renderFieldErrors(errors) {
+  ['tinggi', 'panjang', 'lebar', 'bay', 'lift'].forEach(key => {
+    const errEl  = document.getElementById(`${key}Error`);
+    const inpEl  = document.getElementById(key);
+    if (errors[key]) {
+      if (errEl) { errEl.textContent = errors[key]; errEl.classList.add('visible'); }
+      if (inpEl) inpEl.classList.add('error');
+    } else {
+      if (errEl) errEl.classList.remove('visible');
+      if (inpEl) inpEl.classList.remove('error');
+    }
+  });
+}
+
+// ── Safety ratio check (height vs base) ──────────────────────────────────
+function checkSafetyRatio(inputs) {
+  const { tinggi, panjang, lebar, scaffoldType } = inputs;
+  const smallestBase = Math.min(panjang, lebar);
+  const ratio    = tinggi / smallestBase;
   const maxRatio = SAFETY_RATIOS[scaffoldType].maxHeightRatio;
-  
-  const warningBox = document.getElementById('warningBox');
+  const warningBox  = document.getElementById('warningBox');
   const warningText = document.getElementById('warningText');
-  
   if (ratio > maxRatio) {
-    warningText.textContent = `Height-to-base ratio (${ratio.toFixed(2)}) exceeds safe limit (${maxRatio}) for ${SAFETY_RATIOS[scaffoldType].name}. Additional bracing and tie-ins required. Consider wider base or scaffold type change.`;
+    warningText.textContent = `Rasio tinggi/base (${ratio.toFixed(2)}) melebihi batas aman (${maxRatio}) untuk ${SAFETY_RATIOS[scaffoldType].name}. Diperlukan bracing & tie-in tambahan.`;
     warningBox.classList.add('visible');
-    return false;
+    logCalc('warn', `Safety ratio exceeded: ${ratio.toFixed(2)} > ${maxRatio}`);
   } else {
     warningBox.classList.remove('visible');
-    return true;
+    logCalc('ok', `Safety ratio OK: ${ratio.toFixed(2)} ≤ ${maxRatio}`);
   }
 }
- 
-// Main calculation
-function calculate() {
-  // Reset dimension warning setiap kalkulasi
-  const wb = document.getElementById('warningBox');
-  const wt = document.getElementById('warningText');
-  wt.textContent = '';
-  wb.classList.remove('visible');
-  wb.style.borderColor = '';
-  wb.style.background = '';
-  const wTitle = wb.querySelector('.warning-title');
-  if (wTitle) wTitle.style.color = '';
 
+// ── Main calculate ────────────────────────────────────────────────────────
+function calculate() {
   const validation = validateInputs();
-  if (!validation.isValid) {
-    clearResults();
-    return;
-  }
-  
+  if (!validation.isValid) { clearResults(); return; }
+
   const inputs = {
-    tinggi: parseFloat(document.getElementById('tinggi').value) || 0,
-    panjang: parseFloat(document.getElementById('panjang').value) || 0,
-    lebar: parseFloat(document.getElementById('lebar').value) || 0,
-    bay: parseInt(document.getElementById('bay').value) || 0,
-    lift: parseInt(document.getElementById('lift').value) || 0,
-    baySpacing: parseFloat(document.getElementById('baySpacing').value) || 2.0,
-    liftHeight: parseFloat(document.getElementById('liftHeight').value) || 2.0,
+    tinggi:       parseFloat(document.getElementById('tinggi').value)  || 0,
+    panjang:      parseFloat(document.getElementById('panjang').value) || 0,
+    lebar:        parseFloat(document.getElementById('lebar').value)   || 0,
+    bay:          parseInt(document.getElementById('bay').value)       || 0,
+    lift:         parseInt(document.getElementById('lift').value)      || 0,
     scaffoldType: document.getElementById('scaffoldType').value,
-    screwjack: document.getElementById('screwjack').checked
+    screwjack:    document.getElementById('screwjack').checked
   };
-  
+  // Always derive spacing from actual dimensions — no manual input conflict
+  inputs.baySpacing = inputs.panjang / inputs.bay;
+  inputs.liftHeight = inputs.tinggi  / inputs.lift;
+
   currentInputs = inputs;
-  checkSafetyRatio();
-  
-  // Calculate based on scaffold type
+  checkSafetyRatio(inputs);
+
   let result;
   switch (inputs.scaffoldType) {
-    case 'tower':
-      result = calculateTowerScaffold(inputs);
-      break;
-    case 'birdcage':
-      result = calculateBirdcageScaffold(inputs);
-      break;
-    default:
-      result = calculateIndependentScaffold(inputs);
+    case 'tower':    result = calculateTowerScaffold(inputs);    break;
+    case 'birdcage': result = calculateBirdcageScaffold(inputs); break;
+    default:         result = calculateIndependentScaffold(inputs);
   }
-  
+
   currentResult = result;
+  logCalc('ok', `Calculated: ${result.scaffoldType} → ${result.standards} standards, ${result.ledgers} ledgers`);
   displayResults(result);
   render3DScaffold(inputs);
 }
- 
+
 function calculateIndependentScaffold(d) {
   const smallestBaseDim = Math.min(d.panjang, d.lebar);
   const maxSafeHeight = SAFETY_RATIOS.independent.maxHeightRatio * smallestBaseDim;
   const standardPipeLength = nearestUp(maxSafeHeight);
-  
-  // Standards (vertical posts) - 4 corners
+
   const standards = 4;
-  
-  // Joints per standard
   const jointsPerStandard = d.tinggi > standardPipeLength ? Math.ceil(d.tinggi / standardPipeLength) - 1 : 0;
   const totalJoints = standards * jointsPerStandard;
-  
-  // Ledgers (longitudinal horizontals)
+
   const ledgersPerSide = d.bay + 1;
   const ledgers = ledgersPerSide * 2 * d.lift;
-  
-  // Transoms (cross horizontals) — 3 per bay
-  const transoms = d.bay * 3 * d.lift;
-  
-  // Putlogs (board supports)
+  const ledgerPipeLength = nearestUp(d.baySpacing);
+
+  const transoms = d.bay * 2 * d.lift;
+  const transomPipeLength = nearestUp(d.lebar);
+
   const putlogs = transoms;
-  
-  // Bracing (diagonal) - 1 pair every 3 bays
+  const putlogPipeLength = nearestUp(d.lebar + 0.3);
+
   const bracedBays = Math.ceil(d.bay / 3);
   const bracing = bracedBays * 2 * d.lift;
-  
-  // Handrails
+  const bracingPipeLength = nearestUp(Math.sqrt(Math.pow(d.baySpacing, 2) + Math.pow(d.liftHeight, 2)));
+
   const handrails = ledgersPerSide * 2 * d.lift;
-  
-  // Toe boards
+  const handrailPipeLength = nearestUp(d.baySpacing);
+
   const toeboards = 4 * d.lift;
-  
-  // Boards/Planks
-  const planksPerBay = Math.ceil(d.lebar / 0.3); // Assuming 30cm board width
+  const toeBoardLength = nearestUp(d.baySpacing);
+
+  const planksPerBay = Math.ceil(d.lebar / 0.3);
   const totalPlanks = d.bay * planksPerBay * d.lift;
-  
-  // Couplers
+  const plankLength = nearestUp(d.baySpacing);
+
   const doubleCouplers = (ledgers + transoms + handrails) * 2;
   const swivelCouplers = bracing * 2;
   const singleCouplers = putlogs * 2;
-  
-  // Base components
+
   const baseplates = standards;
   const solboards = standards;
   const screwjacks = d.screwjack ? standards : 0;
-  
+
   return {
     scaffoldType: 'Independent Scaffold',
     dimensions: `${d.panjang}m × ${d.lebar}m × ${d.tinggi}m`,
     baseDimension: smallestBaseDim.toFixed(2),
     maxSafeHeight: maxSafeHeight.toFixed(2),
     standardPipeLength: standardPipeLength.toFixed(2),
-    standards,
-    joints: totalJoints,
-    ledgers,
-    transoms,
-    putlogs,
-    bracing,
-    handrails,
-    toeboards,
-    planks: totalPlanks,
-    doubleCouplers,
-    swivelCouplers,
-    singleCouplers,
-    baseplates,
-    solboards,
-    screwjacks
+    standards, joints: totalJoints,
+    ledgers, ledgerPipeLength,
+    transoms, transomPipeLength,
+    putlogs, putlogPipeLength,
+    bracing, bracingPipeLength,
+    handrails, handrailPipeLength,
+    toeboards, toeBoardLength,
+    planks: totalPlanks, plankLength,
+    doubleCouplers, swivelCouplers, singleCouplers,
+    baseplates, solboards, screwjacks,
+    // Breakdown details for each component
+    detail: {
+      standards:     { qty: standards,    pipeLen: standardPipeLength, formula: `4 sudut tiang vertikal × tinggi ${d.tinggi}m`, location: 'Setiap sudut, sepanjang ketinggian scaffold' },
+      joints:        { qty: totalJoints,  pipeLen: 0,                  formula: `4 tiang × ${jointsPerStandard} sambungan/tiang (tinggi ${d.tinggi}m > pipa ${standardPipeLength}m)`, location: 'Sambungan antar pipa pada setiap tiang standar' },
+      ledgers:       { qty: ledgers,      pipeLen: ledgerPipeLength,   formula: `(${d.bay} bay+1) × 2 sisi × ${d.lift} lift`, location: `Horizontal memanjang (arah panjang ${d.panjang}m), tiap lift` },
+      transoms:      { qty: transoms,     pipeLen: transomPipeLength,  formula: `${d.bay} bay × 2 sisi × ${d.lift} lift`, location: `Horizontal melintang (arah lebar ${d.lebar}m), tiap lift` },
+      putlogs:       { qty: putlogs,      pipeLen: putlogPipeLength,   formula: `Sama dengan jumlah transom`, location: `Penyangga papan lantai, melintang lebar scaffold` },
+      bracing:       { qty: bracing,      pipeLen: bracingPipeLength,  formula: `⌈${d.bay} bay ÷ 3⌉ = ${bracedBays} × 2 muka × ${d.lift} lift`, location: `Diagonal pengaku, 1 pasang tiap 3 bay di muka depan & belakang` },
+      handrails:     { qty: handrails,    pipeLen: handrailPipeLength, formula: `(${d.bay} bay+1) × 2 sisi × ${d.lift} lift`, location: `Pagar pengaman atas, sepanjang sisi scaffold tiap lift` },
+      toeboards:     { qty: toeboards,    pipeLen: toeBoardLength,     formula: `4 sisi × ${d.lift} lift`, location: `Papan siku bawah di 4 sisi perimeter tiap lantai` },
+      planks:        { qty: totalPlanks,  pipeLen: plankLength,        formula: `${d.bay} bay × ⌈${d.lebar}m ÷ 0.3m⌉ = ${planksPerBay} papan/bay × ${d.lift} lift`, location: `Papan lantai kerja, mengisi seluruh lebar ${d.lebar}m tiap bay tiap lift` },
+      doubleCouplers:{ qty: doubleCouplers, pipeLen: 0,                formula: `(${ledgers} ledger + ${transoms} transom + ${handrails} handrail) × 2`, location: 'Klem sambungan tegak lurus (ledger/transom ke standar)' },
+      swivelCouplers:{ qty: swivelCouplers, pipeLen: 0,                formula: `${bracing} bracing × 2 ujung`, location: 'Klem sambungan sudut bebas (bracing ke standar/ledger)' },
+      singleCouplers:{ qty: singleCouplers, pipeLen: 0,                formula: `${putlogs} putlog × 2 ujung`, location: 'Klem putlog ke ledger (bisa bergeser)' },
+      baseplates:    { qty: baseplates,   pipeLen: 0,                  formula: `1 per tiang standar = ${standards} tiang`, location: 'Pelat dasar bawah setiap tiang standar' },
+      solboards:     { qty: solboards,    pipeLen: 0,                  formula: `1 per baseplate = ${baseplates} pcs`, location: 'Papan alas bawah baseplate, distribusi beban ke tanah' },
+      screwjacks:    { qty: screwjacks,   pipeLen: 0,                  formula: d.screwjack ? `1 per tiang = ${standards} tiang` : 'Tidak digunakan', location: 'Adjuster ketinggian di bawah baseplate (opsional)' },
+    }
   };
 }
- 
+
 function calculateTowerScaffold(d) {
   const smallestBaseDim = Math.min(d.panjang, d.lebar);
   const maxSafeHeight = SAFETY_RATIOS.tower.maxHeightRatio * smallestBaseDim;
   const standardPipeLength = nearestUp(maxSafeHeight);
-  
-  // Tower scaffold has more standards (4 per bay)
+
   const standards = 4 * d.bay;
   const jointsPerStandard = d.tinggi > standardPipeLength ? Math.ceil(d.tinggi / standardPipeLength) - 1 : 0;
   const totalJoints = standards * jointsPerStandard;
-  
-  // More horizontal members for stability
+
   const ledgers = (d.bay + 1) * 4 * d.lift;
-  const transoms = d.bay * 3 * d.lift;  // 3 transoms per bay
+  const ledgerPipeLength = nearestUp(d.baySpacing);
+
+  const transoms = d.bay * 4 * d.lift;
+  const transomPipeLength = nearestUp(d.lebar);
+
   const putlogs = transoms;
-  
-  // More bracing for tower
+  const putlogPipeLength = nearestUp(d.lebar + 0.3);
+
   const bracing = d.bay * 4 * d.lift;
-  
+  const bracingPipeLength = nearestUp(Math.sqrt(Math.pow(d.baySpacing, 2) + Math.pow(d.liftHeight, 2)));
+
   const handrails = (d.bay + 1) * 4 * d.lift;
+  const handrailPipeLength = nearestUp(d.baySpacing);
+
   const toeboards = 4 * d.lift;
-  
+  const toeBoardLength = nearestUp(d.baySpacing);
+
   const planksPerBay = Math.ceil(d.lebar / 0.3);
   const totalPlanks = d.bay * planksPerBay * d.lift;
-  
+  const plankLength = nearestUp(d.baySpacing);
+
   const doubleCouplers = (ledgers + transoms + handrails) * 2;
   const swivelCouplers = bracing * 2;
   const singleCouplers = putlogs * 2;
-  
+
   const baseplates = standards;
   const solboards = standards;
   const screwjacks = d.screwjack ? standards : 0;
-  
+
   return {
     scaffoldType: 'Tower Scaffold',
     dimensions: `${d.panjang}m × ${d.lebar}m × ${d.tinggi}m`,
     baseDimension: smallestBaseDim.toFixed(2),
     maxSafeHeight: maxSafeHeight.toFixed(2),
     standardPipeLength: standardPipeLength.toFixed(2),
-    standards,
-    joints: totalJoints,
-    ledgers,
-    transoms,
-    putlogs,
-    bracing,
-    handrails,
-    toeboards,
-    planks: totalPlanks,
-    doubleCouplers,
-    swivelCouplers,
-    singleCouplers,
-    baseplates,
-    solboards,
-    screwjacks
+    standards, joints: totalJoints,
+    ledgers, ledgerPipeLength,
+    transoms, transomPipeLength,
+    putlogs, putlogPipeLength,
+    bracing, bracingPipeLength,
+    handrails, handrailPipeLength,
+    toeboards, toeBoardLength,
+    planks: totalPlanks, plankLength,
+    doubleCouplers, swivelCouplers, singleCouplers,
+    baseplates, solboards, screwjacks,
+    detail: {
+      standards:     { qty: standards,    pipeLen: standardPipeLength, formula: `4 tiang/bay × ${d.bay} bay`, location: 'Tiang vertikal di tiap sudut setiap bay, sepanjang ketinggian' },
+      joints:        { qty: totalJoints,  pipeLen: 0,                  formula: `${standards} tiang × ${jointsPerStandard} sambungan/tiang`, location: 'Sambungan antar pipa pada setiap tiang standar' },
+      ledgers:       { qty: ledgers,      pipeLen: ledgerPipeLength,   formula: `(${d.bay}+1) × 4 muka × ${d.lift} lift`, location: `Horizontal memanjang, semua 4 muka tower, tiap lift` },
+      transoms:      { qty: transoms,     pipeLen: transomPipeLength,  formula: `${d.bay} bay × 4 muka × ${d.lift} lift`, location: `Horizontal melintang (lebar ${d.lebar}m), tiap bay tiap lift` },
+      putlogs:       { qty: putlogs,      pipeLen: putlogPipeLength,   formula: `Sama dengan transom`, location: 'Penyangga papan lantai, melintang lebar scaffold' },
+      bracing:       { qty: bracing,      pipeLen: bracingPipeLength,  formula: `${d.bay} bay × 4 muka × ${d.lift} lift`, location: 'Diagonal pengaku di semua 4 muka tower tiap bay tiap lift' },
+      handrails:     { qty: handrails,    pipeLen: handrailPipeLength, formula: `(${d.bay}+1) × 4 muka × ${d.lift} lift`, location: 'Pagar pengaman atas, semua 4 muka tower tiap lift' },
+      toeboards:     { qty: toeboards,    pipeLen: toeBoardLength,     formula: `4 sisi × ${d.lift} lift`, location: 'Papan siku bawah di 4 sisi perimeter tiap lantai' },
+      planks:        { qty: totalPlanks,  pipeLen: plankLength,        formula: `${d.bay} bay × ${planksPerBay} papan/bay × ${d.lift} lift`, location: `Papan lantai kerja, lebar ${d.lebar}m tiap bay tiap lift` },
+      doubleCouplers:{ qty: doubleCouplers, pipeLen: 0, formula: `(${ledgers}+${transoms}+${handrails}) × 2`, location: 'Klem sambungan tegak lurus' },
+      swivelCouplers:{ qty: swivelCouplers, pipeLen: 0, formula: `${bracing} bracing × 2 ujung`, location: 'Klem sambungan sudut bebas (bracing)' },
+      singleCouplers:{ qty: singleCouplers, pipeLen: 0, formula: `${putlogs} putlog × 2 ujung`, location: 'Klem putlog ke ledger' },
+      baseplates:    { qty: baseplates,   pipeLen: 0, formula: `1 per tiang = ${standards} tiang`, location: 'Pelat dasar bawah setiap tiang standar' },
+      solboards:     { qty: solboards,    pipeLen: 0, formula: `1 per baseplate`, location: 'Papan alas distribusi beban' },
+      screwjacks:    { qty: screwjacks,   pipeLen: 0, formula: d.screwjack ? `1 per tiang = ${standards}` : 'Tidak digunakan', location: 'Adjuster ketinggian (opsional)' },
+    }
   };
 }
- 
+
 function calculateBirdcageScaffold(d) {
   const smallestBaseDim = Math.min(d.panjang, d.lebar);
   const maxSafeHeight = SAFETY_RATIOS.birdcage.maxHeightRatio * smallestBaseDim;
   const standardPipeLength = nearestUp(maxSafeHeight);
-  
-  // Birdcage has standards throughout (grid pattern)
+
   const standardsLength = Math.ceil(d.panjang / d.baySpacing) + 1;
-  const standardsWidth = Math.ceil(d.lebar / d.baySpacing) + 1;
+  const standardsWidth  = Math.ceil(d.lebar  / d.baySpacing) + 1;
   const standards = standardsLength * standardsWidth;
-  
+
   const jointsPerStandard = d.tinggi > standardPipeLength ? Math.ceil(d.tinggi / standardPipeLength) - 1 : 0;
   const totalJoints = standards * jointsPerStandard;
-  
-  // Extensive horizontal grid
+
   const ledgers = standardsLength * standardsWidth * d.lift;
+  const ledgerPipeLength = nearestUp(d.baySpacing);
+
   const transoms = standardsWidth * standardsLength * d.lift;
+  const transomPipeLength = nearestUp(d.baySpacing);
+
   const putlogs = transoms;
-  
-  // Less bracing needed due to grid structure
+  const putlogPipeLength = nearestUp(d.baySpacing + 0.3);
+
   const bracing = Math.ceil(d.bay / 4) * 2 * d.lift;
-  
-  const handrails = ((standardsLength + standardsWidth) * 2) * d.lift;
+  const bracingPipeLength = nearestUp(Math.sqrt(Math.pow(d.baySpacing, 2) + Math.pow(d.liftHeight, 2)));
+
+  const perimeterStdsLen = standardsLength * 2 + standardsWidth * 2 - 4;
+  const handrails = perimeterStdsLen * d.lift;
+  const handrailPipeLength = nearestUp(d.baySpacing);
+
   const toeboards = 4 * d.lift;
-  
+  const toeBoardLength = nearestUp(d.baySpacing);
+
   const planksPerBay = Math.ceil(d.lebar / 0.3);
   const totalPlanks = d.bay * planksPerBay * d.lift;
-  
+  const plankLength = nearestUp(d.baySpacing);
+
   const doubleCouplers = (ledgers + transoms + handrails) * 2;
   const swivelCouplers = bracing * 2;
   const singleCouplers = putlogs * 2;
-  
+
   const baseplates = standards;
   const solboards = standards;
   const screwjacks = d.screwjack ? standards : 0;
-  
+
   return {
     scaffoldType: 'Birdcage Scaffold',
     dimensions: `${d.panjang}m × ${d.lebar}m × ${d.tinggi}m`,
     baseDimension: smallestBaseDim.toFixed(2),
     maxSafeHeight: maxSafeHeight.toFixed(2),
     standardPipeLength: standardPipeLength.toFixed(2),
-    standards,
-    joints: totalJoints,
-    ledgers,
-    transoms,
-    putlogs,
-    bracing,
-    handrails,
-    toeboards,
-    planks: totalPlanks,
-    doubleCouplers,
-    swivelCouplers,
-    singleCouplers,
-    baseplates,
-    solboards,
-    screwjacks
+    standards, joints: totalJoints,
+    ledgers, ledgerPipeLength,
+    transoms, transomPipeLength,
+    putlogs, putlogPipeLength,
+    bracing, bracingPipeLength,
+    handrails, handrailPipeLength,
+    toeboards, toeBoardLength,
+    planks: totalPlanks, plankLength,
+    doubleCouplers, swivelCouplers, singleCouplers,
+    baseplates, solboards, screwjacks,
+    detail: {
+      standards:     { qty: standards,    pipeLen: standardPipeLength, formula: `Grid ${standardsLength} × ${standardsWidth} tiang`, location: `Grid penuh tiang vertikal setiap ${d.baySpacing.toFixed(2)}m ke segala arah` },
+      joints:        { qty: totalJoints,  pipeLen: 0,                  formula: `${standards} tiang × ${jointsPerStandard} sambungan/tiang`, location: 'Sambungan antar pipa pada setiap tiang standar' },
+      ledgers:       { qty: ledgers,      pipeLen: ledgerPipeLength,   formula: `${standardsLength} × ${standardsWidth} × ${d.lift} lift`, location: `Horizontal memanjang grid, jarak ${d.baySpacing.toFixed(2)}m, tiap lift` },
+      transoms:      { qty: transoms,     pipeLen: transomPipeLength,  formula: `${standardsWidth} × ${standardsLength} × ${d.lift} lift`, location: `Horizontal melintang grid, jarak ${d.baySpacing.toFixed(2)}m, tiap lift` },
+      putlogs:       { qty: putlogs,      pipeLen: putlogPipeLength,   formula: `Sama dengan transom`, location: 'Penyangga papan lantai di seluruh grid' },
+      bracing:       { qty: bracing,      pipeLen: bracingPipeLength,  formula: `⌈${d.bay} bay ÷ 4⌉ × 2 muka × ${d.lift} lift`, location: 'Diagonal pengaku di sisi perimeter birdcage' },
+      handrails:     { qty: handrails,    pipeLen: handrailPipeLength, formula: `${perimeterStdsLen} titik perimeter × ${d.lift} lift`, location: 'Pagar pengaman atas di keliling perimeter tiap lift' },
+      toeboards:     { qty: toeboards,    pipeLen: toeBoardLength,     formula: `4 sisi × ${d.lift} lift`, location: 'Papan siku bawah di 4 sisi perimeter tiap lantai' },
+      planks:        { qty: totalPlanks,  pipeLen: plankLength,        formula: `${d.bay} bay × ${planksPerBay} papan/bay × ${d.lift} lift`, location: `Papan lantai kerja mengisi seluruh area ${d.panjang}m × ${d.lebar}m tiap lift` },
+      doubleCouplers:{ qty: doubleCouplers, pipeLen: 0, formula: `(${ledgers}+${transoms}+${handrails}) × 2`, location: 'Klem sambungan tegak lurus' },
+      swivelCouplers:{ qty: swivelCouplers, pipeLen: 0, formula: `${bracing} bracing × 2 ujung`, location: 'Klem sambungan sudut bebas (bracing)' },
+      singleCouplers:{ qty: singleCouplers, pipeLen: 0, formula: `${putlogs} putlog × 2 ujung`, location: 'Klem putlog ke ledger' },
+      baseplates:    { qty: baseplates,   pipeLen: 0, formula: `1 per tiang = ${standards} tiang`, location: 'Pelat dasar bawah setiap tiang standar' },
+      solboards:     { qty: solboards,    pipeLen: 0, formula: `1 per baseplate`, location: 'Papan alas distribusi beban' },
+      screwjacks:    { qty: screwjacks,   pipeLen: 0, formula: d.screwjack ? `1 per tiang = ${standards}` : 'Tidak digunakan', location: 'Adjuster ketinggian (opsional)' },
+    }
   };
 }
- 
+
 function displayResults(result) {
   const container = document.getElementById('resultsContainer');
   
@@ -1172,11 +1403,11 @@ function displayResults(result) {
     </div>
   `).join('');
 }
- 
+
 function clearResults() {
   document.getElementById('resultsContainer').innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-dim); padding: 2rem;">Enter valid parameters to calculate</div>';
 }
- 
+
 // 3D Visualization
 function initializeViewer() {
   const container = document.getElementById('viewer');
@@ -1234,20 +1465,20 @@ function initializeViewer() {
   // Animation loop
   animate();
 }
- 
+
 function onWindowResize() {
   const container = document.getElementById('viewer');
   camera.aspect = container.clientWidth / container.clientHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(container.clientWidth, container.clientHeight);
 }
- 
+
 function animate() {
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
 }
- 
+
 function render3DScaffold(inputs) {
   // Remove existing scaffold
   if (scaffoldGroup) {
@@ -1259,9 +1490,8 @@ function render3DScaffold(inputs) {
   if (inputs.bay <= 0 || inputs.lift <= 0) return;
   
   const pipeRadius = 0.025;
-  // Gunakan nilai aktual: hitung ulang spacing dari dimensi aktual
-  const baySpacing = inputs.panjang / inputs.bay;
-  const liftHeight = inputs.tinggi / inputs.lift;
+  const baySpacing = inputs.baySpacing;
+  const liftHeight = inputs.liftHeight;
   
   // Materials
   const standardMaterial = new THREE.MeshPhongMaterial({ 
@@ -1311,7 +1541,7 @@ function render3DScaffold(inputs) {
   // Reset camera to fit scaffold
   fitCameraToScaffold();
 }
- 
+
 function createIndependentScaffold3D(group, inputs, baySpacing, liftHeight, radius, stdMat, ledMat, bracMat) {
   const totalLength = inputs.panjang;
   const totalWidth = inputs.lebar;
@@ -1363,7 +1593,7 @@ function createIndependentScaffold3D(group, inputs, baySpacing, liftHeight, radi
     }
   }
 }
- 
+
 function createTowerScaffold3D(group, inputs, baySpacing, liftHeight, radius, stdMat, ledMat, bracMat) {
   const totalLength = inputs.panjang;
   const totalWidth = inputs.lebar;
@@ -1415,7 +1645,7 @@ function createTowerScaffold3D(group, inputs, baySpacing, liftHeight, radius, st
     }
   }
 }
- 
+
 function createBirdcageScaffold3D(group, inputs, baySpacing, liftHeight, radius, stdMat, ledMat, bracMat) {
   const totalLength = inputs.panjang;
   const totalWidth = inputs.lebar;
@@ -1460,7 +1690,7 @@ function createBirdcageScaffold3D(group, inputs, baySpacing, liftHeight, radius,
     }
   }
 }
- 
+
 function addPipe(group, start, end, radius, material) {
   const [x1, y1, z1] = start;
   const [x2, y2, z2] = end;
@@ -1479,7 +1709,7 @@ function addPipe(group, start, end, radius, material) {
   mesh.castShadow = true;
   group.add(mesh);
 }
- 
+
 function updateViewerOverlay(inputs) {
   document.getElementById('overlayType').textContent = SAFETY_RATIOS[inputs.scaffoldType].name;
   document.getElementById('overlayDim').textContent = `${inputs.panjang}×${inputs.lebar}×${inputs.tinggi}m`;
@@ -1487,7 +1717,7 @@ function updateViewerOverlay(inputs) {
   const totalComponents = currentResult.standards + currentResult.ledgers + currentResult.transoms + currentResult.bracing;
   document.getElementById('overlayComp').textContent = totalComponents;
 }
- 
+
 function fitCameraToScaffold() {
   if (!scaffoldGroup) return;
   
@@ -1503,11 +1733,11 @@ function fitCameraToScaffold() {
   controls.target.set(0, size.y / 2, 0);
   controls.update();
 }
- 
+
 function resetCamera() {
   fitCameraToScaffold();
 }
- 
+
 function toggleWireframe() {
   wireframeMode = !wireframeMode;
   if (scaffoldGroup) {
@@ -1518,16 +1748,16 @@ function toggleWireframe() {
     });
   }
 }
- 
+
 // Export Functions
 function showLoading() {
   document.getElementById('loading').classList.add('active');
 }
- 
+
 function hideLoading() {
   document.getElementById('loading').classList.remove('active');
 }
- 
+
 function getExportData() {
   const timestamp = new Date().toLocaleString();
   const companyName = "Scaffold Engineering Pro";
@@ -1540,391 +1770,355 @@ function getExportData() {
     ...currentInputs
   };
 }
- 
+
 function exportPDF() {
-  if (!currentResult.scaffoldType) {
-    alert('Please calculate scaffold first');
-    return;
-  }
-  
+  if (!currentResult.scaffoldType) { alert('Please calculate scaffold first'); return; }
   showLoading();
-  
   setTimeout(() => {
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
+    const doc = new jsPDF('p', 'mm', 'a4');
     const data = getExportData();
-    
-    // Header
+    const d = currentResult.detail;
+
+    // ── Header ──────────────────────────────────────────────
     doc.setFillColor(21, 34, 56);
-    doc.rect(0, 0, 210, 40, 'F');
-    
+    doc.rect(0, 0, 210, 42, 'F');
     doc.setTextColor(0, 217, 255);
-    doc.setFontSize(24);
-    doc.setFont(undefined, 'bold');
-    doc.text('SCAFFOLD ENGINEERING PRO', 105, 20, { align: 'center' });
-    
-    doc.setFontSize(10);
-    doc.setTextColor(148, 163, 184);
-    doc.text('Bill of Quantities Report', 105, 28, { align: 'center' });
-    doc.text(`Generated: ${data.timestamp}`, 105, 35, { align: 'center' });
-    
-    // Project Info
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('PROJECT INFORMATION', 14, 50);
-    
+    doc.setFontSize(20); doc.setFont(undefined, 'bold');
+    doc.text('SCAFFOLD ENGINEERING PRO', 105, 16, { align: 'center' });
+    doc.setFontSize(10); doc.setTextColor(148, 163, 184);
+    doc.text('Detailed Bill of Quantities Report', 105, 25, { align: 'center' });
+    doc.text(`Generated: ${data.timestamp}`, 105, 33, { align: 'center' });
+
+    // ── Project Info ─────────────────────────────────────────
+    doc.setTextColor(30, 58, 95); doc.setFontSize(11); doc.setFont(undefined, 'bold');
+    doc.text('PROJECT INFORMATION', 14, 52);
     doc.autoTable({
       startY: 55,
       head: [['Parameter', 'Value']],
       body: [
         ['Scaffold Type', data.scaffoldType],
-        ['Dimensions', data.dimensions],
-        ['Bay Spacing', `${data.baySpacing} m`],
-        ['Lift Height', `${data.liftHeight} m`],
+        ['Dimensions (P × L × T)', data.dimensions],
+        ['Bay Spacing', `${(+data.baySpacing).toFixed(2)} m`],
+        ['Lift Height', `${(+data.liftHeight).toFixed(2)} m`],
         ['Number of Bays', data.bay],
         ['Number of Lifts', data.lift],
+        ['Standard Pipe Length', `${data.standardPipeLength} m`],
         ['Screw Jacks', data.screwjack ? 'Yes' : 'No']
       ],
       theme: 'grid',
-      headStyles: { fillColor: [30, 58, 95], textColor: [0, 217, 255] },
-      margin: { left: 14 }
+      headStyles: { fillColor: [30, 58, 95], textColor: [0, 217, 255], fontStyle: 'bold' },
+      columnStyles: { 0: { cellWidth: 60, fontStyle: 'bold' } },
+      margin: { left: 14, right: 14 }
     });
-    
-    // Bill of Quantities
-    const finalY = doc.lastAutoTable.finalY + 10;
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('BILL OF QUANTITIES', 14, finalY);
-    
+
+    // ── Detailed BOQ ─────────────────────────────────────────
+    const boqY = doc.lastAutoTable.finalY + 10;
+    doc.setTextColor(30, 58, 95); doc.setFontSize(11); doc.setFont(undefined, 'bold');
+    doc.text('DETAILED BILL OF QUANTITIES', 14, boqY);
+
+    const itemRows = [
+      ['standards',      'Standards',          'Tiang Vertikal (Pipa)'],
+      ['joints',         'Joints / Couplings', 'Sambungan Pipa Tiang'],
+      ['ledgers',        'Ledgers',             'Horizontal Memanjang (Pipa)'],
+      ['transoms',       'Transoms',            'Horizontal Melintang (Pipa)'],
+      ['putlogs',        'Putlogs',             'Penyangga Papan (Pipa)'],
+      ['bracing',        'Bracing',             'Diagonal Pengaku (Pipa)'],
+      ['handrails',      'Handrails',           'Pagar Pengaman (Pipa)'],
+      ['toeboards',      'Toe Boards',          'Papan Siku Bawah'],
+      ['planks',         'Planks / Boards',     'Papan Lantai Kerja'],
+      ['doubleCouplers', 'Double Couplers',     'Klem Tegak Lurus'],
+      ['swivelCouplers', 'Swivel Couplers',     'Klem Sudut Bebas'],
+      ['singleCouplers', 'Single Couplers',     'Klem Putlog'],
+      ['baseplates',     'Base Plates',         'Pelat Dasar Tiang'],
+      ['solboards',      'Sole Boards',         'Papan Alas Baseplate'],
+      ['screwjacks',     'Screw Jacks',         'Adjuster Ketinggian'],
+    ];
+
+    const boqBody = itemRows.map(([key, name, indo], idx) => {
+      const item = d[key];
+      const pipeStr = item.pipeLen > 0 ? `${item.pipeLen} m` : '-';
+      return [
+        idx + 1,
+        `${name}\n(${indo})`,
+        item.qty,
+        'pcs',
+        pipeStr,
+        item.formula,
+        item.location
+      ];
+    });
+
     doc.autoTable({
-      startY: finalY + 5,
-      head: [['Item', 'Description', 'Quantity', 'Unit']],
-      body: [
-        ['1', 'Standards (Vertical Pipes)', data.standards, 'pcs'],
-        ['2', 'Ledgers (Longitudinal)', data.ledgers, 'pcs'],
-        ['3', 'Transoms (Cross Members)', data.transoms, 'pcs'],
-        ['4', 'Bracing (Diagonal)', data.bracing, 'pcs'],
-        ['5', 'Handrails', data.handrails, 'pcs'],
-        ['6', 'Toe Boards', data.toeboards, 'pcs'],
-        ['7', 'Planks/Boards', data.planks, 'pcs'],
-        ['8', 'Double Couplers', data.doubleCouplers, 'pcs'],
-        ['9', 'Swivel Couplers', data.swivelCouplers, 'pcs'],
-        ['10', 'Single Couplers', data.singleCouplers, 'pcs'],
-        ['11', 'Base Plates', data.baseplates, 'pcs'],
-        ['12', 'Sole Boards', data.solboards, 'pcs'],
-        ['13', 'Screw Jacks', data.screwjacks, 'pcs'],
-        ['14', 'Joints/Couplings', data.joints, 'pcs']
-      ],
+      startY: boqY + 4,
+      head: [['No', 'Komponen', 'Qty', 'Sat', 'Panjang\nPipa', 'Formula / Dasar Hitung', 'Lokasi Pemasangan']],
+      body: boqBody,
       theme: 'striped',
-      headStyles: { fillColor: [30, 58, 95], textColor: [0, 217, 255] },
-      margin: { left: 14 }
+      headStyles: { fillColor: [30, 58, 95], textColor: [0, 217, 255], fontStyle: 'bold', fontSize: 8, halign: 'center' },
+      bodyStyles: { fontSize: 7.5, valign: 'top' },
+      columnStyles: {
+        0: { cellWidth: 8,  halign: 'center' },
+        1: { cellWidth: 32 },
+        2: { cellWidth: 12, halign: 'center', fontStyle: 'bold', textColor: [0, 100, 180] },
+        3: { cellWidth: 10, halign: 'center' },
+        4: { cellWidth: 16, halign: 'center', textColor: [180, 60, 0] },
+        5: { cellWidth: 48 },
+        6: { cellWidth: 56 }
+      },
+      margin: { left: 7, right: 7 },
+      styles: { overflow: 'linebreak', cellPadding: 2 },
     });
-    
+
     // Footer
     const pageCount = doc.internal.getNumberOfPages();
     for (let i = 1; i <= pageCount; i++) {
       doc.setPage(i);
-      doc.setFontSize(8);
-      doc.setTextColor(100);
-      doc.text(`Page ${i} of ${pageCount}`, 105, 285, { align: 'center' });
+      doc.setFontSize(7.5); doc.setTextColor(150);
+      doc.text(`Scaffold Engineering Pro  |  Page ${i} of ${pageCount}`, 105, 291, { align: 'center' });
     }
-    
+
     doc.save(`Scaffold_BOQ_${Date.now()}.pdf`);
     hideLoading();
   }, 100);
 }
- 
+
 function exportExcel() {
-  if (!currentResult.scaffoldType) {
-    alert('Please calculate scaffold first');
-    return;
-  }
-  
+  if (!currentResult.scaffoldType) { alert('Please calculate scaffold first'); return; }
   showLoading();
-  
   setTimeout(() => {
     const data = getExportData();
-    
-    // Project Info Sheet
+    const d = currentResult.detail;
+
     const projectInfo = [
       ['SCAFFOLD ENGINEERING PRO'],
-      ['Bill of Quantities'],
+      ['Detailed Bill of Quantities'],
       [''],
       ['Generated:', data.timestamp],
       [''],
       ['PROJECT INFORMATION'],
       ['Scaffold Type', data.scaffoldType],
-      ['Dimensions', data.dimensions],
-      ['Bay Spacing (m)', data.baySpacing],
-      ['Lift Height (m)', data.liftHeight],
+      ['Dimensions (P × L × T)', data.dimensions],
+      ['Bay Spacing (m)', (+data.baySpacing).toFixed(2)],
+      ['Lift Height (m)', (+data.liftHeight).toFixed(2)],
+      ['Standard Pipe Length (m)', data.standardPipeLength],
       ['Number of Bays', data.bay],
       ['Number of Lifts', data.lift],
       ['Screw Jacks', data.screwjack ? 'Yes' : 'No']
     ];
-    
-    // BOQ Sheet
-    const boq = [
-      ['BILL OF QUANTITIES'],
-      [''],
-      ['Item', 'Description', 'Quantity', 'Unit'],
-      ['1', 'Standards (Vertical Pipes)', data.standards, 'pcs'],
-      ['2', 'Ledgers (Longitudinal)', data.ledgers, 'pcs'],
-      ['3', 'Transoms (Cross Members)', data.transoms, 'pcs'],
-      ['4', 'Bracing (Diagonal)', data.bracing, 'pcs'],
-      ['5', 'Handrails', data.handrails, 'pcs'],
-      ['6', 'Toe Boards', data.toeboards, 'pcs'],
-      ['7', 'Planks/Boards', data.planks, 'pcs'],
-      ['8', 'Double Couplers', data.doubleCouplers, 'pcs'],
-      ['9', 'Swivel Couplers', data.swivelCouplers, 'pcs'],
-      ['10', 'Single Couplers', data.singleCouplers, 'pcs'],
-      ['11', 'Base Plates', data.baseplates, 'pcs'],
-      ['12', 'Sole Boards', data.solboards, 'pcs'],
-      ['13', 'Screw Jacks', data.screwjacks, 'pcs'],
-      ['14', 'Joints/Couplings', data.joints, 'pcs']
+
+    const boqHeader = [['No', 'Komponen', 'Nama Indonesia', 'Qty', 'Satuan', 'Panjang Pipa (m)', 'Formula / Dasar Hitung', 'Lokasi Pemasangan']];
+    const itemRows = [
+      ['standards',      'Standards',          'Tiang Vertikal'],
+      ['joints',         'Joints',             'Sambungan Pipa'],
+      ['ledgers',        'Ledgers',            'Horizontal Memanjang'],
+      ['transoms',       'Transoms',           'Horizontal Melintang'],
+      ['putlogs',        'Putlogs',            'Penyangga Papan'],
+      ['bracing',        'Bracing',            'Diagonal Pengaku'],
+      ['handrails',      'Handrails',          'Pagar Pengaman'],
+      ['toeboards',      'Toe Boards',         'Papan Siku Bawah'],
+      ['planks',         'Planks',             'Papan Lantai Kerja'],
+      ['doubleCouplers', 'Double Couplers',    'Klem Tegak Lurus'],
+      ['swivelCouplers', 'Swivel Couplers',    'Klem Sudut Bebas'],
+      ['singleCouplers', 'Single Couplers',    'Klem Putlog'],
+      ['baseplates',     'Base Plates',        'Pelat Dasar'],
+      ['solboards',      'Sole Boards',        'Papan Alas'],
+      ['screwjacks',     'Screw Jacks',        'Adjuster Ketinggian'],
     ];
-    
+    const boqBody = itemRows.map(([key, name, indo], idx) => {
+      const item = d[key];
+      return [idx + 1, name, indo, item.qty, 'pcs', item.pipeLen > 0 ? item.pipeLen : '-', item.formula, item.location];
+    });
+
     const ws1 = XLSX.utils.aoa_to_sheet(projectInfo);
-    const ws2 = XLSX.utils.aoa_to_sheet(boq);
-    
+    const ws2 = XLSX.utils.aoa_to_sheet([...boqHeader, ...boqBody]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws1, 'Project Info');
-    XLSX.utils.book_append_sheet(wb, ws2, 'Bill of Quantities');
-    
+    XLSX.utils.book_append_sheet(wb, ws2, 'Detailed BOQ');
     XLSX.writeFile(wb, `Scaffold_BOQ_${Date.now()}.xlsx`);
     hideLoading();
   }, 100);
 }
- 
+
 function exportCSV() {
-  if (!currentResult.scaffoldType) {
-    alert('Please calculate scaffold first');
-    return;
-  }
-  
+  if (!currentResult.scaffoldType) { alert('Please calculate scaffold first'); return; }
   showLoading();
-  
   setTimeout(() => {
     const data = getExportData();
-    
-    const csvContent = [
-      ['SCAFFOLD ENGINEERING PRO - Bill of Quantities'],
-      ['Generated:', data.timestamp],
+    const d = currentResult.detail;
+    const itemRows = [
+      ['standards','Standards','Tiang Vertikal'],
+      ['joints','Joints','Sambungan Pipa'],
+      ['ledgers','Ledgers','Horizontal Memanjang'],
+      ['transoms','Transoms','Horizontal Melintang'],
+      ['putlogs','Putlogs','Penyangga Papan'],
+      ['bracing','Bracing','Diagonal Pengaku'],
+      ['handrails','Handrails','Pagar Pengaman'],
+      ['toeboards','Toe Boards','Papan Siku Bawah'],
+      ['planks','Planks','Papan Lantai Kerja'],
+      ['doubleCouplers','Double Couplers','Klem Tegak Lurus'],
+      ['swivelCouplers','Swivel Couplers','Klem Sudut Bebas'],
+      ['singleCouplers','Single Couplers','Klem Putlog'],
+      ['baseplates','Base Plates','Pelat Dasar'],
+      ['solboards','Sole Boards','Papan Alas'],
+      ['screwjacks','Screw Jacks','Adjuster Ketinggian'],
+    ];
+    const rows = [
+      ['SCAFFOLD ENGINEERING PRO - Detailed BOQ'],
+      [`Generated:,${data.timestamp}`],
       [''],
       ['PROJECT INFORMATION'],
-      ['Scaffold Type', data.scaffoldType],
-      ['Dimensions', data.dimensions],
-      ['Bay Spacing (m)', data.baySpacing],
-      ['Lift Height (m)', data.liftHeight],
-      ['Number of Bays', data.bay],
-      ['Number of Lifts', data.lift],
-      ['Screw Jacks', data.screwjack ? 'Yes' : 'No'],
+      [`Scaffold Type,${data.scaffoldType}`],
+      [`Dimensions,${data.dimensions}`],
+      [`Bay Spacing (m),${(+data.baySpacing).toFixed(2)}`],
+      [`Lift Height (m),${(+data.liftHeight).toFixed(2)}`],
+      [`Standard Pipe (m),${data.standardPipeLength}`],
+      [`Bays,${data.bay}`],
+      [`Lifts,${data.lift}`],
       [''],
-      ['BILL OF QUANTITIES'],
-      ['Item', 'Description', 'Quantity', 'Unit'],
-      ['1', 'Standards (Vertical Pipes)', data.standards, 'pcs'],
-      ['2', 'Ledgers (Longitudinal)', data.ledgers, 'pcs'],
-      ['3', 'Transoms (Cross Members)', data.transoms, 'pcs'],
-      ['4', 'Bracing (Diagonal)', data.bracing, 'pcs'],
-      ['5', 'Handrails', data.handrails, 'pcs'],
-      ['6', 'Toe Boards', data.toeboards, 'pcs'],
-      ['7', 'Planks/Boards', data.planks, 'pcs'],
-      ['8', 'Double Couplers', data.doubleCouplers, 'pcs'],
-      ['9', 'Swivel Couplers', data.swivelCouplers, 'pcs'],
-      ['10', 'Single Couplers', data.singleCouplers, 'pcs'],
-      ['11', 'Base Plates', data.baseplates, 'pcs'],
-      ['12', 'Sole Boards', data.solboards, 'pcs'],
-      ['13', 'Screw Jacks', data.screwjacks, 'pcs'],
-      ['14', 'Joints/Couplings', data.joints, 'pcs']
+      ['DETAILED BILL OF QUANTITIES'],
+      ['No,Komponen,Nama Indonesia,Qty,Satuan,Panjang Pipa (m),Formula / Dasar Hitung,Lokasi Pemasangan'],
+      ...itemRows.map(([key, name, indo], idx) => {
+        const item = d[key];
+        return `${idx+1},"${name}","${indo}",${item.qty},pcs,${item.pipeLen > 0 ? item.pipeLen : '-'},"${item.formula}","${item.location}"`;
+      })
     ];
-    
-    const csv = csvContent.map(row => row.join(',')).join('\n');
+    const csv = rows.map(r => Array.isArray(r) ? r.join(',') : r).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = `Scaffold_BOQ_${Date.now()}.csv`;
     link.click();
-    
     hideLoading();
   }, 100);
 }
- 
+
 function exportZIP() {
-  if (!currentResult.scaffoldType) {
-    alert('Please calculate scaffold first');
-    return;
-  }
-  
+  if (!currentResult.scaffoldType) { alert('Please calculate scaffold first'); return; }
   showLoading();
-  
   setTimeout(async () => {
-    const zip = new JSZip();
+    const zip  = new JSZip();
     const data = getExportData();
-    
-    // Generate PDF
+    const d    = currentResult.detail;
+    const itemRows = [
+      ['standards','Standards','Tiang Vertikal'],
+      ['joints','Joints','Sambungan Pipa'],
+      ['ledgers','Ledgers','Horizontal Memanjang'],
+      ['transoms','Transoms','Horizontal Melintang'],
+      ['putlogs','Putlogs','Penyangga Papan'],
+      ['bracing','Bracing','Diagonal Pengaku'],
+      ['handrails','Handrails','Pagar Pengaman'],
+      ['toeboards','Toe Boards','Papan Siku Bawah'],
+      ['planks','Planks','Papan Lantai Kerja'],
+      ['doubleCouplers','Double Couplers','Klem Tegak Lurus'],
+      ['swivelCouplers','Swivel Couplers','Klem Sudut Bebas'],
+      ['singleCouplers','Single Couplers','Klem Putlog'],
+      ['baseplates','Base Plates','Pelat Dasar'],
+      ['solboards','Sole Boards','Papan Alas'],
+      ['screwjacks','Screw Jacks','Adjuster Ketinggian'],
+    ];
+
+    // ── PDF ──────────────────────────────────────────────────
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-    
-    doc.setFillColor(21, 34, 56);
-    doc.rect(0, 0, 210, 40, 'F');
-    doc.setTextColor(0, 217, 255);
-    doc.setFontSize(24);
-    doc.setFont(undefined, 'bold');
-    doc.text('SCAFFOLD ENGINEERING PRO', 105, 20, { align: 'center' });
-    doc.setFontSize(10);
-    doc.setTextColor(148, 163, 184);
-    doc.text('Bill of Quantities Report', 105, 28, { align: 'center' });
-    doc.text(`Generated: ${data.timestamp}`, 105, 35, { align: 'center' });
-    
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('PROJECT INFORMATION', 14, 50);
-    
+    const doc = new jsPDF('p','mm','a4');
+    doc.setFillColor(21,34,56); doc.rect(0,0,210,42,'F');
+    doc.setTextColor(0,217,255); doc.setFontSize(20); doc.setFont(undefined,'bold');
+    doc.text('SCAFFOLD ENGINEERING PRO',105,16,{align:'center'});
+    doc.setFontSize(10); doc.setTextColor(148,163,184);
+    doc.text('Detailed Bill of Quantities Report',105,25,{align:'center'});
+    doc.text(`Generated: ${data.timestamp}`,105,33,{align:'center'});
+    doc.setTextColor(30,58,95); doc.setFontSize(11); doc.setFont(undefined,'bold');
+    doc.text('PROJECT INFORMATION',14,52);
     doc.autoTable({
-      startY: 55,
-      head: [['Parameter', 'Value']],
-      body: [
-        ['Scaffold Type', data.scaffoldType],
-        ['Dimensions', data.dimensions],
-        ['Bay Spacing', `${data.baySpacing} m`],
-        ['Lift Height', `${data.liftHeight} m`],
-        ['Number of Bays', data.bay],
-        ['Number of Lifts', data.lift],
-        ['Screw Jacks', data.screwjack ? 'Yes' : 'No']
-      ],
-      theme: 'grid',
-      headStyles: { fillColor: [30, 58, 95], textColor: [0, 217, 255] },
-      margin: { left: 14 }
+      startY:55, head:[['Parameter','Value']],
+      body:[['Scaffold Type',data.scaffoldType],['Dimensions',data.dimensions],
+            ['Bay Spacing',`${(+data.baySpacing).toFixed(2)} m`],
+            ['Lift Height',`${(+data.liftHeight).toFixed(2)} m`],
+            ['Standard Pipe',`${data.standardPipeLength} m`],
+            ['Bays',data.bay],['Lifts',data.lift],
+            ['Screw Jacks',data.screwjack?'Yes':'No']],
+      theme:'grid',
+      headStyles:{fillColor:[30,58,95],textColor:[0,217,255]},
+      columnStyles:{0:{cellWidth:60,fontStyle:'bold'}},
+      margin:{left:14,right:14}
     });
-    
-    const finalY = doc.lastAutoTable.finalY + 10;
-    doc.setFontSize(12);
-    doc.setFont(undefined, 'bold');
-    doc.text('BILL OF QUANTITIES', 14, finalY);
-    
+    const boqY = doc.lastAutoTable.finalY+10;
+    doc.setFontSize(11); doc.setFont(undefined,'bold');
+    doc.text('DETAILED BILL OF QUANTITIES',14,boqY);
     doc.autoTable({
-      startY: finalY + 5,
-      head: [['Item', 'Description', 'Quantity', 'Unit']],
-      body: [
-        ['1', 'Standards (Vertical Pipes)', data.standards, 'pcs'],
-        ['2', 'Ledgers (Longitudinal)', data.ledgers, 'pcs'],
-        ['3', 'Transoms (Cross Members)', data.transoms, 'pcs'],
-        ['4', 'Bracing (Diagonal)', data.bracing, 'pcs'],
-        ['5', 'Handrails', data.handrails, 'pcs'],
-        ['6', 'Toe Boards', data.toeboards, 'pcs'],
-        ['7', 'Planks/Boards', data.planks, 'pcs'],
-        ['8', 'Double Couplers', data.doubleCouplers, 'pcs'],
-        ['9', 'Swivel Couplers', data.swivelCouplers, 'pcs'],
-        ['10', 'Single Couplers', data.singleCouplers, 'pcs'],
-        ['11', 'Base Plates', data.baseplates, 'pcs'],
-        ['12', 'Sole Boards', data.solboards, 'pcs'],
-        ['13', 'Screw Jacks', data.screwjacks, 'pcs'],
-        ['14', 'Joints/Couplings', data.joints, 'pcs']
-      ],
-      theme: 'striped',
-      headStyles: { fillColor: [30, 58, 95], textColor: [0, 217, 255] },
-      margin: { left: 14 }
+      startY: boqY+4,
+      head:[['No','Komponen','Qty','Sat','Panjang\nPipa','Formula / Dasar Hitung','Lokasi Pemasangan']],
+      body: itemRows.map(([key,name],idx) => {
+        const item = d[key];
+        return [idx+1, name, item.qty, 'pcs', item.pipeLen>0?`${item.pipeLen} m`:'-', item.formula, item.location];
+      }),
+      theme:'striped',
+      headStyles:{fillColor:[30,58,95],textColor:[0,217,255],fontSize:8,halign:'center'},
+      bodyStyles:{fontSize:7.5,valign:'top'},
+      columnStyles:{
+        0:{cellWidth:8,halign:'center'},1:{cellWidth:32},
+        2:{cellWidth:12,halign:'center',fontStyle:'bold'},3:{cellWidth:10,halign:'center'},
+        4:{cellWidth:16,halign:'center'},5:{cellWidth:48},6:{cellWidth:56}
+      },
+      margin:{left:7,right:7}, styles:{overflow:'linebreak',cellPadding:2}
     });
-    
-    const pdfBlob = doc.output('blob');
-    zip.file('Scaffold_BOQ.pdf', pdfBlob);
-    
-    // Generate Excel
-    const projectInfo = [
-      ['SCAFFOLD ENGINEERING PRO'],
-      ['Bill of Quantities'],
-      [''],
-      ['Generated:', data.timestamp],
-      [''],
-      ['PROJECT INFORMATION'],
-      ['Scaffold Type', data.scaffoldType],
-      ['Dimensions', data.dimensions],
-      ['Bay Spacing (m)', data.baySpacing],
-      ['Lift Height (m)', data.liftHeight],
-      ['Number of Bays', data.bay],
-      ['Number of Lifts', data.lift],
-      ['Screw Jacks', data.screwjack ? 'Yes' : 'No']
-    ];
-    
-    const boq = [
-      ['BILL OF QUANTITIES'],
-      [''],
-      ['Item', 'Description', 'Quantity', 'Unit'],
-      ['1', 'Standards (Vertical Pipes)', data.standards, 'pcs'],
-      ['2', 'Ledgers (Longitudinal)', data.ledgers, 'pcs'],
-      ['3', 'Transoms (Cross Members)', data.transoms, 'pcs'],
-      ['4', 'Bracing (Diagonal)', data.bracing, 'pcs'],
-      ['5', 'Handrails', data.handrails, 'pcs'],
-      ['6', 'Toe Boards', data.toeboards, 'pcs'],
-      ['7', 'Planks/Boards', data.planks, 'pcs'],
-      ['8', 'Double Couplers', data.doubleCouplers, 'pcs'],
-      ['9', 'Swivel Couplers', data.swivelCouplers, 'pcs'],
-      ['10', 'Single Couplers', data.singleCouplers, 'pcs'],
-      ['11', 'Base Plates', data.baseplates, 'pcs'],
-      ['12', 'Sole Boards', data.solboards, 'pcs'],
-      ['13', 'Screw Jacks', data.screwjacks, 'pcs'],
-      ['14', 'Joints/Couplings', data.joints, 'pcs']
-    ];
-    
-    const ws1 = XLSX.utils.aoa_to_sheet(projectInfo);
-    const ws2 = XLSX.utils.aoa_to_sheet(boq);
+    const pc = doc.internal.getNumberOfPages();
+    for(let i=1;i<=pc;i++){
+      doc.setPage(i); doc.setFontSize(7.5); doc.setTextColor(150);
+      doc.text(`Scaffold Engineering Pro  |  Page ${i} of ${pc}`,105,291,{align:'center'});
+    }
+    zip.file('Scaffold_BOQ.pdf', doc.output('blob'));
+
+    // ── Excel ────────────────────────────────────────────────
+    const ws1 = XLSX.utils.aoa_to_sheet([
+      ['SCAFFOLD ENGINEERING PRO'],['Detailed Bill of Quantities'],[''],
+      ['Generated:',data.timestamp],[''],['PROJECT INFORMATION'],
+      ['Scaffold Type',data.scaffoldType],['Dimensions',data.dimensions],
+      ['Bay Spacing (m)',(+data.baySpacing).toFixed(2)],
+      ['Lift Height (m)',(+data.liftHeight).toFixed(2)],
+      ['Standard Pipe (m)',data.standardPipeLength],
+      ['Bays',data.bay],['Lifts',data.lift],
+      ['Screw Jacks',data.screwjack?'Yes':'No']
+    ]);
+    const ws2 = XLSX.utils.aoa_to_sheet([
+      ['No','Komponen','Nama Indonesia','Qty','Satuan','Panjang Pipa (m)','Formula / Dasar Hitung','Lokasi Pemasangan'],
+      ...itemRows.map(([key,name,indo],idx) => {
+        const item = d[key];
+        return [idx+1, name, indo, item.qty, 'pcs', item.pipeLen>0?item.pipeLen:'-', item.formula, item.location];
+      })
+    ]);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws1, 'Project Info');
-    XLSX.utils.book_append_sheet(wb, ws2, 'Bill of Quantities');
-    const excelData = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-    zip.file('Scaffold_BOQ.xlsx', excelData);
-    
-    // Generate CSV
-    const csvContent = [
-      ['SCAFFOLD ENGINEERING PRO - Bill of Quantities'],
-      ['Generated:', data.timestamp],
-      [''],
-      ['PROJECT INFORMATION'],
-      ['Scaffold Type', data.scaffoldType],
-      ['Dimensions', data.dimensions],
-      ['Bay Spacing (m)', data.baySpacing],
-      ['Lift Height (m)', data.liftHeight],
-      ['Number of Bays', data.bay],
-      ['Number of Lifts', data.lift],
-      ['Screw Jacks', data.screwjack ? 'Yes' : 'No'],
-      [''],
-      ['BILL OF QUANTITIES'],
-      ['Item', 'Description', 'Quantity', 'Unit'],
-      ['1', 'Standards (Vertical Pipes)', data.standards, 'pcs'],
-      ['2', 'Ledgers (Longitudinal)', data.ledgers, 'pcs'],
-      ['3', 'Transoms (Cross Members)', data.transoms, 'pcs'],
-      ['4', 'Bracing (Diagonal)', data.bracing, 'pcs'],
-      ['5', 'Handrails', data.handrails, 'pcs'],
-      ['6', 'Toe Boards', data.toeboards, 'pcs'],
-      ['7', 'Planks/Boards', data.planks, 'pcs'],
-      ['8', 'Double Couplers', data.doubleCouplers, 'pcs'],
-      ['9', 'Swivel Couplers', data.swivelCouplers, 'pcs'],
-      ['10', 'Single Couplers', data.singleCouplers, 'pcs'],
-      ['11', 'Base Plates', data.baseplates, 'pcs'],
-      ['12', 'Sole Boards', data.solboards, 'pcs'],
-      ['13', 'Screw Jacks', data.screwjacks, 'pcs'],
-      ['14', 'Joints/Couplings', data.joints, 'pcs']
+    XLSX.utils.book_append_sheet(wb, ws2, 'Detailed BOQ');
+    zip.file('Scaffold_BOQ.xlsx', XLSX.write(wb,{bookType:'xlsx',type:'array'}));
+
+    // ── CSV ──────────────────────────────────────────────────
+    const csvRows = [
+      'SCAFFOLD ENGINEERING PRO - Detailed BOQ',
+      `Generated:,${data.timestamp}`,'','PROJECT INFORMATION',
+      `Scaffold Type,${data.scaffoldType}`,`Dimensions,${data.dimensions}`,
+      `Bay Spacing (m),${(+data.baySpacing).toFixed(2)}`,
+      `Lift Height (m),${(+data.liftHeight).toFixed(2)}`,
+      `Standard Pipe (m),${data.standardPipeLength}`,
+      `Bays,${data.bay}`,`Lifts,${data.lift}`,'',
+      'DETAILED BILL OF QUANTITIES',
+      'No,Komponen,Nama Indonesia,Qty,Satuan,Panjang Pipa (m),Formula / Dasar Hitung,Lokasi Pemasangan',
+      ...itemRows.map(([key,name,indo],idx) => {
+        const item = d[key];
+        return `${idx+1},"${name}","${indo}",${item.qty},pcs,${item.pipeLen>0?item.pipeLen:'-'},"${item.formula}","${item.location}"`;
+      })
     ];
-    const csv = csvContent.map(row => row.join(',')).join('\n');
-    zip.file('Scaffold_BOQ.csv', csv);
-    
-    // Generate ZIP
-    const zipBlob = await zip.generateAsync({ type: 'blob' });
+    zip.file('Scaffold_BOQ.csv', csvRows.join('\n'));
+
+    const zipBlob = await zip.generateAsync({type:'blob'});
     const link = document.createElement('a');
     link.href = URL.createObjectURL(zipBlob);
     link.download = `Scaffold_BOQ_Complete_${Date.now()}.zip`;
     link.click();
-    
     hideLoading();
   }, 100);
 }
- 
+
 </script>
- 
+
 </body>
 </html>
- 
-
- 
