@@ -1,21 +1,236 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Red+Hat+Display:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
-    <title>Scaffold Engineering Pro | 3D Calculator</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scaffold Engineering Pro | 3D Calculator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+<div class="app-container">
+
+<!-- Header -->
+<header class="app-header">
+  <div class="header-content">
+    <div>
+      <h1 class="app-title">Scaffold Engineering Pro</h1>
+      <p class="app-subtitle">3D Structural Calculator & BOQ Generator</p>
+    </div>
+    <div class="status-indicator">
+      <div class="status-dot"></div>
+      <span>SYSTEM READY</span>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-grid">
+  
+  <!-- Left Panel - Inputs -->
+  <aside>
+    
+    <!-- Configuration Card -->
+    <div class="card">
+      <h2 class="card-title">Configuration</h2>
+      
+      <div class="input-group">
+        <label class="input-label">Scaffold Type
+          <span class="tooltip-icon" data-tooltip="Tipe menentukan pola standar & rasio aman">ⓘ</span>
+        </label>
+        <select id="scaffoldType" class="select-field">
+          <option value="independent">Independent Scaffold</option>
+          <option value="tower">Tower Scaffold</option>
+        </select>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Height / Tinggi (m)
+          <span class="tooltip-icon" data-tooltip="Total tinggi scaffold. Harus > 0">ⓘ</span>
+        </label>
+        <input type="number" id="tinggi" class="input-field" placeholder="e.g., 12" step="0.1" min="0">
+        <div id="tinggiError" class="input-error"></div>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Length / Panjang (m)
+          <span class="tooltip-icon" data-tooltip="Dimensi memanjang scaffold (arah bay)">ⓘ</span>
+        </label>
+        <input type="number" id="panjang" class="input-field" placeholder="e.g., 20" step="0.1" min="0">
+        <div id="panjangError" class="input-error"></div>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Width / Lebar (m)
+          <span class="tooltip-icon" data-tooltip="Dimensi melintang scaffold (arah transom)">ⓘ</span>
+        </label>
+        <input type="number" id="lebar" class="input-field" placeholder="e.g., 8" step="0.1" min="0">
+        <div id="lebarError" class="input-error"></div>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Number of Bays
+          <span class="tooltip-icon" data-tooltip="Jumlah bay. Bay spacing = Panjang ÷ Bay">ⓘ</span>
+        </label>
+        <input type="number" id="bay" class="input-field" placeholder="e.g., 10" step="1" min="1">
+        <div id="bayError" class="input-error"></div>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Number of Lifts
+          <span class="tooltip-icon" data-tooltip="Jumlah lantai. Lift height = Tinggi ÷ Lift">ⓘ</span>
+        </label>
+        <input type="number" id="lift" class="input-field" placeholder="e.g., 6" step="1" min="1">
+        <div id="liftError" class="input-error"></div>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Bay Spacing (m) <span style="color:var(--tech-cyan);font-size:0.65rem;">AUTO</span>
+          <span class="tooltip-icon" data-tooltip="Dihitung otomatis: Panjang ÷ Bay. Rentang wajar 0.3–5m">ⓘ</span>
+        </label>
+        <div id="baySpacingDisplay" class="input-field" style="cursor:default;opacity:0.6;">—</div>
+      </div>
+      
+      <div class="input-group">
+        <label class="input-label">Lift Height (m) <span style="color:var(--tech-cyan);font-size:0.65rem;">AUTO</span>
+          <span class="tooltip-icon" data-tooltip="Dihitung otomatis: Tinggi ÷ Lift. Rentang wajar 0.5–4m">ⓘ</span>
+        </label>
+        <div id="liftHeightDisplay" class="input-field" style="cursor:default;opacity:0.6;">—</div>
+      </div>
+
+      <div class="auto-adjust-row">
+        <button class="auto-adjust-btn" onclick="autoAdjustBay()" title="Hitung jumlah bay optimal dari panjang & target spacing 2m">⚙ Auto Bay</button>
+        <button class="auto-adjust-btn" onclick="autoAdjustLift()" title="Hitung jumlah lift optimal dari tinggi & target lift 2m">⚙ Auto Lift</button>
+      </div>
+      
+      <div class="checkbox-group" style="margin-top:0.75rem;">
+        <input type="checkbox" id="screwjack" class="checkbox-input">
+        <label for="screwjack" class="checkbox-label">Include Screw Jacks</label>
+      </div>
+
+      <div class="checkbox-group" style="margin-top:0.5rem;">
+        <input type="checkbox" id="showCalcLog" class="checkbox-input" onchange="toggleCalcLog()">
+        <label for="showCalcLog" class="checkbox-label">Show Calculation Log</label>
+      </div>
+      
+      <!-- Safety warning -->
+      <div id="warningBox" class="warning-box">
+        <div class="warning-title">Safety Alert</div>
+        <div id="warningText" class="warning-text"></div>
+      </div>
+
+      <!-- Dimension warnings (non-blocking) -->
+      <div id="dimWarningBox" class="warning-box-multi">
+        <div class="warning-title">⚠ Dimension Notices</div>
+        <div id="dimWarningList"></div>
+      </div>
+
+      <!-- Calculation log -->
+      <div id="calcLog" class="calc-log"></div>
+    </div>
+    
+    <!-- Results Card -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h2 class="card-title">Bill of Quantities</h2>
+      <div id="resultsContainer" class="results-grid">
+        <!-- Results will be populated here -->
+      </div>
+    </div>
+    
+    <!-- Export Section -->
+    <div class="export-section">
+      <div class="export-grid">
+        <button class="export-btn" onclick="exportPDF()">
+          <span class="export-btn-icon">📄</span>
+          PDF
+        </button>
+        <button class="export-btn" onclick="exportExcel()">
+          <span class="export-btn-icon">📊</span>
+          Excel
+        </button>
+        <button class="export-btn" onclick="exportCSV()">
+          <span class="export-btn-icon">📋</span>
+          CSV
+        </button>
+        <button class="export-btn" onclick="exportZIP()">
+          <span class="export-btn-icon">🗜️</span>
+          ZIP
+        </button>
+      </div>
+    </div>
+    
+  </aside>
+  
+  <!-- Right Panel - 3D Viewer -->
+  <section>
+    <div class="card" style="padding: 0; height: 100%;">
+      <div class="viewer-container" id="viewer">
+        <div class="viewer-overlay" id="viewerOverlay">
+          <div class="viewer-overlay-item">
+            <span class="viewer-overlay-label">Type:</span>
+            <span class="viewer-overlay-value" id="overlayType">-</span>
+          </div>
+          <div class="viewer-overlay-item">
+            <span class="viewer-overlay-label">Dimensions:</span>
+            <span class="viewer-overlay-value" id="overlayDim">-</span>
+          </div>
+          <div class="viewer-overlay-item">
+            <span class="viewer-overlay-label">Components:</span>
+            <span class="viewer-overlay-value" id="overlayComp">-</span>
+          </div>
+        </div>
+        <div class="viewer-controls">
+          <button class="viewer-control-btn" onclick="resetCamera()" title="Reset View">⟲</button>
+          <button class="viewer-control-btn" onclick="toggleWireframe()" title="Toggle Wireframe">◫</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+</main>
+
+</div>
+
+<div class="loading" id="loading">
+  <div class="loading-spinner"></div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script src="./js/core/constants.js"></script>
+<script src="./js/core/state.js"></script>
+<script src="./js/core/utils.js"></script>
+<script src="./js/ui/ui.js"></script>
+<script src="./js/ui/validation.js"></script>
+<script src="./js/calculator/dimensions.js"></script>
+<script src="./js/calculator/independent.js"></script>
+<script src="./js/calculator/tower.js"></script>
+<script src="./js/calculator/calculator.js"></script>
+<script src="./js/ui/results.js"></script>
+<script src="./js/viewer/scene.js"></script>
+<script src="./js/viewer/materials.js"></script>
+<script src="./js/viewer/geometry.js"></script>
+<script src="./js/viewer/standards.js"></script>
+<script src="./js/viewer/ledgers.js"></script>
+<script src="./js/viewer/platforms.js"></script>
+<script src="./js/viewer/handrails.js"></script>
+<script src="./js/viewer/planks.js"></script>
+<script src="./js/viewer/braces.js"></script>
+<script src="./js/viewer/cleanup.js"></script>
+<script src="./js/viewer/viewer.js"></script>
+<script src="./js/export/export.js"></script>
+<script src="./js/export/pdf.js"></script>
+<script src="./js/export/excel.js"></script>
+<script src="./js/export/csv.js"></script>
+<script src="./js/export/zip.js"></script>
+<script src="./js/core/main.js"></script>
+</body>
 </html>
