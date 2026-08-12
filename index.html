@@ -1,21 +1,702 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Scaffold Engineering Pro | 3D Calculator</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./css/styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scaffold Engineering Pro | 3D Calculator</title>
+
+<!-- CDN Libraries -->
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Red+Hat+Display:wght@400;600;700;900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --blueprint-dark: #0a1628;
+  --blueprint-navy: #152238;
+  --blueprint-blue: #1e3a5f;
+  --tech-cyan: #00d9ff;
+  --tech-orange: #ff6b35;
+  --warn-red: #ff4757;
+  --grid-line: rgba(0, 217, 255, 0.1);
+  --text-primary: #e8f4f8;
+  --text-secondary: #94a3b8;
+  --text-dim: #64748b;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Red Hat Display', system-ui, sans-serif;
+  background: var(--blueprint-dark);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(0, 217, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 217, 255, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.app-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Header Styles */
+.app-header {
+  background: linear-gradient(135deg, var(--blueprint-navy) 0%, var(--blueprint-blue) 100%);
+  border-bottom: 2px solid var(--tech-cyan);
+  padding: 1.5rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+
+.app-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  background: linear-gradient(135deg, var(--tech-cyan) 0%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-transform: uppercase;
+}
+
+.app-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 0.25rem;
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--tech-cyan);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--tech-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 12px var(--tech-cyan);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* Main Layout */
+.main-grid {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+/* Card Styles */
+.card {
+  background: var(--blueprint-navy);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--tech-cyan) 0%, transparent 100%);
+}
+
+.card-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--tech-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-title::before {
+  content: '▸';
+  color: var(--tech-orange);
+}
+
+/* Input Styles */
+.input-group {
+  margin-bottom: 1rem;
+}
+
+.input-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.input-field {
+  width: 100%;
+  background: var(--blueprint-dark);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: var(--text-primary);
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--tech-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
+}
+
+.input-field.error {
+  border-color: var(--warn-red);
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.input-error {
+  font-size: 0.7rem;
+  color: var(--warn-red);
+  margin-top: 0.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  display: none;
+}
+
+.input-error.visible {
+  display: block;
+  animation: slideDown 0.2s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Select Dropdown */
+.select-field {
+  width: 100%;
+  background: var(--blueprint-dark);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: var(--text-primary);
+  padding: 0.75rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.select-field:focus {
+  outline: none;
+  border-color: var(--tech-cyan);
+  box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.1);
+}
+
+/* Checkbox */
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--blueprint-dark);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.checkbox-group:hover {
+  border-color: var(--tech-cyan);
+  background: rgba(0, 217, 255, 0.05);
+}
+
+.checkbox-input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--tech-cyan);
+  cursor: pointer;
+}
+
+.checkbox-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Warning Box */
+.warning-box {
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid var(--warn-red);
+  border-radius: 4px;
+  padding: 1rem;
+  margin-top: 1rem;
+  display: none;
+  animation: slideDown 0.3s ease;
+}
+
+.warning-box.visible {
+  display: block;
+}
+
+.warning-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--warn-red);
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.warning-title::before {
+  content: '⚠';
+  font-size: 1rem;
+}
+
+.warning-text {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+/* Results Display */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.result-item {
+  background: var(--blueprint-dark);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 4px;
+  padding: 0.75rem;
+  transition: all 0.2s ease;
+}
+
+.result-item:hover {
+  border-color: var(--tech-cyan);
+  transform: translateY(-2px);
+}
+
+.result-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.result-value {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--tech-cyan);
+}
+
+.result-unit {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin-left: 0.25rem;
+}
+
+/* 3D Viewer */
+.viewer-container {
+  background: var(--blueprint-dark);
+  border: 1px solid rgba(0, 217, 255, 0.2);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  height: 600px;
+}
+
+.viewer-overlay {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background: rgba(10, 22, 40, 0.9);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  border-radius: 4px;
+  padding: 0.75rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  z-index: 10;
+  backdrop-filter: blur(8px);
+}
+
+.viewer-overlay-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.viewer-overlay-label {
+  color: var(--text-dim);
+}
+
+.viewer-overlay-value {
+  color: var(--tech-cyan);
+  font-weight: 700;
+}
+
+.viewer-controls {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.viewer-control-btn {
+  background: rgba(10, 22, 40, 0.9);
+  border: 1px solid rgba(0, 217, 255, 0.3);
+  color: var(--tech-cyan);
+  width: 36px;
+  height: 36px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
+}
+
+.viewer-control-btn:hover {
+  background: var(--tech-cyan);
+  color: var(--blueprint-dark);
+  transform: scale(1.1);
+}
+
+/* Export Buttons */
+.export-section {
+  margin-top: 1.5rem;
+}
+
+.export-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+}
+
+.export-btn {
+  background: linear-gradient(135deg, var(--tech-orange) 0%, #ff8c5a 100%);
+  border: none;
+  color: var(--blueprint-dark);
+  padding: 0.875rem 1rem;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.export-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translate(-50%, -50%);
+  transition: width 0.4s ease, height 0.4s ease;
+}
+
+.export-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.export-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4);
+}
+
+.export-btn:active {
+  transform: translateY(0);
+}
+
+.export-btn-icon {
+  margin-right: 0.5rem;
+}
+
+/* Loading State */
+.loading {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 22, 40, 0.95);
+  z-index: 9999;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+}
+
+.loading.active {
+  display: flex;
+}
+
+.loading-spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(0, 217, 255, 0.2);
+  border-top-color: var(--tech-cyan);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Tooltip */
+.tooltip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: rgba(0, 217, 255, 0.15);
+  border: 1px solid rgba(0, 217, 255, 0.4);
+  color: var(--tech-cyan);
+  font-size: 0.6rem;
+  cursor: help;
+  margin-left: 0.35rem;
+  position: relative;
+  vertical-align: middle;
+  transition: background 0.2s;
+}
+.tooltip-icon:hover { background: rgba(0, 217, 255, 0.35); }
+.tooltip-icon::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 6px);
+  transform: translateX(-50%);
+  background: #0d1f38;
+  border: 1px solid rgba(0,217,255,0.4);
+  color: var(--text-primary);
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  padding: 0.4rem 0.65rem;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s;
+  z-index: 999;
+  text-transform: none;
+  letter-spacing: 0;
+}
+.tooltip-icon:hover::after { opacity: 1; }
+
+/* Multi-warning box */
+.warning-box-multi {
+  background: rgba(255, 107, 53, 0.08);
+  border: 1px solid var(--tech-orange);
+  border-radius: 4px;
+  padding: 0.85rem;
+  margin-top: 0.75rem;
+  display: none;
+  animation: slideDown 0.3s ease;
+}
+.warning-box-multi.visible { display: block; }
+.warning-box-multi .warning-title { color: var(--tech-orange); }
+.warning-item {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  padding: 0.2rem 0;
+  border-bottom: 1px solid rgba(255,107,53,0.15);
+}
+.warning-item:last-child { border-bottom: none; }
+
+/* Toast notification */
+.toast {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  background: var(--blueprint-navy);
+  border: 1px solid var(--tech-cyan);
+  border-radius: 6px;
+  padding: 0.75rem 1.25rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--tech-cyan);
+  z-index: 9998;
+  transform: translateY(80px);
+  opacity: 0;
+  transition: all 0.3s ease;
+  max-width: 320px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+
+/* Auto-adjust row */
+.auto-adjust-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+.auto-adjust-btn {
+  flex: 1;
+  background: rgba(0,217,255,0.1);
+  border: 1px solid var(--tech-cyan);
+  color: var(--tech-cyan);
+  padding: 0.55rem 0.75rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.auto-adjust-btn:hover {
+  background: var(--tech-cyan);
+  color: var(--blueprint-dark);
+}
+
+/* Calc log */
+.calc-log {
+  background: var(--blueprint-dark);
+  border: 1px solid rgba(0,217,255,0.15);
+  border-radius: 4px;
+  padding: 0.75rem;
+  margin-top: 1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  max-height: 120px;
+  overflow-y: auto;
+  display: none;
+}
+.calc-log.visible { display: block; }
+.calc-log-line { margin-bottom: 0.2rem; }
+.calc-log-line.ok  { color: #00c47a; }
+.calc-log-line.warn { color: var(--tech-orange); }
+.calc-log-line.info { color: var(--tech-cyan); }
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .export-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .export-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 </head>
+
 <body>
 <div class="app-container">
 
@@ -205,32 +886,1203 @@
 </div>
 <div class="toast" id="toast"></div>
 
-<script src="./js/core/constants.js"></script>
-<script src="./js/core/state.js"></script>
-<script src="./js/core/utils.js"></script>
-<script src="./js/ui/ui.js"></script>
-<script src="./js/ui/validation.js"></script>
-<script src="./js/calculator/dimensions.js"></script>
-<script src="./js/calculator/independent.js"></script>
-<script src="./js/calculator/tower.js"></script>
-<script src="./js/calculator/calculator.js"></script>
-<script src="./js/ui/results.js"></script>
-<script src="./js/viewer/scene.js"></script>
-<script src="./js/viewer/materials.js"></script>
-<script src="./js/viewer/geometry.js"></script>
-<script src="./js/viewer/standards.js"></script>
-<script src="./js/viewer/ledgers.js"></script>
-<script src="./js/viewer/platforms.js"></script>
-<script src="./js/viewer/handrails.js"></script>
-<script src="./js/viewer/planks.js"></script>
-<script src="./js/viewer/braces.js"></script>
-<script src="./js/viewer/cleanup.js"></script>
-<script src="./js/viewer/viewer.js"></script>
-<script src="./js/export/export.js"></script>
-<script src="./js/export/pdf.js"></script>
-<script src="./js/export/excel.js"></script>
-<script src="./js/export/csv.js"></script>
-<script src="./js/export/zip.js"></script>
-<script src="./js/core/main.js"></script>
+<script>
+
+// Standard pipe stock lengths
+const STOCK_LENGTHS = [0.3, 0.5, 0.7, 0.8, 0.9, 1, 1.2, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6];
+
+// Safety ratios for different scaffold types
+const SAFETY_RATIOS = {
+  independent: { maxHeightRatio: 3.5, name: 'Independent Scaffold' },
+  tower:       { maxHeightRatio: 4.0, name: 'Tower Scaffold' }
+};
+
+// Guardrail heights above each working platform (K3 standard)
+const TOPRAIL_HEIGHT = 1.0;  // meter di atas platform
+const MIDRAIL_HEIGHT = 0.5;  // meter di atas platform (setengah toprail)
+
+// Plank / board width
+const PLANK_WIDTH = 0.23;    // meter (23cm)
+
+// Global state
+let currentResult = {};
+let currentInputs = {};
+let scene, camera, renderer, controls;
+let scaffoldGroup;
+let wireframeMode = false;
+let calcLogLines = [];
+
+// ── Initialize ────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+  setupEventListeners();
+  initializeViewer();
+});
+
+function setupEventListeners() {
+  const inputs = ['tinggi', 'panjang', 'lebar', 'bay', 'lift', 'scaffoldType', 'screwjack'];
+  inputs.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input',  debounce(calculate, 350));
+      el.addEventListener('change', calculate);
+    }
+  });
+}
+
+function debounce(func, wait) {
+  let timeout;
+  return function(...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), wait);
+  };
+}
+
+function nearestUp(value) {
+  for (let s of STOCK_LENGTHS) { if (s >= value) return s; }
+  return 6;
+}
+
+// ── Toast notification ────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg, duration = 3000) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), duration);
+}
+
+// ── Status indicator ──────────────────────────────────────────────────────
+function updateStatusIndicator(status, message) {
+  const dot  = document.querySelector('.status-dot');
+  const span = document.querySelector('.status-indicator span');
+  const colors = {
+    ready:   { bg: '#00d9ff', shadow: '0 0 12px #00d9ff' },
+    warning: { bg: '#ff6b35', shadow: '0 0 12px #ff6b35' },
+    error:   { bg: '#ff4757', shadow: '0 0 12px #ff4757' },
+  };
+  const c = colors[status] || colors.ready;
+  dot.style.background  = c.bg;
+  dot.style.boxShadow   = c.shadow;
+  if (span) span.textContent = message || status.toUpperCase();
+}
+
+// ── Calculation log ───────────────────────────────────────────────────────
+function logCalc(type, msg) {
+  calcLogLines.push({ type, msg });
+  if (calcLogLines.length > 40) calcLogLines.shift();
+  const box = document.getElementById('calcLog');
+  if (box) {
+    box.innerHTML = calcLogLines.map(l =>
+      `<div class="calc-log-line ${l.type}">[${l.type.toUpperCase()}] ${l.msg}</div>`
+    ).join('');
+    box.scrollTop = box.scrollHeight;
+  }
+}
+
+function toggleCalcLog() {
+  const box = document.getElementById('calcLog');
+  const checked = document.getElementById('showCalcLog').checked;
+  box.classList.toggle('visible', checked);
+}
+
+// ── Dimension warnings (non-blocking) ────────────────────────────────────
+let dimWarnings = [];
+
+function clearDimWarnings() {
+  dimWarnings = [];
+  document.getElementById('dimWarningBox').classList.remove('visible');
+  document.getElementById('dimWarningList').innerHTML = '';
+}
+
+function addDimWarning(msg) {
+  dimWarnings.push(msg);
+  const list = document.getElementById('dimWarningList');
+  list.innerHTML = dimWarnings.map(w => `<div class="warning-item">${w}</div>`).join('');
+  document.getElementById('dimWarningBox').classList.add('visible');
+  logCalc('warn', msg);
+}
+
+// ── Auto-adjust helpers ───────────────────────────────────────────────────
+function autoAdjustBay() {
+  const panjang = parseFloat(document.getElementById('panjang').value) || 0;
+  if (panjang <= 0) { showToast('⚠ Masukkan Panjang terlebih dahulu'); return; }
+  const target = 2.0; // target spacing
+  const optBay = Math.max(1, Math.round(panjang / target));
+  document.getElementById('bay').value = optBay;
+  showToast(`✓ Bay disesuaikan → ${optBay} (spacing ~${(panjang/optBay).toFixed(2)}m)`);
+  calculate();
+}
+
+function autoAdjustLift() {
+  const tinggi = parseFloat(document.getElementById('tinggi').value) || 0;
+  if (tinggi <= 0) { showToast('⚠ Masukkan Tinggi terlebih dahulu'); return; }
+  const target = 2.0; // target lift height
+  const optLift = Math.max(1, Math.round(tinggi / target));
+  document.getElementById('lift').value = optLift;
+  showToast(`✓ Lift disesuaikan → ${optLift} (height ~${(tinggi/optLift).toFixed(2)}m)`);
+  calculate();
+}
+
+// ── Validation — FLEXIBLE, non-blocking for geometry ─────────────────────
+function validateInputs() {
+  let isValid = true;
+  const errors = {};
+  clearDimWarnings();
+
+  const tinggi  = parseFloat(document.getElementById('tinggi').value)  || 0;
+  const panjang = parseFloat(document.getElementById('panjang').value) || 0;
+  const lebar   = parseFloat(document.getElementById('lebar').value)   || 0;
+  const bay     = parseInt(document.getElementById('bay').value)       || 0;
+  const lift    = parseInt(document.getElementById('lift').value)      || 0;
+
+  // ── Hard errors (truly missing values) ──────────────────────
+  if (tinggi  <= 0) { errors.tinggi  = 'Height must be > 0'; isValid = false; }
+  if (panjang <= 0) { errors.panjang = 'Length must be > 0'; isValid = false; }
+  if (lebar   <= 0) { errors.lebar   = 'Width must be > 0';  isValid = false; }
+  if (bay     <= 0) { errors.bay     = 'Bays must be > 0';   isValid = false; }
+  if (lift    <= 0) { errors.lift    = 'Lifts must be > 0';  isValid = false; }
+
+  if (!isValid) {
+    renderFieldErrors(errors);
+    updateStatusIndicator('error', 'INPUT ERROR');
+    return { isValid, errors };
+  }
+
+  // ── Derived spacings ─────────────────────────────────────────
+  const baySpacing = panjang / bay;
+  const liftHeight = tinggi  / lift;
+
+  // Update AUTO display
+  document.getElementById('baySpacingDisplay').textContent = baySpacing.toFixed(2) + ' m';
+  document.getElementById('liftHeightDisplay').textContent = liftHeight.toFixed(2) + ' m';
+
+  // ── Soft warnings (non-blocking) ─────────────────────────────
+  // Bay spacing range
+  if (baySpacing < 0.3 || baySpacing > 5) {
+    addDimWarning(`Bay spacing (${baySpacing.toFixed(2)}m) diluar rentang tipikal 0.3–5m. Hasil BOQ mungkin tidak akurat untuk kondisi lapangan.`);
+  }
+  // Lift height range
+  if (liftHeight < 0.5 || liftHeight > 4) {
+    addDimWarning(`Lift height (${liftHeight.toFixed(2)}m) diluar rentang tipikal 0.5–4m. Perhatikan stabilitas per lantai.`);
+  }
+  // Length/width ratio
+  const lwRatio = Math.max(panjang, lebar) / Math.min(panjang, lebar);
+  if (lwRatio > 10) {
+    addDimWarning(`Rasio panjang:lebar (${lwRatio.toFixed(1)}:1) sangat besar. Pastikan bracing memadai di arah pendek.`);
+  }
+  // Very large dimensions
+  if (panjang > 100 || lebar > 50 || tinggi > 50) {
+    addDimWarning(`Dimensi sangat besar (P:${panjang}m, L:${lebar}m, T:${tinggi}m). Pastikan perhitungan beban & stabilitas diperhatikan oleh engineer.`);
+  }
+
+  const hasWarnings = dimWarnings.length > 0;
+  updateStatusIndicator(hasWarnings ? 'warning' : 'ready', hasWarnings ? 'WARNINGS' : 'SYSTEM READY');
+
+  logCalc('info', `Inputs OK — baySpacing=${baySpacing.toFixed(2)}m, liftHeight=${liftHeight.toFixed(2)}m`);
+  renderFieldErrors(errors);
+  return { isValid: true, errors };
+}
+
+function renderFieldErrors(errors) {
+  ['tinggi', 'panjang', 'lebar', 'bay', 'lift'].forEach(key => {
+    const errEl  = document.getElementById(`${key}Error`);
+    const inpEl  = document.getElementById(key);
+    if (errors[key]) {
+      if (errEl) { errEl.textContent = errors[key]; errEl.classList.add('visible'); }
+      if (inpEl) inpEl.classList.add('error');
+    } else {
+      if (errEl) errEl.classList.remove('visible');
+      if (inpEl) inpEl.classList.remove('error');
+    }
+  });
+}
+
+// ── Safety ratio check (height vs base) ──────────────────────────────────
+function checkSafetyRatio(inputs) {
+  const { tinggi, panjang, lebar, scaffoldType } = inputs;
+  const smallestBase = Math.min(panjang, lebar);
+  const ratio    = tinggi / smallestBase;
+  const maxRatio = SAFETY_RATIOS[scaffoldType].maxHeightRatio;
+  const warningBox  = document.getElementById('warningBox');
+  const warningText = document.getElementById('warningText');
+  if (ratio > maxRatio) {
+    warningText.textContent = `Rasio tinggi/base (${ratio.toFixed(2)}) melebihi batas aman (${maxRatio}) untuk ${SAFETY_RATIOS[scaffoldType].name}. Diperlukan bracing & tie-in tambahan.`;
+    warningBox.classList.add('visible');
+    logCalc('warn', `Safety ratio exceeded: ${ratio.toFixed(2)} > ${maxRatio}`);
+  } else {
+    warningBox.classList.remove('visible');
+    logCalc('ok', `Safety ratio OK: ${ratio.toFixed(2)} ≤ ${maxRatio}`);
+  }
+}
+
+// ── Main calculate ────────────────────────────────────────────────────────
+function calculate() {
+  const validation = validateInputs();
+  if (!validation.isValid) { clearResults(); return; }
+
+  const inputs = {
+    tinggi:       parseFloat(document.getElementById('tinggi').value)  || 0,
+    panjang:      parseFloat(document.getElementById('panjang').value) || 0,
+    lebar:        parseFloat(document.getElementById('lebar').value)   || 0,
+    bay:          parseInt(document.getElementById('bay').value)       || 0,
+    lift:         parseInt(document.getElementById('lift').value)      || 0,
+    scaffoldType: document.getElementById('scaffoldType').value,
+    screwjack:    document.getElementById('screwjack').checked
+  };
+  // Always derive spacing from actual dimensions — no manual input conflict
+  inputs.baySpacing = inputs.panjang / inputs.bay;
+  inputs.liftHeight = inputs.tinggi  / inputs.lift;
+
+  // Base lift: physical ground-to-first-platform lift, NOT counted in user's
+  // "jumlah lift" input. Total structure = user lifts + 1 base lift.
+  inputs.totalLifts  = inputs.lift + 1;
+  inputs.totalHeight = inputs.tinggi + inputs.liftHeight; // +1 extra lift height
+
+  // Guardrail & plank formula constants
+  inputs.topRailHeight = TOPRAIL_HEIGHT;
+  inputs.midRailHeight = MIDRAIL_HEIGHT;
+  inputs.plankWidth    = PLANK_WIDTH;
+
+  currentInputs = inputs;
+  checkSafetyRatio(inputs);
+
+  let result;
+  switch (inputs.scaffoldType) {
+    case 'tower': result = calculateTowerScaffold(inputs); break;
+    default:      result = calculateIndependentScaffold(inputs);
+  }
+
+  currentResult = result;
+  logCalc('ok', `Calculated: ${result.scaffoldType} → ${result.standards} standards, ${result.ledgers} ledgers`);
+  displayResults(result);
+  render3DScaffold(inputs);
+}
+
+function calculateIndependentScaffold(d) {
+  const smallestBaseDim = Math.min(d.panjang, d.lebar);
+  const maxSafeHeight = SAFETY_RATIOS.independent.maxHeightRatio * smallestBaseDim;
+  const standardPipeLength = nearestUp(maxSafeHeight);
+
+  const standards = 4;
+  // Standards must span the FULL structure height including the base lift
+  const jointsPerStandard = d.totalHeight > standardPipeLength ? Math.ceil(d.totalHeight / standardPipeLength) - 1 : 0;
+  const totalJoints = standards * jointsPerStandard;
+
+  const ledgersPerSide = d.bay + 1;
+  const ledgers = ledgersPerSide * 2 * d.totalLifts;
+  const ledgerPipeLength = nearestUp(d.baySpacing);
+
+  const transoms = d.bay * 2 * d.totalLifts;
+  const transomPipeLength = nearestUp(d.lebar);
+
+  const putlogs = transoms;
+  const putlogPipeLength = nearestUp(d.lebar + 0.3);
+
+  const bracedBays = Math.ceil(d.bay / 3);
+  const bracing = bracedBays * 2 * d.totalLifts;
+  const bracingPipeLength = nearestUp(Math.sqrt(Math.pow(d.baySpacing, 2) + Math.pow(d.liftHeight, 2)));
+
+  // Handrails = TOPRAIL + MIDRAIL, both sides, every lift (platform)
+  const railsPerSet = ledgersPerSide * 2 * d.totalLifts; // per rail type
+  const handrails = railsPerSet * 2; // toprail + midrail
+  const handrailPipeLength = nearestUp(d.baySpacing);
+
+  const toeboards = 4 * d.totalLifts;
+  const toeBoardLength = nearestUp(d.baySpacing);
+
+  const planksPerBay = Math.ceil(d.lebar / d.plankWidth);
+  const totalPlanks = d.bay * planksPerBay * d.totalLifts;
+  const plankLength = nearestUp(d.baySpacing);
+
+  const doubleCouplers = (ledgers + transoms + handrails) * 2;
+  const swivelCouplers = bracing * 2;
+  const singleCouplers = putlogs * 2;
+
+  const baseplates = standards;
+  const solboards = standards;
+  const screwjacks = d.screwjack ? standards : 0;
+
+  return {
+    scaffoldType: 'Independent Scaffold',
+    dimensions: `${d.panjang}m × ${d.lebar}m × ${d.tinggi}m (total w/ base lift: ${d.totalHeight.toFixed(2)}m)`,
+    baseDimension: smallestBaseDim.toFixed(2),
+    maxSafeHeight: maxSafeHeight.toFixed(2),
+    standardPipeLength: standardPipeLength.toFixed(2),
+    totalLifts: d.totalLifts,
+    standards, joints: totalJoints,
+    ledgers, ledgerPipeLength,
+    transoms, transomPipeLength,
+    putlogs, putlogPipeLength,
+    bracing, bracingPipeLength,
+    handrails, handrailPipeLength,
+    toeboards, toeBoardLength,
+    planks: totalPlanks, plankLength,
+    doubleCouplers, swivelCouplers, singleCouplers,
+    baseplates, solboards, screwjacks,
+    // Breakdown details for each component
+    detail: {
+      standards:     { qty: standards,    pipeLen: standardPipeLength, formula: `4 sudut tiang vertikal × tinggi total ${d.totalHeight.toFixed(2)}m (termasuk base lift)`, location: 'Setiap sudut, sepanjang ketinggian scaffold + 1 base lift' },
+      joints:        { qty: totalJoints,  pipeLen: 0,                  formula: `4 tiang × ${jointsPerStandard} sambungan/tiang (tinggi total ${d.totalHeight.toFixed(2)}m > pipa ${standardPipeLength}m)`, location: 'Sambungan antar pipa pada setiap tiang standar' },
+      ledgers:       { qty: ledgers,      pipeLen: ledgerPipeLength,   formula: `(${d.bay} bay+1) × 2 sisi × ${d.totalLifts} lift (${d.lift} lift + 1 base lift)`, location: `Horizontal memanjang (arah panjang ${d.panjang}m), tiap lift termasuk base lift` },
+      transoms:      { qty: transoms,     pipeLen: transomPipeLength,  formula: `${d.bay} bay × 2 sisi × ${d.totalLifts} lift (${d.lift} lift + 1 base lift)`, location: `Horizontal melintang (arah lebar ${d.lebar}m), tiap lift termasuk base lift` },
+      putlogs:       { qty: putlogs,      pipeLen: putlogPipeLength,   formula: `Sama dengan jumlah transom`, location: `Penyangga papan lantai, melintang lebar scaffold` },
+      bracing:       { qty: bracing,      pipeLen: bracingPipeLength,  formula: `⌈${d.bay} bay ÷ 3⌉ = ${bracedBays} × 2 muka × ${d.totalLifts} lift`, location: `Diagonal pengaku, 1 pasang tiap 3 bay di muka depan & belakang, termasuk base lift` },
+      handrails:     { qty: handrails,    pipeLen: handrailPipeLength, formula: `Toprail: (${d.bay}+1)×2×${d.totalLifts} + Midrail: (${d.bay}+1)×2×${d.totalLifts} = ${railsPerSet}+${railsPerSet}`, location: `Pagar pengaman ganda (toprail ${d.topRailHeight}m & midrail ${d.midRailHeight}m di atas platform), tiap lift termasuk base lift` },
+      toeboards:     { qty: toeboards,    pipeLen: toeBoardLength,     formula: `4 sisi × ${d.totalLifts} lift`, location: `Papan siku bawah di 4 sisi perimeter tiap lantai, termasuk base lift` },
+      planks:        { qty: totalPlanks,  pipeLen: plankLength,        formula: `${d.bay} bay × ⌈${d.lebar}m ÷ ${d.plankWidth}m⌉ = ${planksPerBay} papan/bay × ${d.totalLifts} lift`, location: `Papan lantai kerja (lebar ${d.plankWidth*100}cm/papan), mengisi seluruh lebar ${d.lebar}m tiap bay tiap lift termasuk base lift` },
+      doubleCouplers:{ qty: doubleCouplers, pipeLen: 0,                formula: `(${ledgers} ledger + ${transoms} transom + ${handrails} handrail) × 2`, location: 'Klem sambungan tegak lurus (ledger/transom ke standar)' },
+      swivelCouplers:{ qty: swivelCouplers, pipeLen: 0,                formula: `${bracing} bracing × 2 ujung`, location: 'Klem sambungan sudut bebas (bracing ke standar/ledger)' },
+      singleCouplers:{ qty: singleCouplers, pipeLen: 0,                formula: `${putlogs} putlog × 2 ujung`, location: 'Klem putlog ke ledger (bisa bergeser)' },
+      baseplates:    { qty: baseplates,   pipeLen: 0,                  formula: `1 per tiang standar = ${standards} tiang`, location: 'Pelat dasar bawah setiap tiang standar' },
+      solboards:     { qty: solboards,    pipeLen: 0,                  formula: `1 per baseplate = ${baseplates} pcs`, location: 'Papan alas bawah baseplate, distribusi beban ke tanah' },
+      screwjacks:    { qty: screwjacks,   pipeLen: 0,                  formula: d.screwjack ? `1 per tiang = ${standards} tiang` : 'Tidak digunakan', location: 'Adjuster ketinggian di bawah baseplate (opsional)' },
+    }
+  };
+}
+
+function calculateTowerScaffold(d) {
+  const smallestBaseDim = Math.min(d.panjang, d.lebar);
+  const maxSafeHeight = SAFETY_RATIOS.tower.maxHeightRatio * smallestBaseDim;
+  const standardPipeLength = nearestUp(maxSafeHeight);
+
+  const standards = 4 * d.bay;
+  const jointsPerStandard = d.totalHeight > standardPipeLength ? Math.ceil(d.totalHeight / standardPipeLength) - 1 : 0;
+  const totalJoints = standards * jointsPerStandard;
+
+  const ledgers = (d.bay + 1) * 4 * d.totalLifts;
+  const ledgerPipeLength = nearestUp(d.baySpacing);
+
+  const transoms = d.bay * 4 * d.totalLifts;
+  const transomPipeLength = nearestUp(d.lebar);
+
+  const putlogs = transoms;
+  const putlogPipeLength = nearestUp(d.lebar + 0.3);
+
+  const bracing = d.bay * 4 * d.totalLifts;
+  const bracingPipeLength = nearestUp(Math.sqrt(Math.pow(d.baySpacing, 2) + Math.pow(d.liftHeight, 2)));
+
+  // Handrails = TOPRAIL + MIDRAIL, all 4 faces, every lift (platform)
+  const railsPerSet = (d.bay + 1) * 4 * d.totalLifts; // per rail type
+  const handrails = railsPerSet * 2; // toprail + midrail
+  const handrailPipeLength = nearestUp(d.baySpacing);
+
+  const toeboards = 4 * d.totalLifts;
+  const toeBoardLength = nearestUp(d.baySpacing);
+
+  const planksPerBay = Math.ceil(d.lebar / d.plankWidth);
+  const totalPlanks = d.bay * planksPerBay * d.totalLifts;
+  const plankLength = nearestUp(d.baySpacing);
+
+  const doubleCouplers = (ledgers + transoms + handrails) * 2;
+  const swivelCouplers = bracing * 2;
+  const singleCouplers = putlogs * 2;
+
+  const baseplates = standards;
+  const solboards = standards;
+  const screwjacks = d.screwjack ? standards : 0;
+
+  return {
+    scaffoldType: 'Tower Scaffold',
+    dimensions: `${d.panjang}m × ${d.lebar}m × ${d.tinggi}m (total w/ base lift: ${d.totalHeight.toFixed(2)}m)`,
+    baseDimension: smallestBaseDim.toFixed(2),
+    maxSafeHeight: maxSafeHeight.toFixed(2),
+    standardPipeLength: standardPipeLength.toFixed(2),
+    totalLifts: d.totalLifts,
+    standards, joints: totalJoints,
+    ledgers, ledgerPipeLength,
+    transoms, transomPipeLength,
+    putlogs, putlogPipeLength,
+    bracing, bracingPipeLength,
+    handrails, handrailPipeLength,
+    toeboards, toeBoardLength,
+    planks: totalPlanks, plankLength,
+    doubleCouplers, swivelCouplers, singleCouplers,
+    baseplates, solboards, screwjacks,
+    detail: {
+      standards:     { qty: standards,    pipeLen: standardPipeLength, formula: `4 tiang/bay × ${d.bay} bay, tinggi total ${d.totalHeight.toFixed(2)}m (termasuk base lift)`, location: 'Tiang vertikal di tiap sudut setiap bay, sepanjang ketinggian + 1 base lift' },
+      joints:        { qty: totalJoints,  pipeLen: 0,                  formula: `${standards} tiang × ${jointsPerStandard} sambungan/tiang`, location: 'Sambungan antar pipa pada setiap tiang standar' },
+      ledgers:       { qty: ledgers,      pipeLen: ledgerPipeLength,   formula: `(${d.bay}+1) × 4 muka × ${d.totalLifts} lift (${d.lift} lift + 1 base lift)`, location: `Horizontal memanjang, semua 4 muka tower, tiap lift termasuk base lift` },
+      transoms:      { qty: transoms,     pipeLen: transomPipeLength,  formula: `${d.bay} bay × 4 muka × ${d.totalLifts} lift (${d.lift} lift + 1 base lift)`, location: `Horizontal melintang (lebar ${d.lebar}m), tiap bay tiap lift termasuk base lift` },
+      putlogs:       { qty: putlogs,      pipeLen: putlogPipeLength,   formula: `Sama dengan transom`, location: 'Penyangga papan lantai, melintang lebar scaffold' },
+      bracing:       { qty: bracing,      pipeLen: bracingPipeLength,  formula: `${d.bay} bay × 4 muka × ${d.totalLifts} lift`, location: 'Diagonal pengaku di semua 4 muka tower tiap bay tiap lift, termasuk base lift' },
+      handrails:     { qty: handrails,    pipeLen: handrailPipeLength, formula: `Toprail: (${d.bay}+1)×4×${d.totalLifts} + Midrail: (${d.bay}+1)×4×${d.totalLifts} = ${railsPerSet}+${railsPerSet}`, location: `Pagar pengaman ganda (toprail ${d.topRailHeight}m & midrail ${d.midRailHeight}m di atas platform), semua 4 muka tiap lift termasuk base lift` },
+      toeboards:     { qty: toeboards,    pipeLen: toeBoardLength,     formula: `4 sisi × ${d.totalLifts} lift`, location: 'Papan siku bawah di 4 sisi perimeter tiap lantai, termasuk base lift' },
+      planks:        { qty: totalPlanks,  pipeLen: plankLength,        formula: `${d.bay} bay × ⌈${d.lebar}m ÷ ${d.plankWidth}m⌉ = ${planksPerBay} papan/bay × ${d.totalLifts} lift`, location: `Papan lantai kerja (lebar ${d.plankWidth*100}cm/papan), lebar ${d.lebar}m tiap bay tiap lift termasuk base lift` },
+      doubleCouplers:{ qty: doubleCouplers, pipeLen: 0, formula: `(${ledgers}+${transoms}+${handrails}) × 2`, location: 'Klem sambungan tegak lurus' },
+      swivelCouplers:{ qty: swivelCouplers, pipeLen: 0, formula: `${bracing} bracing × 2 ujung`, location: 'Klem sambungan sudut bebas (bracing)' },
+      singleCouplers:{ qty: singleCouplers, pipeLen: 0, formula: `${putlogs} putlog × 2 ujung`, location: 'Klem putlog ke ledger' },
+      baseplates:    { qty: baseplates,   pipeLen: 0, formula: `1 per tiang = ${standards} tiang`, location: 'Pelat dasar bawah setiap tiang standar' },
+      solboards:     { qty: solboards,    pipeLen: 0, formula: `1 per baseplate`, location: 'Papan alas distribusi beban' },
+      screwjacks:    { qty: screwjacks,   pipeLen: 0, formula: d.screwjack ? `1 per tiang = ${standards}` : 'Tidak digunakan', location: 'Adjuster ketinggian (opsional)' },
+    }
+  };
+}
+
+function displayResults(result) {
+  const container = document.getElementById('resultsContainer');
+  
+  const items = [
+    { label: 'Standards', value: result.standards, unit: 'pcs' },
+    { label: 'Ledgers', value: result.ledgers, unit: 'pcs' },
+    { label: 'Transoms', value: result.transoms, unit: 'pcs' },
+    { label: 'Bracing', value: result.bracing, unit: 'pcs' },
+    { label: 'Handrails', value: result.handrails, unit: 'pcs' },
+    { label: 'Planks', value: result.planks, unit: 'pcs' },
+    { label: 'Dbl Couplers', value: result.doubleCouplers, unit: 'pcs' },
+    { label: 'Swivel Coup.', value: result.swivelCouplers, unit: 'pcs' },
+    { label: 'Base Plates', value: result.baseplates, unit: 'pcs' },
+    { label: 'Screw Jacks', value: result.screwjacks, unit: 'pcs' }
+  ];
+  
+  container.innerHTML = items.map(item => `
+    <div class="result-item">
+      <div class="result-label">${item.label}</div>
+      <div class="result-value">
+        ${item.value}
+        <span class="result-unit">${item.unit}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function clearResults() {
+  document.getElementById('resultsContainer').innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-dim); padding: 2rem;">Enter valid parameters to calculate</div>';
+}
+
+// 3D Visualization
+function initializeViewer() {
+  const container = document.getElementById('viewer');
+  
+  // Scene
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x0a1628);
+  scene.fog = new THREE.Fog(0x0a1628, 50, 200);
+  
+  // Camera
+  camera = new THREE.PerspectiveCamera(50, container.clientWidth / container.clientHeight, 0.1, 1000);
+  camera.position.set(20, 15, 25);
+  
+  // Renderer
+  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  container.appendChild(renderer.domElement);
+  
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+  scene.add(ambientLight);
+  
+  const directionalLight = new THREE.DirectionalLight(0x00d9ff, 1.2);
+  directionalLight.position.set(20, 30, 20);
+  directionalLight.castShadow = true;
+  directionalLight.shadow.camera.left = -50;
+  directionalLight.shadow.camera.right = 50;
+  directionalLight.shadow.camera.top = 50;
+  directionalLight.shadow.camera.bottom = -50;
+  scene.add(directionalLight);
+  
+  const orangeLight = new THREE.PointLight(0xff6b35, 0.5, 100);
+  orangeLight.position.set(-15, 10, 15);
+  scene.add(orangeLight);
+  
+  // Grid
+  const gridHelper = new THREE.GridHelper(100, 50, 0x00d9ff, 0x1e3a5f);
+  gridHelper.material.opacity = 0.2;
+  gridHelper.material.transparent = true;
+  scene.add(gridHelper);
+  
+  // Controls
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.05;
+  controls.minDistance = 5;
+  controls.maxDistance = 100;
+  controls.maxPolarAngle = Math.PI / 2;
+  
+  // Handle window resize
+  window.addEventListener('resize', onWindowResize);
+  
+  // Animation loop
+  animate();
+}
+
+function onWindowResize() {
+  const container = document.getElementById('viewer');
+  camera.aspect = container.clientWidth / container.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+}
+
+function animate() {
+  requestAnimationFrame(animate);
+  controls.update();
+  renderer.render(scene, camera);
+}
+
+function render3DScaffold(inputs) {
+  // Remove existing scaffold
+  if (scaffoldGroup) {
+    scene.remove(scaffoldGroup);
+  }
+  
+  scaffoldGroup = new THREE.Group();
+  
+  if (inputs.bay <= 0 || inputs.lift <= 0) return;
+  
+  const pipeRadius = 0.025;
+  const baySpacing = inputs.baySpacing;
+  const liftHeight = inputs.liftHeight;
+  
+  // Materials
+  const standardMaterial = new THREE.MeshPhongMaterial({ 
+    color: 0x00d9ff, 
+    emissive: 0x00d9ff,
+    emissiveIntensity: 0.2,
+    shininess: 100
+  });
+  
+  const ledgerMaterial = new THREE.MeshPhongMaterial({ 
+    color: 0xff6b35,
+    emissive: 0xff6b35,
+    emissiveIntensity: 0.1,
+    shininess: 100
+  });
+  
+  const bracingMaterial = new THREE.MeshPhongMaterial({ 
+    color: 0xffff00,
+    emissive: 0xffff00,
+    emissiveIntensity: 0.1,
+    shininess: 100
+  });
+
+  const railMaterial = new THREE.MeshPhongMaterial({
+    color: 0x39ff14,
+    emissive: 0x39ff14,
+    emissiveIntensity: 0.15,
+    shininess: 100
+  });
+
+  const plankMaterial = new THREE.MeshPhongMaterial({
+    color: 0xc98a4b,
+    shininess: 20
+  });
+  
+  // Create scaffold based on type
+  switch (inputs.scaffoldType) {
+    case 'tower':
+      createTowerScaffold3D(scaffoldGroup, inputs, baySpacing, liftHeight, pipeRadius, standardMaterial, ledgerMaterial, bracingMaterial, railMaterial, plankMaterial);
+      break;
+    default:
+      createIndependentScaffold3D(scaffoldGroup, inputs, baySpacing, liftHeight, pipeRadius, standardMaterial, ledgerMaterial, bracingMaterial, railMaterial, plankMaterial);
+  }
+  
+  // Center the scaffold
+  const box = new THREE.Box3().setFromObject(scaffoldGroup);
+  const center = box.getCenter(new THREE.Vector3());
+  scaffoldGroup.position.sub(center);
+  scaffoldGroup.position.y = 0;
+  
+  scene.add(scaffoldGroup);
+  
+  // Update overlay
+  updateViewerOverlay(inputs);
+  
+  // Reset camera to fit scaffold
+  fitCameraToScaffold();
+}
+
+function createIndependentScaffold3D(group, inputs, baySpacing, liftHeight, radius, stdMat, ledMat, bracMat, railMat, plankMat) {
+  const totalLength = inputs.panjang;
+  const totalWidth = inputs.lebar;
+  const totalLifts = inputs.totalLifts;      // user lifts + 1 base lift
+  const totalHeight = inputs.totalHeight;    // tinggi + 1 extra lift height
+  const topRailH = inputs.topRailHeight;
+  const midRailH = inputs.midRailHeight;
+  const plankW = inputs.plankWidth;
+
+  // Standards (4 corners) — span full height including base lift
+  const corners = [
+    [0, 0], [totalLength, 0], [totalLength, totalWidth], [0, totalWidth]
+  ];
+  corners.forEach(([x, z]) => {
+    const geometry = new THREE.CylinderGeometry(radius, radius, totalHeight, 8);
+    const mesh = new THREE.Mesh(geometry, stdMat);
+    mesh.position.set(x, totalHeight / 2, z);
+    mesh.castShadow = true;
+    group.add(mesh);
+  });
+
+  // Ledgers, transoms, guardrails (toprail+midrail), planks — per lift (incl. base lift)
+  for (let lift = 0; lift <= totalLifts; lift++) {
+    const y = lift * liftHeight;
+
+    // Ledgers (along length)
+    [[0, 0, totalLength, 0], [0, totalWidth, totalLength, totalWidth]].forEach(([x1, z1, x2, z2]) => {
+      addPipe(group, [x1, y, z1], [x2, y, z2], radius, ledMat);
+    });
+
+    // Transoms (along width)
+    [[0, 0, 0, totalWidth], [totalLength, 0, totalLength, totalWidth]].forEach(([x1, z1, x2, z2]) => {
+      addPipe(group, [x1, y, z1], [x2, y, z2], radius, ledMat);
+    });
+
+    // Guardrails: toprail + midrail above each platform (skip ground level 0)
+    if (lift >= 1) {
+      [0, totalWidth].forEach(z => {
+        addPipe(group, [0, y + midRailH, z], [totalLength, y + midRailH, z], radius * 0.8, railMat);
+        addPipe(group, [0, y + topRailH, z], [totalLength, y + topRailH, z], radius * 0.8, railMat);
+      });
+
+      // Planks laid across width at this platform level, per bay
+      const planksPerBay = Math.ceil(totalWidth / plankW);
+      for (let b = 0; b < inputs.bay; b++) {
+        const x1 = b * baySpacing;
+        const x2 = Math.min((b + 1) * baySpacing, totalLength);
+        for (let p = 0; p < planksPerBay; p++) {
+          const z1 = p * plankW;
+          const z2 = Math.min((p + 1) * plankW, totalWidth);
+          addPlank(group, x1, x2, y, z1, z2, plankMat);
+        }
+      }
+    }
+  }
+
+  // Bracing (diagonal) - every 3rd bay, incl. base lift
+  for (let b = 0; b < inputs.bay; b++) {
+    if (b % 3 === 0) {
+      for (let lift = 0; lift < totalLifts; lift++) {
+        const x1 = b * baySpacing;
+        const x2 = Math.min((b + 1) * baySpacing, totalLength);
+        const y1 = lift * liftHeight;
+        const y2 = (lift + 1) * liftHeight;
+
+        addPipe(group, [x1, y1, 0], [x2, y2, 0], radius * 0.8, bracMat);
+        addPipe(group, [x1, y1, totalWidth], [x2, y2, totalWidth], radius * 0.8, bracMat);
+      }
+    }
+  }
+}
+
+function createTowerScaffold3D(group, inputs, baySpacing, liftHeight, radius, stdMat, ledMat, bracMat, railMat, plankMat) {
+  const totalLength = inputs.panjang;
+  const totalWidth = inputs.lebar;
+  const totalLifts = inputs.totalLifts;
+  const totalHeight = inputs.totalHeight;
+  const topRailH = inputs.topRailHeight;
+  const midRailH = inputs.midRailHeight;
+  const plankW = inputs.plankWidth;
+
+  // Standards at each bay position, both faces (z=0, z=totalWidth) — span full height
+  for (let b = 0; b <= inputs.bay; b++) {
+    const x = b * baySpacing;
+    if (x > totalLength) break;
+
+    [0, totalWidth].forEach(z => {
+      const geometry = new THREE.CylinderGeometry(radius, radius, totalHeight, 8);
+      const mesh = new THREE.Mesh(geometry, stdMat);
+      mesh.position.set(x, totalHeight / 2, z);
+      mesh.castShadow = true;
+      group.add(mesh);
+    });
+  }
+
+  // Dense horizontal grid + guardrails + planks, per lift incl. base lift
+  for (let lift = 0; lift <= totalLifts; lift++) {
+    const y = lift * liftHeight;
+
+    // Ledgers
+    [0, totalWidth].forEach(z => {
+      addPipe(group, [0, y, z], [totalLength, y, z], radius, ledMat);
+    });
+
+    // Transoms
+    for (let b = 0; b <= inputs.bay; b++) {
+      const x = b * baySpacing;
+      if (x > totalLength) break;
+      addPipe(group, [x, y, 0], [x, y, totalWidth], radius, ledMat);
+    }
+
+    // Guardrails: toprail + midrail, both long faces (skip ground level)
+    if (lift >= 1) {
+      [0, totalWidth].forEach(z => {
+        addPipe(group, [0, y + midRailH, z], [totalLength, y + midRailH, z], radius * 0.8, railMat);
+        addPipe(group, [0, y + topRailH, z], [totalLength, y + topRailH, z], radius * 0.8, railMat);
+      });
+
+      // Planks at this platform level, per bay
+      const planksPerBay = Math.ceil(totalWidth / plankW);
+      for (let b = 0; b < inputs.bay; b++) {
+        const x1 = b * baySpacing;
+        const x2 = Math.min((b + 1) * baySpacing, totalLength);
+        for (let p = 0; p < planksPerBay; p++) {
+          const z1 = p * plankW;
+          const z2 = Math.min((p + 1) * plankW, totalWidth);
+          addPlank(group, x1, x2, y, z1, z2, plankMat);
+        }
+      }
+    }
+  }
+
+  // Bracing — every bay, every lift incl. base lift
+  for (let b = 0; b < inputs.bay; b++) {
+    for (let lift = 0; lift < totalLifts; lift++) {
+      const x1 = b * baySpacing;
+      const x2 = (b + 1) * baySpacing;
+      const y1 = lift * liftHeight;
+      const y2 = (lift + 1) * liftHeight;
+
+      if (x2 <= totalLength) {
+        addPipe(group, [x1, y1, 0], [x2, y2, 0], radius * 0.8, bracMat);
+        addPipe(group, [x1, y1, totalWidth], [x2, y2, totalWidth], radius * 0.8, bracMat);
+      }
+    }
+  }
+}
+
+// Add a thin plank/board as a box geometry spanning [x1,x2] length x [z1,z2] width at height y
+function addPlank(group, x1, x2, y, z1, z2, material) {
+  const lenX = x2 - x1;
+  const lenZ = z2 - z1;
+  const thickness = 0.04; // 4cm plank thickness
+  const geometry = new THREE.BoxGeometry(lenX * 0.96, thickness, lenZ * 0.9);
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set((x1 + x2) / 2, y + thickness / 2, (z1 + z2) / 2);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  group.add(mesh);
+}
+
+function addPipe(group, start, end, radius, material) {
+  const [x1, y1, z1] = start;
+  const [x2, y2, z2] = end;
+  
+  const distance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2) + Math.pow(z2 - z1, 2));
+  const geometry = new THREE.CylinderGeometry(radius, radius, distance, 8);
+  const mesh = new THREE.Mesh(geometry, material);
+  
+  mesh.position.set((x1 + x2) / 2, (y1 + y2) / 2, (z1 + z2) / 2);
+  
+  const direction = new THREE.Vector3(x2 - x1, y2 - y1, z2 - z1).normalize();
+  const axis = new THREE.Vector3(0, 1, 0);
+  const quaternion = new THREE.Quaternion().setFromUnitVectors(axis, direction);
+  mesh.quaternion.copy(quaternion);
+  
+  mesh.castShadow = true;
+  group.add(mesh);
+}
+
+function updateViewerOverlay(inputs) {
+  document.getElementById('overlayType').textContent = SAFETY_RATIOS[inputs.scaffoldType].name;
+  document.getElementById('overlayDim').textContent = `${inputs.panjang}×${inputs.lebar}×${inputs.tinggi}m (${inputs.lift}+1 lift)`;
+  
+  const totalComponents = currentResult.standards + currentResult.ledgers + currentResult.transoms + currentResult.bracing;
+  document.getElementById('overlayComp').textContent = totalComponents;
+}
+
+function fitCameraToScaffold() {
+  if (!scaffoldGroup) return;
+  
+  const box = new THREE.Box3().setFromObject(scaffoldGroup);
+  const size = box.getSize(new THREE.Vector3());
+  const maxDim = Math.max(size.x, size.y, size.z);
+  const fov = camera.fov * (Math.PI / 180);
+  let cameraDistance = maxDim / (2 * Math.tan(fov / 2));
+  cameraDistance *= 1.5; // Add some padding
+  
+  camera.position.set(cameraDistance, cameraDistance * 0.7, cameraDistance);
+  camera.lookAt(0, size.y / 2, 0);
+  controls.target.set(0, size.y / 2, 0);
+  controls.update();
+}
+
+function resetCamera() {
+  fitCameraToScaffold();
+}
+
+function toggleWireframe() {
+  wireframeMode = !wireframeMode;
+  if (scaffoldGroup) {
+    scaffoldGroup.traverse((child) => {
+      if (child.isMesh) {
+        child.material.wireframe = wireframeMode;
+      }
+    });
+  }
+}
+
+// Export Functions
+function showLoading() {
+  document.getElementById('loading').classList.add('active');
+}
+
+function hideLoading() {
+  document.getElementById('loading').classList.remove('active');
+}
+
+function getExportData() {
+  const timestamp = new Date().toLocaleString();
+  const companyName = "Scaffold Engineering Pro";
+  
+  return {
+    company: companyName,
+    timestamp,
+    project: "Scaffold Design",
+    ...currentResult,
+    ...currentInputs
+  };
+}
+
+function exportPDF() {
+  if (!currentResult.scaffoldType) { alert('Please calculate scaffold first'); return; }
+  showLoading();
+  setTimeout(() => {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const data = getExportData();
+    const d = currentResult.detail;
+
+    // ── Header ──────────────────────────────────────────────
+    doc.setFillColor(21, 34, 56);
+    doc.rect(0, 0, 210, 42, 'F');
+    doc.setTextColor(0, 217, 255);
+    doc.setFontSize(20); doc.setFont(undefined, 'bold');
+    doc.text('SCAFFOLD ENGINEERING PRO', 105, 16, { align: 'center' });
+    doc.setFontSize(10); doc.setTextColor(148, 163, 184);
+    doc.text('Detailed Bill of Quantities Report', 105, 25, { align: 'center' });
+    doc.text(`Generated: ${data.timestamp}`, 105, 33, { align: 'center' });
+
+    // ── Project Info ─────────────────────────────────────────
+    doc.setTextColor(30, 58, 95); doc.setFontSize(11); doc.setFont(undefined, 'bold');
+    doc.text('PROJECT INFORMATION', 14, 52);
+    doc.autoTable({
+      startY: 55,
+      head: [['Parameter', 'Value']],
+      body: [
+        ['Scaffold Type', data.scaffoldType],
+        ['Dimensions (P × L × T)', data.dimensions],
+        ['Bay Spacing', `${(+data.baySpacing).toFixed(2)} m`],
+        ['Lift Height', `${(+data.liftHeight).toFixed(2)} m`],
+        ['Number of Bays', data.bay],
+        ['Number of Lifts', data.lift],
+        ['Standard Pipe Length', `${data.standardPipeLength} m`],
+        ['Screw Jacks', data.screwjack ? 'Yes' : 'No']
+      ],
+      theme: 'grid',
+      headStyles: { fillColor: [30, 58, 95], textColor: [0, 217, 255], fontStyle: 'bold' },
+      columnStyles: { 0: { cellWidth: 60, fontStyle: 'bold' } },
+      margin: { left: 14, right: 14 }
+    });
+
+    // ── Detailed BOQ ─────────────────────────────────────────
+    const boqY = doc.lastAutoTable.finalY + 10;
+    doc.setTextColor(30, 58, 95); doc.setFontSize(11); doc.setFont(undefined, 'bold');
+    doc.text('DETAILED BILL OF QUANTITIES', 14, boqY);
+
+    const itemRows = [
+      ['standards',      'Standards',          'Tiang Vertikal (Pipa)'],
+      ['joints',         'Joints / Couplings', 'Sambungan Pipa Tiang'],
+      ['ledgers',        'Ledgers',             'Horizontal Memanjang (Pipa)'],
+      ['transoms',       'Transoms',            'Horizontal Melintang (Pipa)'],
+      ['putlogs',        'Putlogs',             'Penyangga Papan (Pipa)'],
+      ['bracing',        'Bracing',             'Diagonal Pengaku (Pipa)'],
+      ['handrails',      'Handrails',           'Pagar Pengaman (Pipa)'],
+      ['toeboards',      'Toe Boards',          'Papan Siku Bawah'],
+      ['planks',         'Planks / Boards',     'Papan Lantai Kerja'],
+      ['doubleCouplers', 'Double Couplers',     'Klem Tegak Lurus'],
+      ['swivelCouplers', 'Swivel Couplers',     'Klem Sudut Bebas'],
+      ['singleCouplers', 'Single Couplers',     'Klem Putlog'],
+      ['baseplates',     'Base Plates',         'Pelat Dasar Tiang'],
+      ['solboards',      'Sole Boards',         'Papan Alas Baseplate'],
+      ['screwjacks',     'Screw Jacks',         'Adjuster Ketinggian'],
+    ];
+
+    const boqBody = itemRows.map(([key, name, indo], idx) => {
+      const item = d[key];
+      const pipeStr = item.pipeLen > 0 ? `${item.pipeLen} m` : '-';
+      return [
+        idx + 1,
+        `${name}\n(${indo})`,
+        item.qty,
+        'pcs',
+        pipeStr,
+        item.formula,
+        item.location
+      ];
+    });
+
+    doc.autoTable({
+      startY: boqY + 4,
+      head: [['No', 'Komponen', 'Qty', 'Sat', 'Panjang\nPipa', 'Formula / Dasar Hitung', 'Lokasi Pemasangan']],
+      body: boqBody,
+      theme: 'striped',
+      headStyles: { fillColor: [30, 58, 95], textColor: [0, 217, 255], fontStyle: 'bold', fontSize: 8, halign: 'center' },
+      bodyStyles: { fontSize: 7.5, valign: 'top' },
+      columnStyles: {
+        0: { cellWidth: 8,  halign: 'center' },
+        1: { cellWidth: 32 },
+        2: { cellWidth: 12, halign: 'center', fontStyle: 'bold', textColor: [0, 100, 180] },
+        3: { cellWidth: 10, halign: 'center' },
+        4: { cellWidth: 16, halign: 'center', textColor: [180, 60, 0] },
+        5: { cellWidth: 48 },
+        6: { cellWidth: 56 }
+      },
+      margin: { left: 7, right: 7 },
+      styles: { overflow: 'linebreak', cellPadding: 2 },
+    });
+
+    // Footer
+    const pageCount = doc.internal.getNumberOfPages();
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+      doc.setFontSize(7.5); doc.setTextColor(150);
+      doc.text(`Scaffold Engineering Pro  |  Page ${i} of ${pageCount}`, 105, 291, { align: 'center' });
+    }
+
+    doc.save(`Scaffold_BOQ_${Date.now()}.pdf`);
+    hideLoading();
+  }, 100);
+}
+
+function exportExcel() {
+  if (!currentResult.scaffoldType) { alert('Please calculate scaffold first'); return; }
+  showLoading();
+  setTimeout(() => {
+    const data = getExportData();
+    const d = currentResult.detail;
+
+    const projectInfo = [
+      ['SCAFFOLD ENGINEERING PRO'],
+      ['Detailed Bill of Quantities'],
+      [''],
+      ['Generated:', data.timestamp],
+      [''],
+      ['PROJECT INFORMATION'],
+      ['Scaffold Type', data.scaffoldType],
+      ['Dimensions (P × L × T)', data.dimensions],
+      ['Bay Spacing (m)', (+data.baySpacing).toFixed(2)],
+      ['Lift Height (m)', (+data.liftHeight).toFixed(2)],
+      ['Standard Pipe Length (m)', data.standardPipeLength],
+      ['Number of Bays', data.bay],
+      ['Number of Lifts', data.lift],
+      ['Screw Jacks', data.screwjack ? 'Yes' : 'No']
+    ];
+
+    const boqHeader = [['No', 'Komponen', 'Nama Indonesia', 'Qty', 'Satuan', 'Panjang Pipa (m)', 'Formula / Dasar Hitung', 'Lokasi Pemasangan']];
+    const itemRows = [
+      ['standards',      'Standards',          'Tiang Vertikal'],
+      ['joints',         'Joints',             'Sambungan Pipa'],
+      ['ledgers',        'Ledgers',            'Horizontal Memanjang'],
+      ['transoms',       'Transoms',           'Horizontal Melintang'],
+      ['putlogs',        'Putlogs',            'Penyangga Papan'],
+      ['bracing',        'Bracing',            'Diagonal Pengaku'],
+      ['handrails',      'Handrails',          'Pagar Pengaman'],
+      ['toeboards',      'Toe Boards',         'Papan Siku Bawah'],
+      ['planks',         'Planks',             'Papan Lantai Kerja'],
+      ['doubleCouplers', 'Double Couplers',    'Klem Tegak Lurus'],
+      ['swivelCouplers', 'Swivel Couplers',    'Klem Sudut Bebas'],
+      ['singleCouplers', 'Single Couplers',    'Klem Putlog'],
+      ['baseplates',     'Base Plates',        'Pelat Dasar'],
+      ['solboards',      'Sole Boards',        'Papan Alas'],
+      ['screwjacks',     'Screw Jacks',        'Adjuster Ketinggian'],
+    ];
+    const boqBody = itemRows.map(([key, name, indo], idx) => {
+      const item = d[key];
+      return [idx + 1, name, indo, item.qty, 'pcs', item.pipeLen > 0 ? item.pipeLen : '-', item.formula, item.location];
+    });
+
+    const ws1 = XLSX.utils.aoa_to_sheet(projectInfo);
+    const ws2 = XLSX.utils.aoa_to_sheet([...boqHeader, ...boqBody]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws1, 'Project Info');
+    XLSX.utils.book_append_sheet(wb, ws2, 'Detailed BOQ');
+    XLSX.writeFile(wb, `Scaffold_BOQ_${Date.now()}.xlsx`);
+    hideLoading();
+  }, 100);
+}
+
+function exportCSV() {
+  if (!currentResult.scaffoldType) { alert('Please calculate scaffold first'); return; }
+  showLoading();
+  setTimeout(() => {
+    const data = getExportData();
+    const d = currentResult.detail;
+    const itemRows = [
+      ['standards','Standards','Tiang Vertikal'],
+      ['joints','Joints','Sambungan Pipa'],
+      ['ledgers','Ledgers','Horizontal Memanjang'],
+      ['transoms','Transoms','Horizontal Melintang'],
+      ['putlogs','Putlogs','Penyangga Papan'],
+      ['bracing','Bracing','Diagonal Pengaku'],
+      ['handrails','Handrails','Pagar Pengaman'],
+      ['toeboards','Toe Boards','Papan Siku Bawah'],
+      ['planks','Planks','Papan Lantai Kerja'],
+      ['doubleCouplers','Double Couplers','Klem Tegak Lurus'],
+      ['swivelCouplers','Swivel Couplers','Klem Sudut Bebas'],
+      ['singleCouplers','Single Couplers','Klem Putlog'],
+      ['baseplates','Base Plates','Pelat Dasar'],
+      ['solboards','Sole Boards','Papan Alas'],
+      ['screwjacks','Screw Jacks','Adjuster Ketinggian'],
+    ];
+    const rows = [
+      ['SCAFFOLD ENGINEERING PRO - Detailed BOQ'],
+      [`Generated:,${data.timestamp}`],
+      [''],
+      ['PROJECT INFORMATION'],
+      [`Scaffold Type,${data.scaffoldType}`],
+      [`Dimensions,${data.dimensions}`],
+      [`Bay Spacing (m),${(+data.baySpacing).toFixed(2)}`],
+      [`Lift Height (m),${(+data.liftHeight).toFixed(2)}`],
+      [`Standard Pipe (m),${data.standardPipeLength}`],
+      [`Bays,${data.bay}`],
+      [`Lifts,${data.lift}`],
+      [''],
+      ['DETAILED BILL OF QUANTITIES'],
+      ['No,Komponen,Nama Indonesia,Qty,Satuan,Panjang Pipa (m),Formula / Dasar Hitung,Lokasi Pemasangan'],
+      ...itemRows.map(([key, name, indo], idx) => {
+        const item = d[key];
+        return `${idx+1},"${name}","${indo}",${item.qty},pcs,${item.pipeLen > 0 ? item.pipeLen : '-'},"${item.formula}","${item.location}"`;
+      })
+    ];
+    const csv = rows.map(r => Array.isArray(r) ? r.join(',') : r).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = `Scaffold_BOQ_${Date.now()}.csv`;
+    link.click();
+    hideLoading();
+  }, 100);
+}
+
+function exportZIP() {
+  if (!currentResult.scaffoldType) { alert('Please calculate scaffold first'); return; }
+  showLoading();
+  setTimeout(async () => {
+    const zip  = new JSZip();
+    const data = getExportData();
+    const d    = currentResult.detail;
+    const itemRows = [
+      ['standards','Standards','Tiang Vertikal'],
+      ['joints','Joints','Sambungan Pipa'],
+      ['ledgers','Ledgers','Horizontal Memanjang'],
+      ['transoms','Transoms','Horizontal Melintang'],
+      ['putlogs','Putlogs','Penyangga Papan'],
+      ['bracing','Bracing','Diagonal Pengaku'],
+      ['handrails','Handrails','Pagar Pengaman'],
+      ['toeboards','Toe Boards','Papan Siku Bawah'],
+      ['planks','Planks','Papan Lantai Kerja'],
+      ['doubleCouplers','Double Couplers','Klem Tegak Lurus'],
+      ['swivelCouplers','Swivel Couplers','Klem Sudut Bebas'],
+      ['singleCouplers','Single Couplers','Klem Putlog'],
+      ['baseplates','Base Plates','Pelat Dasar'],
+      ['solboards','Sole Boards','Papan Alas'],
+      ['screwjacks','Screw Jacks','Adjuster Ketinggian'],
+    ];
+
+    // ── PDF ──────────────────────────────────────────────────
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p','mm','a4');
+    doc.setFillColor(21,34,56); doc.rect(0,0,210,42,'F');
+    doc.setTextColor(0,217,255); doc.setFontSize(20); doc.setFont(undefined,'bold');
+    doc.text('SCAFFOLD ENGINEERING PRO',105,16,{align:'center'});
+    doc.setFontSize(10); doc.setTextColor(148,163,184);
+    doc.text('Detailed Bill of Quantities Report',105,25,{align:'center'});
+    doc.text(`Generated: ${data.timestamp}`,105,33,{align:'center'});
+    doc.setTextColor(30,58,95); doc.setFontSize(11); doc.setFont(undefined,'bold');
+    doc.text('PROJECT INFORMATION',14,52);
+    doc.autoTable({
+      startY:55, head:[['Parameter','Value']],
+      body:[['Scaffold Type',data.scaffoldType],['Dimensions',data.dimensions],
+            ['Bay Spacing',`${(+data.baySpacing).toFixed(2)} m`],
+            ['Lift Height',`${(+data.liftHeight).toFixed(2)} m`],
+            ['Standard Pipe',`${data.standardPipeLength} m`],
+            ['Bays',data.bay],['Lifts',data.lift],
+            ['Screw Jacks',data.screwjack?'Yes':'No']],
+      theme:'grid',
+      headStyles:{fillColor:[30,58,95],textColor:[0,217,255]},
+      columnStyles:{0:{cellWidth:60,fontStyle:'bold'}},
+      margin:{left:14,right:14}
+    });
+    const boqY = doc.lastAutoTable.finalY+10;
+    doc.setFontSize(11); doc.setFont(undefined,'bold');
+    doc.text('DETAILED BILL OF QUANTITIES',14,boqY);
+    doc.autoTable({
+      startY: boqY+4,
+      head:[['No','Komponen','Qty','Sat','Panjang\nPipa','Formula / Dasar Hitung','Lokasi Pemasangan']],
+      body: itemRows.map(([key,name],idx) => {
+        const item = d[key];
+        return [idx+1, name, item.qty, 'pcs', item.pipeLen>0?`${item.pipeLen} m`:'-', item.formula, item.location];
+      }),
+      theme:'striped',
+      headStyles:{fillColor:[30,58,95],textColor:[0,217,255],fontSize:8,halign:'center'},
+      bodyStyles:{fontSize:7.5,valign:'top'},
+      columnStyles:{
+        0:{cellWidth:8,halign:'center'},1:{cellWidth:32},
+        2:{cellWidth:12,halign:'center',fontStyle:'bold'},3:{cellWidth:10,halign:'center'},
+        4:{cellWidth:16,halign:'center'},5:{cellWidth:48},6:{cellWidth:56}
+      },
+      margin:{left:7,right:7}, styles:{overflow:'linebreak',cellPadding:2}
+    });
+    const pc = doc.internal.getNumberOfPages();
+    for(let i=1;i<=pc;i++){
+      doc.setPage(i); doc.setFontSize(7.5); doc.setTextColor(150);
+      doc.text(`Scaffold Engineering Pro  |  Page ${i} of ${pc}`,105,291,{align:'center'});
+    }
+    zip.file('Scaffold_BOQ.pdf', doc.output('blob'));
+
+    // ── Excel ────────────────────────────────────────────────
+    const ws1 = XLSX.utils.aoa_to_sheet([
+      ['SCAFFOLD ENGINEERING PRO'],['Detailed Bill of Quantities'],[''],
+      ['Generated:',data.timestamp],[''],['PROJECT INFORMATION'],
+      ['Scaffold Type',data.scaffoldType],['Dimensions',data.dimensions],
+      ['Bay Spacing (m)',(+data.baySpacing).toFixed(2)],
+      ['Lift Height (m)',(+data.liftHeight).toFixed(2)],
+      ['Standard Pipe (m)',data.standardPipeLength],
+      ['Bays',data.bay],['Lifts',data.lift],
+      ['Screw Jacks',data.screwjack?'Yes':'No']
+    ]);
+    const ws2 = XLSX.utils.aoa_to_sheet([
+      ['No','Komponen','Nama Indonesia','Qty','Satuan','Panjang Pipa (m)','Formula / Dasar Hitung','Lokasi Pemasangan'],
+      ...itemRows.map(([key,name,indo],idx) => {
+        const item = d[key];
+        return [idx+1, name, indo, item.qty, 'pcs', item.pipeLen>0?item.pipeLen:'-', item.formula, item.location];
+      })
+    ]);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws1, 'Project Info');
+    XLSX.utils.book_append_sheet(wb, ws2, 'Detailed BOQ');
+    zip.file('Scaffold_BOQ.xlsx', XLSX.write(wb,{bookType:'xlsx',type:'array'}));
+
+    // ── CSV ──────────────────────────────────────────────────
+    const csvRows = [
+      'SCAFFOLD ENGINEERING PRO - Detailed BOQ',
+      `Generated:,${data.timestamp}`,'','PROJECT INFORMATION',
+      `Scaffold Type,${data.scaffoldType}`,`Dimensions,${data.dimensions}`,
+      `Bay Spacing (m),${(+data.baySpacing).toFixed(2)}`,
+      `Lift Height (m),${(+data.liftHeight).toFixed(2)}`,
+      `Standard Pipe (m),${data.standardPipeLength}`,
+      `Bays,${data.bay}`,`Lifts,${data.lift}`,'',
+      'DETAILED BILL OF QUANTITIES',
+      'No,Komponen,Nama Indonesia,Qty,Satuan,Panjang Pipa (m),Formula / Dasar Hitung,Lokasi Pemasangan',
+      ...itemRows.map(([key,name,indo],idx) => {
+        const item = d[key];
+        return `${idx+1},"${name}","${indo}",${item.qty},pcs,${item.pipeLen>0?item.pipeLen:'-'},"${item.formula}","${item.location}"`;
+      })
+    ];
+    zip.file('Scaffold_BOQ.csv', csvRows.join('\n'));
+
+    const zipBlob = await zip.generateAsync({type:'blob'});
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(zipBlob);
+    link.download = `Scaffold_BOQ_Complete_${Date.now()}.zip`;
+    link.click();
+    hideLoading();
+  }, 100);
+}
+
+</script>
+
 </body>
 </html>
+
